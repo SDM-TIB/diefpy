@@ -113,7 +113,7 @@ def diefk2(inputtrace, inputtest, kp=-1.0):
     :type inputtrace: numpy.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
     :type inputtest: str
-    :param kp: Percentage of answers to compute diefk. By default and when kp=1.0, this function behaves the same as diefk. It computes the kp portion of of minimum of of number of answers  produced by the approaches.
+    :param kp: Ratio of answers to compute diefk (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves the same as diefk. It computes the kp portion of of minimum of of number of answers  produced by the approaches.
     :type kp: float
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
     :rtype: numpy.ndarray
@@ -180,5 +180,4 @@ def load_answer_trace(filename):
     :rtype: numpy.ndarray
     """
 
-    return np.genfromtxt(filename, delimiter=',', names=True,
-                         dtype=(basestring, basestring, int, float))
+    return np.genfromtxt(filename, delimiter=',', names=True, dtype=(basestring, basestring, int, float))
