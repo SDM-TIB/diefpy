@@ -153,7 +153,6 @@ def plot_answer_trace(inputtrace, inputtest):
     :rtype: matplotlib.pyplot.plot
     """
 
-
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
     approaches = set(inputtrace['approach'])
