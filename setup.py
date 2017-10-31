@@ -16,4 +16,10 @@ setup(name='diefpy',
       keywords='metrics benchmarking efficiency diefficiency-metrics dief python',
       install_requires=['matplotlib>=1.3.1', 'numpy>=1.8.0'],
       include_package_data=True,
-      package_data={'dief': ['data/*']})
+      package_data={'dief': ['data/*']},
+      classifiers=[
+            'Development Status :: 3 - Alpha',
+            'Programming Language :: Python',
+            'License :: OSI Approved :: MIT License',
+            'Topic :: System :: Benchmark'
+      ])
