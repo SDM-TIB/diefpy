@@ -1,6 +1,8 @@
 # diefpy
 Python package for computing diefficiency metrics dief@t and dief@k.
 
+The metrics dief@t and dief@k allow for measuring the diefficiency during an elapsed time period t or while k answers are produced, respectively. dief@t and dief@k rely on the computation of the area under the curve of answer traces, and thus capturing the answer rate concentration over a time interval.
+
 ## License 
 This package is licensed under the MIT License.
 
