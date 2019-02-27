@@ -6,7 +6,7 @@ def readme():
         return f.read()
 
 setup(name='diefpy',
-      version='0.1',
+      version='0.2',
       packages=['diefpy'],
       url='https://github.com/maribelacosta/diefpy',
       license='MIT',

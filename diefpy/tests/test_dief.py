@@ -11,9 +11,9 @@ class DiefTestCase(unittest.TestCase):
         test = "Q9.sparql"
         res = diefpy.dieft(traces, test)
 
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 4360.659, 3)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 12992.975, 3)
-        self.assertAlmostEqual (res[res['approach'] == 'NotAdaptive']['dieft'][0], 14104.411, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 27963.93, 2)
+        self.assertAlmostEqual (res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
 
     def test_dieft1(self):
         input_file = resource_filename (__name__, 'traces.csv')
@@ -22,9 +22,9 @@ class DiefTestCase(unittest.TestCase):
         t = 7.5
         res = diefpy.dieft(traces, test, t)
 
-        self.assertAlmostEqual (res[res['approach'] == 'Selective']['dieft'][0], 1203.705, 3)
-        self.assertAlmostEqual (res[res['approach'] == 'Random']['dieft'][0], 5192.282, 3)
-        self.assertAlmostEqual (res[res['approach'] == 'NotAdaptive']['dieft'][0], 7485.623, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 1203.705, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 5192.282, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 7485.623, 3)
 
     def test_diefk0(self):
         input_file = resource_filename(__name__, 'traces.csv')
