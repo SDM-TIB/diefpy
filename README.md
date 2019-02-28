@@ -6,7 +6,7 @@ The metrics dief@t and dief@k allow for measuring the diefficiency during an ela
 ## Examples
 Compute dief@t for the test `Q9.rq` based on the traces `traces.csv` provided as example in the package. 
 ```python
-from diefpy import dief
+import diefpy.dief as diefpy
 from pkg_resources import resource_filename
 
 # Use answer traces provided in the package: Compare three approaches "Selective", "Not Adaptive", "Random" when executing the test "Q9.rq".
