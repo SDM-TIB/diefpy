@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/maribelacosta/dief.svg?branch=master)](https://travis-ci.org/maribelacosta/diefpy)
+[![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
+
 
 # diefpy
 Python package for computing diefficiency metrics dief@t and dief@k.
