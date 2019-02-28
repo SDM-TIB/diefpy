@@ -7,8 +7,8 @@ class DiefTestCase(unittest.TestCase):
 
     def test_dieft0(self):
         input_file = resource_filename(__name__, 'traces.csv')
-        traces = diefpy.load_answer_trace(input_file)
-        test = "Q9.sparql"
+        traces = diefpy.load_trace(input_file)
+        test = "Q9.rq"
         res = diefpy.dieft(traces, test)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
@@ -17,8 +17,8 @@ class DiefTestCase(unittest.TestCase):
 
     def test_dieft1(self):
         input_file = resource_filename (__name__, 'traces.csv')
-        traces = diefpy.load_answer_trace (input_file)
-        test = "Q9.sparql"
+        traces = diefpy.load_trace (input_file)
+        test = "Q9.rq"
         t = 7.5
         res = diefpy.dieft(traces, test, t)
 
@@ -28,8 +28,8 @@ class DiefTestCase(unittest.TestCase):
 
     def test_diefk0(self):
         input_file = resource_filename(__name__, 'traces.csv')
-        traces = diefpy.load_answer_trace(input_file)
-        test = "Q9.sparql"
+        traces = diefpy.load_trace(input_file)
+        test = "Q9.rq"
         res = diefpy.diefk(traces, test)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk'][0], 14588.18, 2)
@@ -38,8 +38,8 @@ class DiefTestCase(unittest.TestCase):
 
     def test_diefk1(self):
         input_file = resource_filename(__name__, 'traces.csv')
-        traces = diefpy.load_answer_trace(input_file)
-        test = "Q9.sparql"
+        traces = diefpy.load_trace(input_file)
+        test = "Q9.rq"
         k = 1000
         res = diefpy.diefk(traces, test, k)
 
@@ -49,8 +49,8 @@ class DiefTestCase(unittest.TestCase):
 
     def test_diefk2(self):
         input_file = resource_filename(__name__, 'traces.csv')
-        traces = diefpy.load_answer_trace(input_file)
-        test = "Q9.sparql"
+        traces = diefpy.load_trace(input_file)
+        test = "Q9.rq"
         kp = 0.25
         res = diefpy.diefk2(traces, test, kp)
 
