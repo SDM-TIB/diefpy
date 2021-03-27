@@ -15,48 +15,42 @@ def dieft(inputtrace, inputtest, t=-1.0):
     :type t: float
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
     :rtype: numpy.ndarray
-
     """
-
     # Initialize output structure.
-    df = np.empty(shape=0, dtype=[('test', basestring),
-                                  ('approach', basestring),
+    df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
+                                  ('approach', inputtrace['approach'].dtype),
                                   ('dieft', float)])
 
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
     approaches = set(results['approach'])
 
-    # Obtain t per approach.
+    # Obtain maximum t over all approaches if t is not set.
     if t == -1:
-        n = []
-        for a in approaches:
-            x = results[results['approach'] == a]
-            if len(x) == 1 and x['answer'] == 0:
-                n.append(x[x['answer'] == 0]['time'][0])
-            else:
-                n.append(x[x['answer'] == len(x)]['time'][0])
-
-        t = max(n)
+        t = np.max(results['time'])
 
     # Compute dieft per approach.
     for a in approaches:
         dief = 0
         subtrace = results[(results['approach'] == a) & (results['time'] <= t)]
         com = np.array([(inputtest, a, len(subtrace), t)],
-                       dtype=[('test', basestring),
-                              ('approach', basestring),
+                       dtype=[('test', subtrace['test'].dtype),
+                              ('approach', subtrace['approach'].dtype),
                               ('answer', int),
-                              ('time', float)])
+                              ('time', float)]
+                       )
+
         if len(subtrace) == 1 and subtrace['answer'] == 0:
             pass
         else:
             subtrace = np.concatenate((subtrace, com), axis=0)
+
         if len(subtrace) > 1:
             dief = np.trapz(subtrace['answer'], subtrace['time'])
+
         res = np.array([(inputtest, a, dief)],
-                       dtype=[('test', basestring),
-                              ('approach', basestring),
+                       dtype=[('test', subtrace['test'].dtype),
+                              ('approach', subtrace['approach'].dtype),
                               ('dieft', float)])
         df = np.append(df, res, axis=0)
 
@@ -64,7 +58,6 @@ def dieft(inputtrace, inputtest, t=-1.0):
 
 
 def diefk(inputtrace, inputtest, k=-1):
-
     """
     This function computes the dief@k metric at a given k (number of answers).
 
@@ -77,15 +70,15 @@ def diefk(inputtrace, inputtest, k=-1):
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
     :rtype: numpy.ndarray
     """
-
     # Initialize output structure.
-    df = np.empty(shape=0, dtype=[('test', basestring),
-                                  ('approach', basestring),
+    df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
+                                  ('approach', inputtrace['approach'].dtype),
                                   ('diefk', float)])
 
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
-    approaches = set (inputtrace['approach'])
+    approaches = set(inputtrace['approach'])
+    print("approaches:", approaches)
 
     # Obtain k per approach.
     if k == -1:
@@ -102,8 +95,8 @@ def diefk(inputtrace, inputtest, k=-1):
         if len(subtrace) > 1:
             dief = np.trapz(subtrace['answer'], subtrace['time'])
         res = np.array([(inputtest, a, dief)],
-                       dtype=[('test', basestring),
-                              ('approach', basestring),
+                       dtype=[('test', inputtrace['test'].dtype),
+                              ('approach', inputtrace['approach'].dtype),
                               ('diefk', float)])
         df = np.append(df, res, axis=0)
 
@@ -111,7 +104,6 @@ def diefk(inputtrace, inputtest, k=-1):
 
 
 def diefk2(inputtrace, inputtest, kp=-1.0):
-
     """
     This function computes the dief@k metric at a given kp (percentage of answers).
 
@@ -124,10 +116,6 @@ def diefk2(inputtrace, inputtest, kp=-1.0):
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
     :rtype: numpy.ndarray
     """
-
-    # Initialize output structure.
-    df = np.empty(shape=0, dtype=[('test', basestring), ('approach', basestring), ('diefk', float)])
-
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
     approaches = set(inputtrace['approach'])
@@ -158,7 +146,6 @@ def plot_answer_trace(inputtrace, inputtest):
     :return: Plot of the answer traces of each approach when evaluating the input test.
     :rtype: matplotlib.pyplot.plot
     """
-
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
     approaches = set(inputtrace['approach'])
@@ -167,6 +154,7 @@ def plot_answer_trace(inputtrace, inputtest):
     for a in approaches:
         subtrace = results[results['approach'] == a]
         plt.plot(subtrace['time'], subtrace['answer'], label=a, marker='o', markeredgewidth=0.0, linestyle='None')
+
     plt.xlabel('Time')
     plt.ylabel('# Answers Produced')
     plt.legend(loc='upper left')
@@ -184,21 +172,9 @@ def load_trace(filename):
     :return: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :rtype: numpy.ndarray
     """
-
-    # Conversion of columns to datatypes
-    d = {'test': basestring,
-         'approach': basestring,
-         'answer': int,
-         'time': float}
-
     # Loading data.
-    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=[basestring, basestring, basestring, basestring])
-
-    # Converting data to appropriate datatypes.
-    dtype_new = []
-    for elem in df.dtype.names:
-        dtype_new.append((elem, d[elem]))
-    df = np.asarray(df, dtype=dtype_new)
+    # names=True is not an error, it is valid for reading the column names from the data
+    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8")
 
     # Return dataframe in order.
     return df[['test', 'approach', 'answer', 'time']]

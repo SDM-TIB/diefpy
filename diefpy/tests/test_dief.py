@@ -13,11 +13,11 @@ class DiefTestCase(unittest.TestCase):
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 27963.93, 2)
-        self.assertAlmostEqual (res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
 
     def test_dieft1(self):
-        input_file = resource_filename (__name__, 'traces.csv')
-        traces = diefpy.load_trace (input_file)
+        input_file = resource_filename(__name__, 'traces.csv')
+        traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         t = 7.5
         res = diefpy.dieft(traces, test, t)
