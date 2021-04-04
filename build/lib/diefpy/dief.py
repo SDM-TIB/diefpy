@@ -3,19 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def dieft(inputtrace, inputtest, t=-1.0):
+def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray:
     """
     This function computes the dief@t metric.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type inputtrace: numpy.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :type inputtest: str
     :param t: Point in time to compute dieft. By default, the function computes the minimum of the execution time
               among the approaches in the answer trace.
-    :type t: float
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
-    :rtype: numpy.ndarray
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
@@ -58,19 +54,15 @@ def dieft(inputtrace, inputtest, t=-1.0):
     return df
 
 
-def diefk(inputtrace, inputtest, k=-1):
+def diefk(inputtrace: np.ndarray, inputtest: np.ndarray, k: int = -1) -> np.ndarray:
     """
     This function computes the dief@k metric at a given k (number of answers).
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type inputtrace: numpy.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :type inputtest: str
     :param k: Number of answers to compute diefk. By default, the function computes the minimum of the total number
               of answers produced by the approaches.
-    :type k: int
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
-    :rtype: numpy.ndarray
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
@@ -104,19 +96,15 @@ def diefk(inputtrace, inputtest, k=-1):
     return df
 
 
-def diefk2(inputtrace, inputtest, kp=-1.0):
+def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarray:
     """
     This function computes the dief@k metric at a given kp (percentage of answers).
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type inputtrace: numpy.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :type inputtest: str
     :param kp: Ratio of answers to compute diefk (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
                the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.
-    :type kp: float
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
-    :rtype: numpy.ndarray
     """
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
@@ -137,16 +125,13 @@ def diefk2(inputtrace, inputtest, kp=-1.0):
     return df
 
 
-def plot_answer_trace(inputtrace, inputtest):
+def plot_answer_trace(inputtrace: np.ndarray, inputtest: str) -> plt:
     """
     This function plots the answer trace of a given test.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type inputtrace: numpy.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :type inputtest: str
     :return: Plot of the answer traces of each approach when evaluating the input test.
-    :rtype: matplotlib.pyplot.plot
     """
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
@@ -165,15 +150,13 @@ def plot_answer_trace(inputtrace, inputtest):
     return plt
 
 
-def load_trace(filename):
+def load_trace(filename: str) -> np.ndarray:
     """
     This function reads answer traces from a CSV file.
 
     :param filename: Path to the CSV file that contains the answer traces.
                      Attributes of the file specified in the header: test, approach, answer, time.
-    :type filename: str
     :return: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :rtype: numpy.ndarray
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
@@ -183,15 +166,13 @@ def load_trace(filename):
     return df[['test', 'approach', 'answer', 'time']]
 
 
-def load_metrics(filename):
+def load_metrics(filename: str) -> np.ndarray:
     """
     This function reads the other metrics from a CSV file.
 
     :param filename: Path to the CSV file that contains the other metrics.
                      Attributes of the file specified in the header: test, approach, tfft, totaltime, comp.
-    :type filename: str
     :return: Dataframe with the other metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.
-    :rtype: numpy.ndarray
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
@@ -201,7 +182,7 @@ def load_metrics(filename):
     return df[['test', 'approach', 'tfft', 'totalttime', 'comp']]
 
 
-def experiment1(traces, metrics):
+def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
     """
     Compares dief@t with other benchmark metrics as in <doi:10.1007/978-3-319-68204-4_1>.
     This function repeats the results reported in "Experiment 1".
@@ -209,19 +190,16 @@ def experiment1(traces, metrics):
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type traces: numpy.ndarray
     :param metrics: Metrics dataframe with the result of the other metrics.
                     The structure is as follows: test, approach, tfft, totaltime, comp.
-    :type metrics: numpy.ndarray
     :return: Dataframe with all the metrics.
              The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft invtotaltime, dieft
-    :rtype: numpy.ndarray
     """
     # TODO: actual implementation
     return np.empty([1, 9])
 
 
-def plotExperiment1Test(allmetrics, q, title=None):
+def plotExperiment1Test(allmetrics: np.ndarray, q: str, title: str = None) -> None:
     """
     Generate radar plots that compare dief@t with other benchmark metrics in a specific test
     as in <doi:10.1007/978-3-319-68204-4_1>.
@@ -230,11 +208,8 @@ def plotExperiment1Test(allmetrics, q, title=None):
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
-    :type allmetrics: numpy.ndarray
     :param q: ID of the selected test to plot.
-    :type q: str
     :param title: Title used in the plot; defaults to the selected test ID.
-    :type title: str
     """
     # TODO: actual implementation
     if not title:
@@ -242,7 +217,7 @@ def plotExperiment1Test(allmetrics, q, title=None):
     pass
 
 
-def plotExperiment1(allmetrics):
+def plotExperiment1(allmetrics: np.ndarray) -> None:
     """
     Generate radar plots that compare dief@t with other benchmark metrics in all tests
     as in <doi:10.1007/978-3-319-68204-4_1>.
@@ -251,7 +226,6 @@ def plotExperiment1(allmetrics):
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
-    :type allmetrics: numpy.ndarray
     """
     # Obtain queries.
     queries = np.unique(allmetrics['test'])
@@ -261,7 +235,7 @@ def plotExperiment1(allmetrics):
         plotExperiment1Test(allmetrics, q)
 
 
-def experiment2(traces):
+def experiment2(traces: np.ndarray) -> np.ndarray:
     """
     Compares dief@k at different answer portions as in <doi:10.1007/978-3-319-68204-4_1>.
     This function repeats the results reported in "Experiment 2".
@@ -269,15 +243,13 @@ def experiment2(traces):
     the first 25%, 50%, 75%, and 100% of the answers.
 
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :type traces: numpy.ndarray
     :return: Dataframe with all the metrics. The structure is: test, approach, diefk25, diefk50, diefk75, diefk100.
-    :rtype: numpy.ndarray
     """
     # TODO: actual implementation
     return np.empty([1, 6])
 
 
-def plotExperiment2Test(diefkDF, q):
+def plotExperiment2Test(diefkDF: np.ndarray, q: str) -> None:
     """
     Generate radar plots that compare dief@k at different answer completeness in a specific test
     as in  <doi:10.1007/978-3-319-68204-4_1>.
@@ -286,15 +258,13 @@ def plotExperiment2Test(diefkDF, q):
     the first 25%, 50%, 75%, and 100% of the answers.
 
     :param diefkDF: Dataframe with the results from "Experiment 2".
-    :type diefkDF: numpy.ndarray
     :param q: ID of the selected test to plot.
-    :type q: str
     """
     # TODO: actual implementation
     pass
 
 
-def plotExperiment2(diefkDF):
+def plotExperiment2(diefkDF: np.ndarray) -> None:
     """
     Generate radar plots that compare dief@k at different answer completeness in a specific test
     as in  <doi:10.1007/978-3-319-68204-4_1>.
@@ -303,7 +273,6 @@ def plotExperiment2(diefkDF):
     the first 25%, 50%, 75%, and 100% of the answers.
 
     :param diefkDF: Dataframe with the results from "Experiment 2".
-    :type diefkDF: numpy.ndarray
     """
     # Obtain queries.
     queries = np.unique(diefkDF['test'])
