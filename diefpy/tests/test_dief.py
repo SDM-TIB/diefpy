@@ -105,7 +105,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'Random']['diefk100'][0], 12992.97, 2)
 
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk25'][0], 1764.715, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk50'][0], 4636.632, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk50'][0], 6162.528, 2)
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk75'][0], 11684.55, 2)
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk100'][0], 20232.39, 2)
 
