@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import numpy as np
 import matplotlib.pyplot as plt
-from radaraxes import radar_factory
+from diefpy.radaraxes import radar_factory
 
 
 def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray:
