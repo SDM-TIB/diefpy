@@ -14,7 +14,7 @@ import diefpy.dief as diefpy
 from pkg_resources import resource_filename
 
 # Use answer traces provided in the package: Compare three approaches "Selective", "Not Adaptive", "Random" when executing the test "Q9.rq".
-traces = diefpy.load_trace(resource_filename('diefpy.tests', 'traces.csv')) 
+traces = diefpy.load_trace(resource_filename('diefpy', 'data/traces.csv')) 
 
 # Plot answer traces for test "Q9.rq".
 diefpy.plot_answer_trace(traces, "Q9.rq").show()
@@ -35,7 +35,7 @@ diefpy.diefk(traces, 'Q9.rq', 10)
 diefpy.diefk2(traces, 'Q9.rq', 0.5)
 
 # Load the metrics
-metrics = diefpy.load_trace(resource_filename('diefpy.tests', 'metrics.csv'))
+metrics = diefpy.load_trace(resource_filename('diefpy', 'data/metrics.csv'))
 
 # Reproduce the metrics from Experiment 1
 exp1 = diefpy.experiment1(traces, metrics)

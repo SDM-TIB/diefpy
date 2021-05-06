@@ -6,7 +6,7 @@ from pkg_resources import resource_filename
 class DiefTestCase(unittest.TestCase):
 
     def test_dieft0(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         res = diefpy.dieft(traces, test)
@@ -16,7 +16,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
 
     def test_dieft1(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         t = 7.5
@@ -27,7 +27,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 7485.623, 3)
 
     def test_diefk0(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         res = diefpy.diefk(traces, test)
@@ -37,7 +37,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 20232.39, 2)
 
     def test_diefk1(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         k = 1000
@@ -48,7 +48,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 1197.350, 2)
 
     def test_diefk2(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         kp = 0.25
@@ -59,8 +59,8 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 1764.715, 2)
 
     def test_experiment1(self):
-        input_file_taces = resource_filename(__name__, 'traces.csv')
-        input_file_metrics = resource_filename(__name__, 'metrics.csv')
+        input_file_taces = resource_filename('diefpy', 'data/traces.csv')
+        input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
         traces = diefpy.load_trace(input_file_taces)
         metrics = diefpy.load_metrics(input_file_metrics)
         res = diefpy.experiment1(traces, metrics)
@@ -90,7 +90,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
 
     def test_experiment2(self):
-        input_file = resource_filename(__name__, 'traces.csv')
+        input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         res = diefpy.experiment2(traces)
 

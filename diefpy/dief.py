@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 import numpy as np
 import matplotlib.pyplot as plt
-from radaraxes import radar_factory
+from .radaraxes import radar_factory
 
 
 def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray:
@@ -21,7 +20,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray
 
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
-    approaches = set(results['approach'])
+    approaches = np.unique(results['approach'])
 
     # Obtain maximum t over all approaches if t is not set.
     if t == -1:
@@ -72,7 +71,7 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
 
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
-    approaches = set(inputtrace['approach'])
+    approaches = np.unique(results['approach'])
 
     # Obtain k per approach.
     if k == -1:
@@ -109,7 +108,7 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
     """
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
-    approaches = set(inputtrace['approach'])
+    approaches = np.unique(results['approach'])
 
     # Obtain k per approach.
     n = []
@@ -237,24 +236,23 @@ def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
     approaches = np.unique(metrics['approach'])
 
     # Compute metrics: dieft, throughput, inverse of execution time, inverse of time for the first tuple.
-    for a in approaches:
-        for q in queries:
-            submetric = metrics[metrics['approach'] == a]
-            subtrace = traces[traces['test'] == q]
-            subtrace = subtrace[subtrace['approach'] == a]
+    for q in queries:
+        subtrace = traces[traces['test'] == q]
+        dieft_res = dieft(subtrace, q)
 
-            if subtrace.size == 0:
+        for a in approaches:
+            if a not in np.unique(dieft_res['approach']):
                 continue
 
-            dieft_res = dieft(subtrace, q)
-            dieft_ = dieft_res[0]['dieft']
+            dieft_ = dieft_res[dieft_res['approach'] == a]['dieft'][0]
+            submetric = metrics[metrics['approach'] == a]
 
-            throughput = submetric['comp'][0]/submetric['totaltime'][0]
-            invtfft = 1/submetric['tfft'][0]
-            invtotaltime = 1/submetric['totaltime'][0]
+            throughput = submetric['comp'][0] / submetric['totaltime'][0]
+            invtfft = 1 / submetric['tfft'][0]
+            invtotaltime = 1 / submetric['totaltime'][0]
 
             res = np.array([(q, a, submetric['tfft'][0], submetric['totaltime'][0], submetric['comp'][0],
-                            throughput, invtfft, invtotaltime, dieft_)],
+                             throughput, invtfft, invtotaltime, dieft_)],
                            dtype=[('test', submetric['test'].dtype),
                                   ('approach', submetric['approach'].dtype),
                                   ('tfft', submetric['tfft'].dtype),
@@ -391,20 +389,26 @@ def experiment2(traces: np.ndarray) -> np.ndarray:
     approaches = np.unique(traces['approach'])
 
     # Compute diefk for different k%: 25, 50, 75, 100.
-    for a in approaches:
-        for q in queries:
-            subtrace = traces[traces['test'] == q]
-            subtrace = subtrace[subtrace['approach'] == a]
+    for q in queries:
+        subtrace = traces[traces['test'] == q]
+        k25DF = diefk2(subtrace, q, 0.25)
+        k50DF = diefk2(subtrace, q, 0.50)
+        k75DF = diefk2(subtrace, q, 0.75)
+        k100DF = diefk2(subtrace, q, 1.00)
 
-            if subtrace.size == 0:
+        for a in approaches:
+            if a not in np.unique(k25DF['approach']) \
+                    or a not in np.unique(k50DF['approach']) \
+                    or a not in np.unique(k75DF['approach']) \
+                    or a not in np.unique(k100DF['approach']):
                 continue
 
-            k25DF = diefk2(subtrace, q, 0.25)
-            k50DF = diefk2(subtrace, q, 0.50)
-            k75DF = diefk2(subtrace, q, 0.75)
-            k100DF = diefk2(subtrace, q, 1.00)
+            diefk25 = k25DF[k25DF['approach'] == a]['diefk'][0]
+            diefk50 = k50DF[k50DF['approach'] == a]['diefk'][0]
+            diefk75 = k75DF[k75DF['approach'] == a]['diefk'][0]
+            diefk100 = k100DF[k100DF['approach'] == a]['diefk'][0]
 
-            res = np.array([(q, a, k25DF['diefk'], k50DF['diefk'], k75DF['diefk'], k100DF['diefk'])],
+            res = np.array([(q, a, diefk25, diefk50, diefk75, diefk100)],
                            dtype=[('test', traces['test'].dtype),
                                   ('approach', traces['approach'].dtype),
                                   ('diefk25', float),
@@ -514,4 +518,3 @@ def plotExperiment2(diefkDF: np.ndarray, colors: list) -> list:
         plots.append(plotExperiment2Test(diefkDF, q, colors))
 
     return plots
-
