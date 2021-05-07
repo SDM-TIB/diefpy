@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/maribelacosta/dief.svg?branch=master)](https://travis-ci.org/maribelacosta/diefpy)
+[![Build Status](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml/badge.svg?branch=master)](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml)
 [![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
 
 
