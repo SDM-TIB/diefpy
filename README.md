@@ -10,14 +10,14 @@ The metrics dief@t and dief@k allow for measuring the diefficiency during an ela
 ## Examples
 Compute dief@t and dief@k for the test `Q9.rq` based on the traces `traces.csv` and metrics `metrics.csv` provided as example in the package. 
 ```python
-import diefpy.dief as diefpy
+import diefpy
 from pkg_resources import resource_filename
 
 # Use answer traces provided in the package: Compare three approaches "Selective", "Not Adaptive", "Random" when executing the test "Q9.rq".
 traces = diefpy.load_trace(resource_filename('diefpy', 'data/traces.csv')) 
 
 # Plot answer traces for test "Q9.rq".
-diefpy.plot_answer_trace(traces, "Q9.rq").show()
+diefpy.plot_answer_trace(traces, "Q9.rq", ["#ECC30B","#D56062","#84BCDA"]).show()
 
 # Compute dief@t when t is the time where the slowest approach produced the last answer.
 diefpy.dieft(traces, 'Q9.rq')
@@ -35,7 +35,7 @@ diefpy.diefk(traces, 'Q9.rq', 10)
 diefpy.diefk2(traces, 'Q9.rq', 0.5)
 
 # Load the metrics
-metrics = diefpy.load_trace(resource_filename('diefpy', 'data/metrics.csv'))
+metrics = diefpy.load_metrics(resource_filename('diefpy', 'data/metrics.csv'))
 
 # Reproduce the metrics from Experiment 1
 exp1 = diefpy.experiment1(traces, metrics)
