@@ -537,7 +537,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     theta = radar_factory(N, frame='polygon')
     spoke_labels = ['k=25%', 'k=50%      ', 'k=75%', '        k=100%']
     case_data = df
-    fig, ax = plt.subplots(figsize=(7, 6), subplot_kw=dict(projection='radar'))
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(projection='radar'))
     fig.subplots_adjust(top=0.85, bottom=0.05)
     ax.set_ylim(0, max_)
     ax.set_yticklabels(["", "", "", "", ""])
