@@ -466,9 +466,6 @@ def plotExperiment2Test(diefkDF: np.ndarray, q: str, colors: list) -> plt:
 
     # Normalize the data
     for row in df:
-        print("type(diefk25)", type(row['diefk25']), " ", row['diefk25'])
-        print("type(maxs[0])", type(maxs[0]), " ", maxs[0])
-        print("type(max_)", type(max_), " ", max_)
         row['diefk25'] = row['diefk25'] / maxs[0] * max_
         row['diefk50'] = row['diefk50'] / maxs[1] * max_
         row['diefk75'] = row['diefk75'] / maxs[2] * max_
