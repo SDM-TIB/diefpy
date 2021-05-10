@@ -38,23 +38,23 @@ diefpy.diefk2(traces, 'Q9.rq', 0.5)
 metrics = diefpy.load_metrics(resource_filename('diefpy', 'data/metrics.csv'))
 
 # Reproduce the metrics from Experiment 1
-exp1 = diefpy.experiment1(traces, metrics)
+exp1 = diefpy.performance_of_approaches_with_dieft(traces, metrics)
 
 # Plot the metrics from Experiment 1
-diefpy.plotExperiment1Test(exp1, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
+diefpy.plot_performance_of_approaches_with_dieft(exp1, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
 
 # Reproduce the metrics from Experiment 2
-exp2 = diefpy.experiment2(traces)
+exp2 = diefpy.continuous_efficiency_with_diefk(traces)
 
 # Plot the metrics from Experiment 2
-diefpy.plotExperiment2Test(exp2, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
+diefpy.plot_continuous_efficiency_with_diefk(exp2, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
 ```
 
 It is also possible to generate the plots for all the tests and receive a list of plots instead of a single plot by using the following functions:
 ```python
 diefpy.plot_all_answer_traces(traces, ["#ECC30B","#D56062","#84BCDA"])
-diefpy.plotExperiment1(exp1, ["#ECC30B","#D56062","#84BCDA"])
-diefpy.plotExperiment2(exp2, ["#ECC30B","#D56062","#84BCDA"])
+diefpy.plot_all_performance_of_approaches_with_dieft(exp1, ["#ECC30B","#D56062","#84BCDA"])
+diefpy.plot_all_continuous_efficiency_with_diefk(exp2, ["#ECC30B","#D56062","#84BCDA"])
 ```
 
 ## License 

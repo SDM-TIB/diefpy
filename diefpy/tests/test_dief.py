@@ -63,7 +63,7 @@ class DiefTestCase(unittest.TestCase):
         input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
         traces = diefpy.load_trace(input_file_taces)
         metrics = diefpy.load_metrics(input_file_metrics)
-        res = diefpy.experiment1(traces, metrics)
+        res = diefpy.performance_of_approaches_with_dieft(traces, metrics)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['tfft'][0], 0.2416301, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['totaltime'][0], 12.209977, 2)
@@ -92,7 +92,7 @@ class DiefTestCase(unittest.TestCase):
     def test_experiment2(self):
         input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
-        res = diefpy.experiment2(traces)
+        res = diefpy.continuous_efficiency_with_diefk(traces)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk25'][0], 1430.417, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk50'][0], 5537.021, 2)
