@@ -151,6 +151,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> p
     plt.ylabel('# Answers Produced')
     plt.legend(loc='upper left')
     plt.title(inputtest, fontsize=16, loc="center", pad=20)
+    plt.tight_layout()
 
     return plt
 
@@ -163,14 +164,14 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
     :param colors: List of colors to use for the different approaches.
     :return: Plot of the answer traces of each approach when evaluating the input test.
     """
-    # Obtain queries.
-    queries = np.unique(inputtrace['test'])
+    # Obtain tests.
+    tests = np.unique(inputtrace['test'])
 
     plots = []
 
     # Plot the answer traces for each test.
-    for q in queries:
-        plots.append(plot_answer_trace(inputtrace, q, colors))
+    for t in tests:
+        plots.append(plot_answer_trace(inputtrace, t, colors))
 
     return plots
 
@@ -187,14 +188,14 @@ def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = Fal
     """
     # Obtain test and approaches to compare.
     approaches = np.unique(metrics['approach'])
-    queries = np.unique(metrics['test'])
+    tests = np.unique(metrics['test'])
 
     color_map = dict(zip(approaches, colors))
 
-    fig, ax = plt.subplots(figsize=(0.95*len(queries), 5), dpi=100)
+    fig, ax = plt.subplots(figsize=(0.95*len(tests), 5), dpi=100)
     fig.subplots_adjust(top=0.85, bottom=0.25, left=0.08)
 
-    index = np.arange(len(queries))
+    index = np.arange(len(tests))
     bar_width = 0.8 / len(approaches)
 
     # Compute x position of bar.
@@ -208,20 +209,20 @@ def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = Fal
     for a in approaches:
         a_num += 1
         submetrics = metrics[metrics['approach'] == a]
-        queries_in_approach = np.unique(submetrics['test'])
+        tests_in_approach = np.unique(submetrics['test'])
 
         results = []
-        for q in queries:
-            if q not in queries_in_approach:
+        for t in tests:
+            if t not in tests_in_approach:
                 results.append(0.0)
             else:
-                results.append(submetrics[submetrics['test'] == q]['totaltime'][0])
+                results.append(submetrics[submetrics['test'] == t]['totaltime'][0])
 
         offset = compute_x_pos(len(approaches), a_num)
-        ax.set_xlim(-0.4, len(queries)-0.6)
+        ax.set_xlim(-0.4, len(tests)-0.6)
         plt.bar(index + offset, results, bar_width, color=color_map[a], label=a)
 
-    plt.xticks(range(0, len(queries)), queries, rotation=90)
+    plt.xticks(range(0, len(tests)), tests, rotation=90)
     ax.set_xlabel("Performed Test", fontsize='large', labelpad=10)
     ax.set_ylabel("Execution Time [s]", fontsize='large')
     ax.legend(approaches, bbox_to_anchor=(1, 1), loc="upper left", labelspacing=0.1, fontsize='medium', frameon=False)
@@ -229,6 +230,7 @@ def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = Fal
     if log_scale:
         ax.set_yscale('log')
     plt.tight_layout()
+
     return plt
 
 
@@ -264,11 +266,11 @@ def load_metrics(filename: str) -> np.ndarray:
     return df[['test', 'approach', 'tfft', 'totaltime', 'comp']]
 
 
-def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
+def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
     """
     Compares dief@t with other benchmark metrics as in <doi:10.1007/978-3-319-68204-4_1>.
     This function repeats the results reported in "Experiment 1".
-    "Experiment 1" compares the performance of querying approaches when using metrics defined in the
+    "Experiment 1" compares the performance of testing approaches when using metrics defined in the
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
@@ -288,14 +290,14 @@ def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
                                   ('invtotaltime', float),
                                   ('dieft', float)])
 
-    # Obtain queries and approaches.
-    queries = np.unique(metrics['test'])
+    # Obtain tests and approaches.
+    tests = np.unique(metrics['test'])
     approaches = np.unique(metrics['approach'])
 
     # Compute metrics: dieft, throughput, inverse of execution time, inverse of time for the first tuple.
-    for q in queries:
-        subtrace = traces[traces['test'] == q]
-        dieft_res = dieft(subtrace, q)
+    for t in tests:
+        subtrace = traces[traces['test'] == t]
+        dieft_res = dieft(subtrace, t)
 
         for a in approaches:
             if a not in np.unique(dieft_res['approach']):
@@ -308,7 +310,7 @@ def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
             invtfft = 1 / submetric['tfft'][0]
             invtotaltime = 1 / submetric['totaltime'][0]
 
-            res = np.array([(q, a, submetric['tfft'][0], submetric['totaltime'][0], submetric['comp'][0],
+            res = np.array([(t, a, submetric['tfft'][0], submetric['totaltime'][0], submetric['comp'][0],
                              throughput, invtfft, invtotaltime, dieft_)],
                            dtype=[('test', submetric['test'].dtype),
                                   ('approach', submetric['approach'].dtype),
@@ -324,12 +326,12 @@ def experiment1(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
     return df
 
 
-def plotExperiment1Test(allmetrics: np.ndarray, q: str, colors: list) -> plt:
+def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, colors: list) -> plt:
     """
     Generate radar plots that compare dief@t with other benchmark metrics in a specific test
     as in <doi:10.1007/978-3-319-68204-4_1>.
     This function plots the results reported for a single given test in "Experiment 1".
-    "Experiment 1" compares the performance of querying approaches when using metrics defined in the
+    "Experiment 1" compares the performance of testing approaches when using metrics defined in the
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
@@ -396,34 +398,35 @@ def plotExperiment1Test(allmetrics: np.ndarray, q: str, colors: list) -> plt:
 
     plt.setp(ax.spines.values(), color="grey")
     plt.title(q, fontsize=16, loc="center", pad=30)
+    plt.tight_layout()
 
     return plt
 
 
-def plotExperiment1(allmetrics: np.ndarray, colors: list) -> list:
+def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors: list) -> list:
     """
     Generate radar plots that compare dief@t with other benchmark metrics in all tests
     as in <doi:10.1007/978-3-319-68204-4_1>.
     This function plots the results reported in "Experiment 1".
-    "Experiment 1" compares the performance of querying approaches when using metrics defined in the
+    "Experiment 1" compares the performance of testing approaches when using metrics defined in the
     literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
     :param colors: List of colors to use for the different approaches.
     """
-    # Obtain queries.
-    queries = np.unique(allmetrics['test'])
+    # Obtain tests.
+    tests = np.unique(allmetrics['test'])
 
     plots = []
 
     # Plot the metrics for each test in "Experiment 1"
-    for q in queries:
-        plots.append(plotExperiment1Test(allmetrics, q, colors))
+    for t in tests:
+        plots.append(plot_performance_of_approaches_with_dieft(allmetrics, t, colors))
 
     return plots
 
 
-def experiment2(traces: np.ndarray) -> np.ndarray:
+def continuous_efficiency_with_diefk(traces: np.ndarray) -> np.ndarray:
     """
     Compares dief@k at different answer portions as in <doi:10.1007/978-3-319-68204-4_1>.
     This function repeats the results reported in "Experiment 2".
@@ -441,17 +444,17 @@ def experiment2(traces: np.ndarray) -> np.ndarray:
                                   ('diefk75', float),
                                   ('diefk100', float)])
 
-    # Obtain queries and approaches.
-    queries = np.unique(traces['test'])
+    # Obtain tests and approaches.
+    tests = np.unique(traces['test'])
     approaches = np.unique(traces['approach'])
 
     # Compute diefk for different k%: 25, 50, 75, 100.
-    for q in queries:
-        subtrace = traces[traces['test'] == q]
-        k25DF = diefk2(subtrace, q, 0.25)
-        k50DF = diefk2(subtrace, q, 0.50)
-        k75DF = diefk2(subtrace, q, 0.75)
-        k100DF = diefk2(subtrace, q, 1.00)
+    for t in tests:
+        subtrace = traces[traces['test'] == t]
+        k25DF = diefk2(subtrace, t, 0.25)
+        k50DF = diefk2(subtrace, t, 0.50)
+        k75DF = diefk2(subtrace, t, 0.75)
+        k100DF = diefk2(subtrace, t, 1.00)
 
         for a in approaches:
             if a not in np.unique(k25DF['approach']) \
@@ -465,7 +468,7 @@ def experiment2(traces: np.ndarray) -> np.ndarray:
             diefk75 = k75DF[k75DF['approach'] == a]['diefk'][0]
             diefk100 = k100DF[k100DF['approach'] == a]['diefk'][0]
 
-            res = np.array([(q, a, diefk25, diefk50, diefk75, diefk100)],
+            res = np.array([(t, a, diefk25, diefk50, diefk75, diefk100)],
                            dtype=[('test', traces['test'].dtype),
                                   ('approach', traces['approach'].dtype),
                                   ('diefk25', float),
@@ -477,7 +480,7 @@ def experiment2(traces: np.ndarray) -> np.ndarray:
     return df
 
 
-def plotExperiment2Test(diefkDF: np.ndarray, q: str, colors: list) -> plt:
+def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: list) -> plt:
     """
     Generate radar plots that compare dief@k at different answer completeness in a specific test
     as in  <doi:10.1007/978-3-319-68204-4_1>.
@@ -548,11 +551,12 @@ def plotExperiment2Test(diefkDF: np.ndarray, q: str, colors: list) -> plt:
 
     plt.setp(ax.spines.values(), color="grey")
     plt.title(q, fontsize=16, loc="center", pad=30)
+    plt.tight_layout()
 
     return plt
 
 
-def plotExperiment2(diefkDF: np.ndarray, colors: list) -> list:
+def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list) -> list:
     """
     Generate radar plots that compare dief@k at different answer completeness in a specific test
     as in  <doi:10.1007/978-3-319-68204-4_1>.
@@ -563,12 +567,12 @@ def plotExperiment2(diefkDF: np.ndarray, colors: list) -> list:
     :param diefkDF: Dataframe with the results from "Experiment 2".
     :param colors: List of colors to use for the different approaches.
     """
-    # Obtain queries.
-    queries = np.unique(diefkDF['test'])
+    # Obtain tests.
+    tests = np.unique(diefkDF['test'])
 
     plots = []
     # Plot the metrics for each test in "Experiment 2"
-    for q in queries:
-        plots.append(plotExperiment2Test(diefkDF, q, colors))
+    for t in tests:
+        plots.append(plot_continuous_efficiency_with_diefk(diefkDF, t, colors))
 
     return plots
