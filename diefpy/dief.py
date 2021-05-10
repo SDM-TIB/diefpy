@@ -175,6 +175,63 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
     return plots
 
 
+def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = False) -> plt:
+    """
+    This function creates a bar plot with the overall execution time for all
+    the tests and approaches in the metrics data.
+
+    :param metrics: Dataframe with the metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.
+    :param colors: List of colors to use for the different approaches.
+    :param log_scale: (optional) If log_scale is set to True, logarithmic scale for the y-axis will be used.
+    :return: Plot of the execution time for all tests and approaches in the metrics data provided.
+    """
+    # Obtain test and approaches to compare.
+    approaches = np.unique(metrics['approach'])
+    queries = np.unique(metrics['test'])
+
+    color_map = dict(zip(approaches, colors))
+
+    fig, ax = plt.subplots(figsize=(0.95*len(queries), 5), dpi=100)
+    fig.subplots_adjust(top=0.85, bottom=0.25, left=0.08)
+
+    index = np.arange(len(queries))
+    bar_width = 0.8 / len(approaches)
+
+    # Compute x position of bar.
+    def compute_x_pos(number_approaches: int, approach_pos: int) -> float:
+        lower = -0.4 + bar_width / 2
+        upper = 0.4 - bar_width / 2
+        return lower + approach_pos*(upper - lower)/(number_approaches-1)
+
+    # Generate plot.
+    a_num = -1
+    for a in approaches:
+        a_num += 1
+        submetrics = metrics[metrics['approach'] == a]
+        queries_in_approach = np.unique(submetrics['test'])
+
+        results = []
+        for q in queries:
+            if q not in queries_in_approach:
+                results.append(0.0)
+            else:
+                results.append(submetrics[submetrics['test'] == q]['totaltime'][0])
+
+        offset = compute_x_pos(len(approaches), a_num)
+        ax.set_xlim(-0.4, len(queries)-0.6)
+        plt.bar(index + offset, results, bar_width, color=color_map[a], label=a)
+
+    plt.xticks(range(0, len(queries)), queries, rotation=90)
+    ax.set_xlabel("Performed Test", fontsize='large', labelpad=10)
+    ax.set_ylabel("Execution Time [s]", fontsize='large')
+    ax.legend(approaches, bbox_to_anchor=(1, 1), loc="upper left", labelspacing=0.1, fontsize='medium', frameon=False)
+    plt.title("Execution Time for Performed Tests", fontsize=16, loc="center", pad=10)
+    if log_scale:
+        ax.set_yscale('log')
+    plt.tight_layout()
+    return plt
+
+
 def load_trace(filename: str) -> np.ndarray:
     """
     This function reads answer traces from a CSV file.
