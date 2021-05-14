@@ -141,6 +141,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> p
     color_map = dict(zip(approaches, colors))
 
     # Generate plot.
+    plt.subplots(figsize=(10, 6), dpi=100)
     for a in approaches:
         subtrace = results[results['approach'] == a]
         if subtrace.size == 0:
