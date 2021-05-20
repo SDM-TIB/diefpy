@@ -1,13 +1,31 @@
 [![Build Status](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml/badge.svg?branch=master)](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml)
 [![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # diefpy
+
 Python package for computing diefficiency metrics dief@t and dief@k.
 
-The metrics dief@t and dief@k allow for measuring the diefficiency during an elapsed time period t or while k answers are produced, respectively. dief@t and dief@k rely on the computation of the area under the curve of answer traces, and thus capturing the answer rate concentration over a time interval.
+The metrics dief@t and dief@k allow for measuring the diefficiency during 
+an elapsed time period t or while k answers are produced, respectively. 
+dief@t and dief@k rely on the computation of the area under the curve of 
+answer traces, and thus capturing the answer rate concentration over a time 
+interval.
 
-## Examples
+### Description
+
+![alt text](images/diefpy-overview.png "Overview of Result Plots")
+Figure 1: Overview of Result Plots.
+
+Fig. 1 gives an overview of the result plots that can be produced using the package.
+Firstly the overall Execution Time for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
+data can be created as a bar plot. 
+For evaluating the input tests an answer trace of each approach (NotAdaptive, Random and Selective) can be created which shows how many answers were produced. 
+Finally two Radar Plots can be created. The Radar Plot on the left compares dief@t with other benchmark metrics in a specific test. The other benchmark metrics being total execution time, time for the first tuple, throughput, and completeness. 
+The Radar Plot on the right compares dief@k at different answer completeness in a specific test by measuring the continuous efficiency of approaches when producing
+the first 25%, 50%, 75%, and 100% of the answers.
+
+### Usage 
 Compute dief@t and dief@k for the test `Q9.rq` based on the traces `traces.csv` and metrics `metrics.csv` provided as example in the package. 
 ```python
 import diefpy
@@ -57,10 +75,7 @@ diefpy.plot_all_performance_of_approaches_with_dieft(exp1, ["#ECC30B","#D56062",
 diefpy.plot_all_continuous_efficiency_with_diefk(exp2, ["#ECC30B","#D56062","#84BCDA"])
 ```
 
-## License 
-This package is licensed under the MIT License.
-
-## Publications
+### Publications
 [1] Maribel Acosta, Maria-Esther Vidal, York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track. 
 
 [2] Maribel Acosta, Maria-Esther Vidal. Measuring the Performance of Continuous Query Processing Approaches with dief@t and dief@k. In  the International Semantic Web Conference, Posters and Demos, 2017.
