@@ -2,6 +2,7 @@
 [![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+Philipp D. Rohde, Nikoleta Themeliotou
 # diefpy
 
 Python package for computing diefficiency metrics dief@t and dief@k.
@@ -14,7 +15,7 @@ interval.
 
 ### Description
 
-![alt text](images/diefpy-overview.png "Overview of Result Plots")
+![alt text](docs/diefpy-overview.png "Overview of Result Plots")
 Figure 1: Overview of Result Plots.
 
 Fig. 1 gives an overview of the result plots that can be produced using the package.
@@ -52,19 +53,19 @@ diefpy.diefk(traces, 'Q9.rq', 10)
 # Compute dief@k when k is 50% of the answers retrieved.
 diefpy.diefk2(traces, 'Q9.rq', 0.5)
 
-# Load the metrics
+# Load the metrics.
 metrics = diefpy.load_metrics(resource_filename('diefpy', 'data/metrics.csv'))
 
-# Reproduce the metrics from Experiment 1
+# Compute the metrics for performance analysis with dief@t.
 exp1 = diefpy.performance_of_approaches_with_dieft(traces, metrics)
 
-# Plot the metrics from Experiment 1
+# Plot the metrics for performance analysis with dief@t.
 diefpy.plot_performance_of_approaches_with_dieft(exp1, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
 
-# Reproduce the metrics from Experiment 2
+# Compute the metrics for continuous efficiency with dief@k.
 exp2 = diefpy.continuous_efficiency_with_diefk(traces)
 
-# Plot the metrics from Experiment 2
+# Plot the metrics for continuous efficiency with dief@k.
 diefpy.plot_continuous_efficiency_with_diefk(exp2, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
 ```
 
