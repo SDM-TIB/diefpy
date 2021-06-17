@@ -4,7 +4,7 @@
 [![Package Format](https://img.shields.io/pypi/format/diefpy)](https://pypi.org/project/diefpy)
 [![Package Status](https://img.shields.io/pypi/status/diefpy)](https://pypi.org/project/diefpy)
 [![Package Version](https://img.shields.io/pypi/v/diefpy)](https://pypi.org/project/diefpy)
-[![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4973516.svg)](https://doi.org/10.5281/zenodo.4973516)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Philipp D. Rohde, Nikoleta Themeliotou
@@ -22,7 +22,7 @@ This is a fork of the [original diefpy repo](https://github.com/maribelacosta/di
 
 ### Description
 
-![alt text](docs/diefpy-overview.png "Overview of Result Plots")
+![Overview of Result Plots](https://raw.githubusercontent.com/SDM-TIB/diefpy/master/docs/diefpy-overview.png "Overview of Result Plots")
 Figure 1: Overview of Result Plots.
 
 Fig. 1 gives an overview of the result plots that can be produced using the package.
