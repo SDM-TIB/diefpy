@@ -1,3 +1,5 @@
 build/
 dist/
 diefpy.egg-info/
+*.pyc
+.pypirc

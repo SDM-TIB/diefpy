@@ -1,4 +1,9 @@
 [![Build Status](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml/badge.svg?branch=master)](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml)
+[![Latest Release](http://img.shields.io/github/release/SDM-TIB/diefpy.svg)](https://github.com/SDM-TIB/diefpy/releases)
+[![Python Versions](https://img.shields.io/pypi/pyversions/diefpy)](https://pypi.org/project/diefpy)
+[![Package Format](https://img.shields.io/pypi/format/diefpy)](https://pypi.org/project/diefpy)
+[![Package Status](https://img.shields.io/pypi/status/diefpy)](https://pypi.org/project/diefpy)
+[![Package Version](https://img.shields.io/pypi/v/diefpy)](https://pypi.org/project/diefpy)
 [![DOI](https://zenodo.org/badge/109045351.svg)](https://zenodo.org/badge/latestdoi/109045351)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -12,6 +17,8 @@ an elapsed time period t or while k answers are produced, respectively.
 dief@t and dief@k rely on the computation of the area under the curve of 
 answer traces, and thus capturing the answer rate concentration over a time 
 interval.
+
+This is a fork of the [original diefpy repo](https://github.com/maribelacosta/diefpy) providing a complete Python3 version.
 
 ### Description
 
@@ -77,6 +84,6 @@ diefpy.plot_all_continuous_efficiency_with_diefk(exp2, ["#ECC30B","#D56062","#84
 ```
 
 ### Publications
-[1] Maribel Acosta, Maria-Esther Vidal, York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track. 
+[1] Maribel Acosta, Maria-Esther Vidal, York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track. [https://doi.org/10.1007/978-3-319-68204-4_1](https://doi.org/10.1007/978-3-319-68204-4_1)
 
-[2] Maribel Acosta, Maria-Esther Vidal. Measuring the Performance of Continuous Query Processing Approaches with dief@t and dief@k. In  the International Semantic Web Conference, Posters and Demos, 2017.
+[2] Maribel Acosta, Maria-Esther Vidal. Measuring the Performance of Continuous Query Processing Approaches with dief@t and dief@k. In  the International Semantic Web Conference, Posters and Demos, 2017. [online](https://iswc2017.ai.wu.ac.at/wp-content/uploads/papers/PostersDemos/paper602.pdf)
