@@ -1,11 +1,14 @@
 [![Build Status](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml/badge.svg?branch=master)](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml)
-[![Latest Release](http://img.shields.io/github/release/SDM-TIB/diefpy.svg)](https://github.com/SDM-TIB/diefpy/releases)
+[![Latest Release](http://img.shields.io/github/release/SDM-TIB/diefpy.svg?logo=github)](https://github.com/SDM-TIB/diefpy/releases)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4973516.svg)](https://doi.org/10.5281/zenodo.4973516)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [![Python Versions](https://img.shields.io/pypi/pyversions/diefpy)](https://pypi.org/project/diefpy)
 [![Package Format](https://img.shields.io/pypi/format/diefpy)](https://pypi.org/project/diefpy)
 [![Package Status](https://img.shields.io/pypi/status/diefpy)](https://pypi.org/project/diefpy)
 [![Package Version](https://img.shields.io/pypi/v/diefpy)](https://pypi.org/project/diefpy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4973516.svg)](https://doi.org/10.5281/zenodo.4973516)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+&nbsp;
 
 Philipp D. Rohde, Nikoleta Themeliotou
 # diefpy
@@ -18,7 +21,7 @@ dief@t and dief@k rely on the computation of the area under the curve of
 answer traces, and thus capturing the answer rate concentration over a time 
 interval.
 
-This is a fork of the [original diefpy repo](https://github.com/maribelacosta/diefpy) providing a complete Python3 version.
+This fork of the [original diefpy repo](https://github.com/maribelacosta/diefpy) by Maribel Acosta provides a complete Python3 version.
 
 ### Description
 
