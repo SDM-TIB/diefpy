@@ -12,8 +12,8 @@ class DiefTestCase(unittest.TestCase):
         res = diefpy.dieft(traces, test)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 27963.93, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 12992.97, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 20232.39, 2)
 
     def test_dieft1(self):
         input_file = resource_filename('diefpy', 'data/traces.csv')
@@ -22,9 +22,9 @@ class DiefTestCase(unittest.TestCase):
         t = 7.5
         res = diefpy.dieft(traces, test, t)
 
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 1203.705, 3)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 5192.282, 3)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 7485.623, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 1196.724, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 5179.909, 3)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 7431.953, 3)
 
     def test_diefk0(self):
         input_file = resource_filename('diefpy', 'data/traces.csv')
@@ -79,7 +79,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'Random']['throughput'][0], 553.6592, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Random']['invtfft'][0], 3.006163, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Random']['invtotaltime'][0], 0.10748577, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 27963.93, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 12992.97, 2)
 
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['tfft'][0], 0.3710840, 2)
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['totaltime'][0], 10.592792, 2)
@@ -87,7 +87,7 @@ class DiefTestCase(unittest.TestCase):
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['throughput'][0], 486.2741, 2)
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['invtfft'][0], 2.694808, 2)
         self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['invtotaltime'][0], 0.09440382, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 28563.16, 2)
+        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 20232.39, 2)
 
     def test_experiment2(self):
         input_file = resource_filename('diefpy', 'data/traces.csv')

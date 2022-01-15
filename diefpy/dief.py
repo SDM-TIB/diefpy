@@ -30,17 +30,6 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray
     for a in approaches:
         dief = 0
         subtrace = results[(results['approach'] == a) & (results['time'] <= t)]
-        com = np.array([(inputtest, a, len(subtrace), t)],
-                       dtype=[('test', subtrace['test'].dtype),
-                              ('approach', subtrace['approach'].dtype),
-                              ('answer', int),
-                              ('time', float)]
-                       )
-
-        if len(subtrace) == 1 and subtrace['answer'] == 0:
-            pass
-        else:
-            subtrace = np.concatenate((subtrace, com), axis=0)
 
         if len(subtrace) > 1:
             dief = np.trapz(subtrace['answer'], subtrace['time'])
