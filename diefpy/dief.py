@@ -1,5 +1,8 @@
-import numpy as np
+import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+
 from diefpy.radaraxes import radar_factory
 
 
@@ -358,15 +361,14 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
 
     # Get maximum values
     maxs = [df['invtfft'].max(), df['invtotaltime'].max(), df['comp'].max(), df['throughput'].max(), df['dieft'].max()]
-    max_ = max(maxs)
 
     # Normalize the data
     for row in df:
-        row['invtfft'] = row['invtfft'] / maxs[0] * max_
-        row['invtotaltime'] = row['invtotaltime'] / maxs[1] * max_
-        row['comp'] = row['comp'] / maxs[2] * max_
-        row['throughput'] = row['throughput'] / maxs[3] * max_
-        row['dieft'] = row['dieft'] / maxs[4] * max_
+        row['invtfft'] = row['invtfft'] / maxs[0]
+        row['invtotaltime'] = row['invtotaltime'] / maxs[1]
+        row['comp'] = row['comp'] / maxs[2]
+        row['throughput'] = row['throughput'] / maxs[3]
+        row['dieft'] = row['dieft'] / maxs[4]
 
     # Plot metrics using spider plot.
     df = df.tolist()
@@ -376,15 +378,19 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     case_data = df
     fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(projection='radar'))
     fig.subplots_adjust(top=0.85, bottom=0.05)
-    ax.set_ylim(0, max_)
-    ax.set_yticklabels(["", "", "", "", ""])
+    ax.set_ylim(0, 1)
+    ticks_loc = ax.get_yticks()
+    ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+    ax.set_yticklabels("" for _ in ticks_loc)
+    legend_handles = []
     for d, label in zip(case_data, labels):
-        ax.plot(theta, d, color=color_map[label], zorder=10, clip_on=False)
-        ax.fill(theta, d, facecolor=color_map[label], alpha=0.15)
+        legend_handles.append(mlines.Line2D([], [], color=color_map[label], ls='-', label=label))
+        ax.plot(theta, d, label=label, color=color_map[label], zorder=10, clip_on=False)
+        ax.fill(theta, d, label=label, facecolor=color_map[label], alpha=0.15)
 
     ax.set_varlabels(spoke_labels)
     ax.tick_params(labelsize=14)
-    ax.legend(labels, loc=(0.80, 0.90), labelspacing=0.1, fontsize='medium', frameon=False)
+    ax.legend(handles=legend_handles, loc=(0.80, 0.90), labelspacing=0.1, fontsize='medium', frameon=False)
 
     plt.setp(ax.spines.values(), color="grey")
     plt.title(q, fontsize=16, loc="center", pad=30)
@@ -512,14 +518,13 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
 
     # Get maximum values
     maxs = [df['diefk25'].max(), df['diefk50'].max(), df['diefk75'].max(), df['diefk100'].max()]
-    max_ = max(maxs)
 
     # Normalize the data
     for row in df:
-        row['diefk25'] = row['diefk25'] / maxs[0] * max_
-        row['diefk50'] = row['diefk50'] / maxs[1] * max_
-        row['diefk75'] = row['diefk75'] / maxs[2] * max_
-        row['diefk100'] = row['diefk100'] / maxs[3] * max_
+        row['diefk25'] = row['diefk25'] / maxs[0]
+        row['diefk50'] = row['diefk50'] / maxs[1]
+        row['diefk75'] = row['diefk75'] / maxs[2]
+        row['diefk100'] = row['diefk100'] / maxs[3]
 
     # Plot metrics using spider plot.
     df = df.tolist()
@@ -529,15 +534,19 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     case_data = df
     fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(projection='radar'))
     fig.subplots_adjust(top=0.85, bottom=0.05)
-    ax.set_ylim(0, max_)
-    ax.set_yticklabels(["", "", "", "", ""])
+    ax.set_ylim(0, 1)
+    ticks_loc = ax.get_yticks()
+    ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+    ax.set_yticklabels("" for _ in ticks_loc)
+    legend_handles = []
     for d, label in zip(case_data, labels):
+        legend_handles.append(mlines.Line2D([], [], color=color_map[label], ls='-', label=label))
         ax.plot(theta, d, color=color_map[label], zorder=10, clip_on=False)
         ax.fill(theta, d, facecolor=color_map[label], alpha=0.15)
     ax.set_varlabels(spoke_labels)
     ax.tick_params(labelsize=14, zorder=0)
 
-    ax.legend(labels, loc=(0.80, 0.90), labelspacing=0.1, fontsize='medium', frameon=False)
+    ax.legend(handles=legend_handles, loc=(0.80, 0.90), labelspacing=0.1, fontsize='medium', frameon=False)
 
     plt.setp(ax.spines.values(), color="grey")
     plt.title(q, fontsize=16, loc="center", pad=30)
