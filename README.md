@@ -1,6 +1,6 @@
 [![Build Status](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml/badge.svg?branch=master)](https://github.com/SDM-TIB/diefpy/actions/workflows/testroutine.yml)
 [![Latest Release](http://img.shields.io/github/release/SDM-TIB/diefpy.svg?logo=github)](https://github.com/SDM-TIB/diefpy/releases)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5854425.svg)](https://doi.org/10.5281/zenodo.5854425)
+[![DOI](https://zenodo.org/badge/351839805.svg)](https://zenodo.org/badge/latestdoi/351839805)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [![Python Versions](https://img.shields.io/pypi/pyversions/diefpy)](https://pypi.org/project/diefpy)

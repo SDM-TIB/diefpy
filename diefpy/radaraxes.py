@@ -1,30 +1,73 @@
-#for polygon
+import matplotlib.path as mpath
+import matplotlib.transforms as mtransforms
 import numpy as np
 from matplotlib.patches import Circle, RegularPolygon
 from matplotlib.path import Path
-from matplotlib.projections.polar import PolarAxes
 from matplotlib.projections import register_projection
+from matplotlib.projections.polar import PolarAxes
 from matplotlib.spines import Spine
 from matplotlib.transforms import Affine2D
 
-def radar_factory(num_vars, frame='circle'):
-    """Create a radar chart with `num_vars` axes.
 
-    This function creates a RadarAxes projection and registers it.
+def radar_factory(num_vars: int, frame: str = 'circle'):
+    """
+    This function creates a RadarAxes projection with 'num_vars' axes and registers it.
 
-    Parameters
-    ----------
-    num_vars : int
-        Number of variables for radar chart.
-    frame : {'circle' | 'polygon'}
-        Shape of frame surrounding axes.
 
+    :param int num_vars: number of axes for the radar chart
+    :param str frame: shape of frame surrounding axes {'circle' | 'polygon'}
     """
     # calculate evenly-spaced axis angles
     theta = np.linspace(0, 2*np.pi, num_vars, endpoint=False)
 
-    class RadarAxes(PolarAxes):
+    class RadarTransform(mtransforms.Transform):
+        """
+        The base polar transform. This handles projection *theta* and
+        *r* into Cartesian coordinate space *x* and *y*, but does not
+        perform the ultimate affine transformation into the correct
+        position.
 
+        This is copied from Matplotlib version 3.2.2 since in 3.3.0
+        the grid lines are using a different interpolation method.
+        """
+        input_dims = output_dims = 2
+
+        def __init__(self, axis=None, use_rmin=True,
+                     _apply_theta_transforms=True):
+            mtransforms.Transform.__init__(self)
+            self._axis = axis
+            self._use_rmin = use_rmin
+            self._apply_theta_transforms = _apply_theta_transforms
+
+        def transform_non_affine(self, tr):
+            # docstring inherited
+            t, r = np.transpose(tr)
+            # PolarAxes does not use the theta transforms here, but apply them for
+            # backwards-compatibility if not being used by it.
+            if self._apply_theta_transforms and self._axis is not None:
+                t *= self._axis.get_theta_direction()
+                t += self._axis.get_theta_offset()
+            if self._use_rmin and self._axis is not None:
+                r = (r - self._axis.get_rorigin()) * self._axis.get_rsign()
+            r = np.where(r >= 0, r, np.nan)
+            return np.column_stack([r * np.cos(t), r * np.sin(t)])
+
+        def transform_path_non_affine(self, path):
+            # docstring inherited
+            vertices = path.vertices
+            if len(vertices) == 2 and vertices[0, 0] == vertices[1, 0]:
+                return mpath.Path(self.transform(vertices), path.codes)
+            ipath = path.interpolated(path._interpolation_steps)
+            return mpath.Path(self.transform(ipath.vertices), ipath.codes)
+
+        def inverted(self):
+            # docstring inherited
+            return PolarAxes.InvertedPolarTransform(self._axis, self._use_rmin, self._apply_theta_transforms)
+
+    class RadarAxes(PolarAxes):
+        """
+        Axes for the radar plot. The layout can either be a circle or a polygon with 'num_vars' vertices.
+        """
         name = 'radar'
 
         def __init__(self, *args, **kwargs):
@@ -54,8 +97,7 @@ def radar_factory(num_vars, frame='circle'):
             self.set_thetagrids(np.degrees(theta), labels)
 
         def _gen_axes_patch(self):
-            # The Axes patch must be centered at (0.5, 0.5) and of radius 0.5
-            # in axes coordinates.
+            # The Axes patch must be centered at (0.5, 0.5) and of radius 0.5 in axes coordinates.
             if frame == 'circle':
                 return Circle((0.5, 0.5), 0.5)
             elif frame == 'polygon':
@@ -72,7 +114,6 @@ def radar_factory(num_vars, frame='circle'):
                     gl.get_path()._interpolation_steps = num_vars
             super().draw(renderer)
 
-
         def _gen_axes_spines(self):
             if frame == 'circle':
                 return super()._gen_axes_spines()
@@ -81,16 +122,14 @@ def radar_factory(num_vars, frame='circle'):
                 spine = Spine(axes=self,
                               spine_type='circle',
                               path=Path.unit_regular_polygon(num_vars))
-                # unit_regular_polygon gives a polygon of radius 1 centered at
-                # (0, 0) but we want a polygon of radius 0.5 centered at (0.5,
-                # 0.5) in axes coordinates.
-                spine.set_transform(Affine2D().scale(.5).translate(.5, .5)
-                                    + self.transAxes)
-
+                # unit_regular_polygon gives a polygon of radius 1 centered at (0, 0) but we want a polygon
+                # of radius 0.5 centered at (0.5, 0.5) in axes coordinates.
+                spine.set_transform(Affine2D().scale(.5).translate(.5, .5) + self.transAxes)
 
                 return {'polar': spine}
             else:
-                raise ValueError("unknown value for 'frame': %s" % frame)
+                raise ValueError("Unknown value for 'frame': %s" % frame)
 
+    RadarAxes.PolarTransform = RadarTransform
     register_projection(RadarAxes)
     return theta
