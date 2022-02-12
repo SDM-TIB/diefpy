@@ -1,5 +1,4 @@
 import matplotlib.path as mpath
-import matplotlib.transforms as mtransforms
 import numpy as np
 from matplotlib.patches import Circle, RegularPolygon
 from matplotlib.path import Path
@@ -20,55 +19,26 @@ def radar_factory(num_vars: int, frame: str = 'circle'):
     # calculate evenly-spaced axis angles
     theta = np.linspace(0, 2*np.pi, num_vars, endpoint=False)
 
-    class RadarTransform(mtransforms.Transform):
-        """
-        The base polar transform. This handles projection *theta* and
-        *r* into Cartesian coordinate space *x* and *y*, but does not
-        perform the ultimate affine transformation into the correct
-        position.
-
-        This is copied from Matplotlib version 3.2.2 since in 3.3.0
-        the grid lines are using a different interpolation method.
-        """
-        input_dims = output_dims = 2
-
-        def __init__(self, axis=None, use_rmin=True,
-                     _apply_theta_transforms=True):
-            mtransforms.Transform.__init__(self)
-            self._axis = axis
-            self._use_rmin = use_rmin
-            self._apply_theta_transforms = _apply_theta_transforms
-
-        def transform_non_affine(self, tr):
-            # docstring inherited
-            t, r = np.transpose(tr)
-            # PolarAxes does not use the theta transforms here, but apply them for
-            # backwards-compatibility if not being used by it.
-            if self._apply_theta_transforms and self._axis is not None:
-                t *= self._axis.get_theta_direction()
-                t += self._axis.get_theta_offset()
-            if self._use_rmin and self._axis is not None:
-                r = (r - self._axis.get_rorigin()) * self._axis.get_rsign()
-            r = np.where(r >= 0, r, np.nan)
-            return np.column_stack([r * np.cos(t), r * np.sin(t)])
+    class RadarTransform(PolarAxes.PolarTransform):
 
         def transform_path_non_affine(self, path):
-            # docstring inherited
+            """
+            Original version of this method in PolarTransform in Matplotlib version 3.2.2.
+            Starting with 3.3.0 a different interpolation method is used, causing the grid lines
+            to be always circular.
+            """
             vertices = path.vertices
             if len(vertices) == 2 and vertices[0, 0] == vertices[1, 0]:
                 return mpath.Path(self.transform(vertices), path.codes)
             ipath = path.interpolated(path._interpolation_steps)
             return mpath.Path(self.transform(ipath.vertices), ipath.codes)
 
-        def inverted(self):
-            # docstring inherited
-            return PolarAxes.InvertedPolarTransform(self._axis, self._use_rmin, self._apply_theta_transforms)
-
     class RadarAxes(PolarAxes):
         """
         Axes for the radar plot. The layout can either be a circle or a polygon with 'num_vars' vertices.
         """
         name = 'radar'
+        PolarTransform = RadarTransform
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -130,6 +100,5 @@ def radar_factory(num_vars: int, frame: str = 'circle'):
             else:
                 raise ValueError("Unknown value for 'frame': %s" % frame)
 
-    RadarAxes.PolarTransform = RadarTransform
     register_projection(RadarAxes)
     return theta
