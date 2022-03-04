@@ -11,13 +11,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 setup(name='diefpy',
-      version='1.0.3',
+      version='1.0.4',
       packages=['diefpy'],
       license='MIT',
       author='Philipp D. Rohde, Nikoleta Themeliotou',
       author_email='philipp.rohde@tib.eu',
       url='https://github.com/SDM-TIB/diefpy',
-      download_url='https://github.com/SDM-TIB/diefpy/archive/refs/tags/v1.0.3.tar.gz',
+      download_url='https://github.com/SDM-TIB/diefpy/archive/refs/tags/v1.0.4.tar.gz',
       description='Python package for computing diefficiency metrics dief@t and dief@k.',
       long_description=long_description,
       long_description_content_type="text/markdown",

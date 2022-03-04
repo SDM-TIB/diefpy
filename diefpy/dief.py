@@ -296,8 +296,8 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
             if a not in np.unique(dieft_res['approach']):
                 continue
 
-            dieft_ = dieft_res[dieft_res['approach'] == a]['dieft'][0]
-            submetric = metrics[metrics['approach'] == a]
+            dieft_ = dieft_res[(dieft_res['approach'] == a) & (dieft_res['test'] == t)]['dieft'][0]
+            submetric = metrics[(metrics['approach'] == a) & (metrics['test'] == t)]
 
             throughput = submetric['comp'][0] / submetric['totaltime'][0]
             invtfft = 1 / submetric['tfft'][0]
