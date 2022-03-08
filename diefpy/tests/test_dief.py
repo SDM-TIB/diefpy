@@ -9,7 +9,7 @@ class DiefTestCase(unittest.TestCase):
         input_file = resource_filename('diefpy', 'data/traces.csv')
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
-        res = diefpy.dieft(traces, test)
+        res = diefpy.dieft(traces, test, continue_to_end=False)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
         self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 12992.97, 2)
@@ -20,7 +20,7 @@ class DiefTestCase(unittest.TestCase):
         traces = diefpy.load_trace(input_file)
         test = "Q9.rq"
         t = 7.5
-        res = diefpy.dieft(traces, test, t)
+        res = diefpy.dieft(traces, test, t, continue_to_end=False)
 
         self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 1196.724, 3)
         self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 5179.909, 3)
@@ -63,7 +63,7 @@ class DiefTestCase(unittest.TestCase):
         input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
         traces = diefpy.load_trace(input_file_taces)
         metrics = diefpy.load_metrics(input_file_metrics)
-        res = diefpy.performance_of_approaches_with_dieft(traces, metrics)
+        res = diefpy.performance_of_approaches_with_dieft(traces, metrics, continue_to_end=False)
 
         # Check the values for Q9
         self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['tfft'][0], 0.2416301, 2)

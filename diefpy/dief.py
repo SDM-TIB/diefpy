@@ -6,7 +6,7 @@ import numpy as np
 from diefpy.radaraxes import radar_factory
 
 
-def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray:
+def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_end: bool = True) -> np.ndarray:
     """
     This function computes the dief@t metric.
 
@@ -14,6 +14,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray
     :param inputtest: Specifies the specific test to analyze from the answer trace.
     :param t: Point in time to compute dieft. By default, the function computes the minimum of the execution time
               among the approaches in the answer trace.
+    :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
     """
     # Initialize output structure.
@@ -33,6 +34,19 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0) -> np.ndarray
     for a in approaches:
         dief = 0
         subtrace = results[(results['approach'] == a) & (results['time'] <= t)]
+
+        if continue_to_end:
+            com = np.array([(inputtest, a, len(subtrace), t)],
+                           dtype=[('test', subtrace['test'].dtype),
+                                  ('approach', subtrace['approach'].dtype),
+                                  ('answer', int),
+                                  ('time', float)]
+                           )
+
+            if len(subtrace) == 1 and subtrace['answer'] == 0:
+                pass
+            else:
+                subtrace = np.concatenate((subtrace, com), axis=0)
 
         if len(subtrace) > 1:
             dief = np.trapz(subtrace['answer'], subtrace['time'])
@@ -259,7 +273,7 @@ def load_metrics(filename: str) -> np.ndarray:
     return df[['test', 'approach', 'tfft', 'totaltime', 'comp']]
 
 
-def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray) -> np.ndarray:
+def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray, continue_to_end: bool = True) -> np.ndarray:
     """
     Compares dief@t with other benchmark metrics as in <doi:10.1007/978-3-319-68204-4_1>.
     This function repeats the results reported in "Experiment 1".
@@ -269,6 +283,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param metrics: Metrics dataframe with the result of the other metrics.
                     The structure is as follows: test, approach, tfft, totaltime, comp.
+    :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with all the metrics.
              The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft, invtotaltime, dieft
     """
@@ -290,7 +305,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     # Compute metrics: dieft, throughput, inverse of execution time, inverse of time for the first tuple.
     for t in tests:
         subtrace = traces[traces['test'] == t]
-        dieft_res = dieft(subtrace, t)
+        dieft_res = dieft(subtrace, t, continue_to_end=continue_to_end)
 
         for a in approaches:
             if a not in np.unique(dieft_res['approach']):
@@ -330,6 +345,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
+    :return: Matplotlib radar plot for the specified test over the provided metrics.
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('invtfft', allmetrics['invtfft'].dtype),
@@ -409,6 +425,7 @@ def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
     :param colors: List of colors to use for the different approaches.
+    :return: List of matplotlib radar plots (one per test) over the provided metrics.
     """
     # Obtain tests.
     tests = np.unique(allmetrics['test'])
@@ -487,6 +504,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     :param diefkDF: Dataframe with the results from "Experiment 2".
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
+    :return: Matplotlib plot for the specified test over the provided metrics.
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('diefk25', float),
@@ -565,6 +583,7 @@ def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list)
 
     :param diefkDF: Dataframe with the results from "Experiment 2".
     :param colors: List of colors to use for the different approaches.
+    :return: List of matplotlib plots (one per test) over the provided metrics.
     """
     # Obtain tests.
     tests = np.unique(diefkDF['test'])
