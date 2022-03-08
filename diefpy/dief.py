@@ -334,7 +334,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('invtfft', allmetrics['invtfft'].dtype),
                                   ('invtotaltime', allmetrics['invtotaltime'].dtype),
-                                  ('comp', allmetrics['comp'].dtype),
+                                  ('comp', float),
                                   ('throughput', allmetrics['throughput'].dtype),
                                   ('dieft', allmetrics['dieft'].dtype)])
 
@@ -354,7 +354,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
                         (submetric_approaches['throughput']), (submetric_approaches['dieft']))],
                        dtype=[('invtfft', submetric_approaches['invtfft'].dtype),
                               ('invtotaltime', submetric_approaches['invtotaltime'].dtype),
-                              ('comp', submetric_approaches['comp'].dtype),
+                              ('comp', float),
                               ('throughput', submetric_approaches['throughput'].dtype),
                               ('dieft', submetric_approaches['dieft'].dtype)])
         df = np.append(df, res, axis=0)
