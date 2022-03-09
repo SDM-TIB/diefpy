@@ -1,11 +1,6 @@
 from setuptools import setup
 
 
-def readme():
-    with open('README.md') as f:
-        return f.read()
-
-        
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
@@ -18,6 +13,9 @@ setup(name='diefpy',
       author_email='philipp.rohde@tib.eu',
       url='https://github.com/SDM-TIB/diefpy',
       download_url='https://github.com/SDM-TIB/diefpy/archive/refs/tags/v1.0.4.tar.gz',
+      project_urls={
+            "Bug Tracker": "https://github.com/SDM-TIB/diefpy/issues",
+      },
       description='Python package for computing diefficiency metrics dief@t and dief@k.',
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -36,7 +34,9 @@ setup(name='diefpy',
             'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: 3.8',
             'Programming Language :: Python :: 3.9',
+            'Programming Language :: Python :: 3.10',
             'License :: OSI Approved :: MIT License',
+            'Operating System :: OS Independent',
             'Topic :: System :: Benchmark',
             'Typing :: Typed'
       ])
