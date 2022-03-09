@@ -1,0 +1,62 @@
+{
+  "Selective": {
+    "Q9.rq": {
+      "tfft": 0.2416301,
+      "totaltime": 12.209977,
+      "comp": 5151,
+      "throughput": 421.86812,
+      "invtfft": 4.138558,
+      "invtotaltime": 0.08190024,
+      "dieft": 14588.18476
+    },
+    "Q14.rq": {
+      "tfft": 51.13820291,
+      "totaltime": 198.65310788,
+      "comp": 5,
+      "throughput": 0.0251695,
+      "invtfft": 0.01955485,
+      "invtotaltime": 0.0050339,
+      "dieft": 233.78489
+    }
+  },
+  "Random": {
+    "Q9.rq": {
+      "tfft": 0.3326499,
+      "totaltime": 9.303557,
+      "comp": 5151,
+      "throughput": 553.65921,
+      "invtfft": 3.006163,
+      "invtotaltime": 0.10748577,
+      "dieft": 12992.97471
+    },
+    "Q14.rq": {
+      "tfft": 44.490062,
+      "totaltime": 184.76617718,
+      "comp": 6,
+      "throughput": 0.03247348,
+      "invtfft": 0.02247693,
+      "invtotaltime": 0.00541225,
+      "dieft": 593.09502959
+    }
+  },
+  "NotAdaptive": {
+    "Q9.rq": {
+      "tfft": 0.371084,
+      "totaltime": 10.592792,
+      "comp": 5151,
+      "throughput": 486.27407,
+      "invtfft": 2.694808,
+      "invtotaltime": 0.09440382,
+      "dieft": 20232.38872
+    },
+    "Q14.rq": {
+      "tfft": 162.54994512,
+      "totaltime": 300.01341915,
+      "comp": 3,
+      "throughput": 0.00999955,
+      "invtfft": 0.00615196,
+      "invtotaltime": 0.00333318,
+      "dieft": 205.66096568
+    }
+  }
+}

@@ -1,157 +1,149 @@
-import unittest
-import diefpy.dief as diefpy
+import json
+import pathlib
+
+import pytest
 from pkg_resources import resource_filename
 
-
-class DiefTestCase(unittest.TestCase):
-
-    def test_dieft0(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        test = "Q9.rq"
-        res = diefpy.dieft(traces, test, continue_to_end=False)
-
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 14588.18, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 12992.97, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 20232.39, 2)
-
-    def test_dieft1(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        test = "Q9.rq"
-        t = 7.5
-        res = diefpy.dieft(traces, test, t, continue_to_end=False)
-
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['dieft'][0], 1196.724, 3)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['dieft'][0], 5179.909, 3)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['dieft'][0], 7431.953, 3)
-
-    def test_diefk0(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        test = "Q9.rq"
-        res = diefpy.diefk(traces, test)
-
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk'][0], 14588.18, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['diefk'][0], 12992.97, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 20232.39, 2)
-
-    def test_diefk1(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        test = "Q9.rq"
-        k = 1000
-        res = diefpy.diefk(traces, test, k)
-
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk'][0], 1106.507, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['diefk'][0], 1524.351, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 1197.350, 2)
-
-    def test_diefk2(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        test = "Q9.rq"
-        kp = 0.25
-        res = diefpy.diefk2(traces, test, kp)
-
-        self.assertAlmostEqual(res[res['approach'] == 'Selective']['diefk'][0], 1430.417, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'Random']['diefk'][0], 1692.541, 2)
-        self.assertAlmostEqual(res[res['approach'] == 'NotAdaptive']['diefk'][0], 1764.715, 2)
-
-    def test_experiment1(self):
-        input_file_taces = resource_filename('diefpy', 'data/traces.csv')
-        input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
-        traces = diefpy.load_trace(input_file_taces)
-        metrics = diefpy.load_metrics(input_file_metrics)
-        res = diefpy.performance_of_approaches_with_dieft(traces, metrics, continue_to_end=False)
-
-        # Check the values for Q9
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['tfft'][0], 0.2416301, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['totaltime'][0], 12.209977, 2)
-        self.assertEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['comp'][0], 5151)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['throughput'][0], 421.8681, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['invtfft'][0], 4.138558, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['invtotaltime'][0], 0.08190024, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['dieft'][0], 14588.18, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['tfft'][0], 0.3326499, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['totaltime'][0], 9.303557, 2)
-        self.assertEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['comp'][0], 5151)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['throughput'][0], 553.6592, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['invtfft'][0], 3.006163, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['invtotaltime'][0], 0.10748577, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['dieft'][0], 12992.97, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['tfft'][0], 0.3710840, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['totaltime'][0], 10.592792, 2)
-        self.assertEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['comp'][0], 5151)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['throughput'][0], 486.2741, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['invtfft'][0], 2.694808, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['invtotaltime'][0], 0.09440382, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['dieft'][0], 20232.39, 2)
-
-        # Check the values for Q14
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['tfft'][0], 51.13820291, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['totaltime'][0], 198.65310788, 2)
-        self.assertEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['comp'][0], 5)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['throughput'][0], 0.0251695, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['invtfft'][0], 0.01955485, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['invtotaltime'][0], 0.0050339, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['dieft'][0], 233.78489006, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['tfft'][0], 44.490062, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['totaltime'][0], 184.76617718, 2)
-        self.assertEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['comp'][0], 6)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['throughput'][0], 0.03247348, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['invtfft'][0], 0.02247693, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['invtotaltime'][0], 0.00541225, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['dieft'][0], 593.09502959, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['tfft'][0], 162.54994512, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['totaltime'][0], 300.01341915, 2)
-        self.assertEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['comp'][0], 3)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['throughput'][0], 0.00999955, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['invtfft'][0], 0.00615196, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['invtotaltime'][0], 0.00333318, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['dieft'][0], 205.66096568, 2)
-
-    def test_experiment2(self):
-        input_file = resource_filename('diefpy', 'data/traces.csv')
-        traces = diefpy.load_trace(input_file)
-        res = diefpy.continuous_efficiency_with_diefk(traces)
-
-        # Check the values for Q9
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['diefk25'][0], 1430.417, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['diefk50'][0], 5537.021, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['diefk75'][0], 9389.35, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q9.rq')]['diefk100'][0], 14588.18, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['diefk25'][0], 1692.541, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['diefk50'][0], 4636.632, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['diefk75'][0], 7105.38, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q9.rq')]['diefk100'][0], 12992.97, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['diefk25'][0], 1764.715, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['diefk50'][0], 6162.528, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['diefk75'][0], 11684.55, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q9.rq')]['diefk100'][0], 20232.39, 2)
-
-        # Check the values for Q14
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['diefk25'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['diefk50'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['diefk75'][0], 18.15, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Selective') & (res['test'] == 'Q14.rq')]['diefk100'][0], 50.37, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['diefk25'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['diefk50'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['diefk75'][0], 7.936, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'Random') & (res['test'] == 'Q14.rq')]['diefk100'][0], 22.89, 2)
-
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['diefk25'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['diefk50'][0], 0.0, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['diefk75'][0], 152.30, 2)
-        self.assertAlmostEqual(res[(res['approach'] == 'NotAdaptive') & (res['test'] == 'Q14.rq')]['diefk100'][0], 205.66, 2)
+import diefpy.dief as diefpy
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.fixture(scope="session")
+def traces():
+    input_file_traces = resource_filename('diefpy', 'data/traces.csv')
+    return diefpy.load_trace(input_file_traces)
+
+
+@pytest.fixture(scope="session")
+def metrics():
+    input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
+    return diefpy.load_metrics(input_file_metrics)
+
+
+@pytest.fixture(scope="session")
+def data_performance_metrics():
+    file_name = resource_filename('diefpy', 'tests/expected_values/performance_metrics.json')
+    file = pathlib.Path(file_name)
+    return json.loads(file.read_text())
+
+
+@pytest.fixture
+def expected_performance_metrics(request, data_performance_metrics):
+    approach = request.node.funcargs['approach']
+    test = request.node.funcargs['test']
+    metric = request.node.funcargs['metric']
+    return data_performance_metrics[approach][test][metric]
+
+
+@pytest.fixture(scope="session")
+def actual_performance_metrics(traces, metrics):
+    return diefpy.performance_of_approaches_with_dieft(traces, metrics, continue_to_end=False)
+
+
+@pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
+@pytest.mark.parametrize('test', ['Q9.rq', 'Q14.rq'])
+@pytest.mark.parametrize('metric', ['tfft', 'totaltime', 'comp', 'throughput', 'invtfft', 'invtotaltime', 'dieft'])
+def test_performance_metrics(approach, test, metric, expected_performance_metrics, actual_performance_metrics):
+    actual = actual_performance_metrics
+    actual = actual[(actual['approach'] == approach) & (actual['test'] == test)][metric][0]
+    assert expected_performance_metrics == pytest.approx(actual, abs=1e-5)
+
+
+@pytest.fixture(scope="session")
+def data_continuous_efficiency():
+    file_name = resource_filename('diefpy', 'tests/expected_values/continuous_efficiency.json')
+    file = pathlib.Path(file_name)
+    return json.loads(file.read_text())
+
+
+@pytest.fixture
+def expected_continuous_efficiency(request, data_continuous_efficiency):
+    approach = request.node.funcargs['approach']
+    test = request.node.funcargs['test']
+    metric = request.node.funcargs['metric']
+    return data_continuous_efficiency[approach][test][metric]
+
+
+@pytest.fixture(scope="session")
+def actual_continuous_efficiency(traces):
+    return diefpy.continuous_efficiency_with_diefk(traces)
+
+
+@pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
+@pytest.mark.parametrize('test', ['Q9.rq', 'Q14.rq'])
+@pytest.mark.parametrize('metric', ['diefk25', 'diefk50', 'diefk75', 'diefk100'])
+def test_continuous_efficiency(approach, test, metric, expected_continuous_efficiency, actual_continuous_efficiency):
+    actual = actual_continuous_efficiency
+    actual = actual[(actual['approach'] == approach) & (actual['test'] == test)][metric][0]
+    assert expected_continuous_efficiency == pytest.approx(actual, abs=1e-3)
+
+
+@pytest.fixture(scope="session")
+def data_dieft():
+    file_name = resource_filename('diefpy', 'tests/expected_values/dieft.json')
+    file = pathlib.Path(file_name)
+    return json.loads(file.read_text())
+
+
+@pytest.fixture
+def expected_dieft(request, data_dieft):
+    approach = request.node.funcargs['approach']
+    test = request.node.funcargs['test']
+    time = request.node.funcargs['time']
+    return data_dieft[approach][test][str(time)]
+
+
+@pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
+@pytest.mark.parametrize('test', ['Q9.rq'])
+@pytest.mark.parametrize('time', [-1, 7.5])
+def test_dieft(approach, test, time, traces, expected_dieft):
+    res = diefpy.dieft(traces, test, time, continue_to_end=False)
+    actual = res[res['approach'] == approach]['dieft'][0]
+    assert expected_dieft == pytest.approx(actual, abs=1e-3)
+
+
+@pytest.fixture(scope="session")
+def data_diefk():
+    file_name = resource_filename('diefpy', 'tests/expected_values/diefk.json')
+    file = pathlib.Path(file_name)
+    return json.loads(file.read_text())
+
+
+@pytest.fixture
+def expected_diefk(request, data_diefk):
+    approach = request.node.funcargs['approach']
+    test = request.node.funcargs['test']
+    answers = request.node.funcargs['answers']
+    return data_diefk[approach][test][str(answers)]
+
+
+@pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
+@pytest.mark.parametrize('test', ['Q9.rq'])
+@pytest.mark.parametrize('answers', [-1, 1000])
+def test_diefk(approach, test, answers, traces, expected_diefk):
+    res = diefpy.diefk(traces, test, answers)
+    actual = res[res['approach'] == approach]['diefk'][0]
+    assert expected_diefk == pytest.approx(actual, abs=1e-3)
+
+
+@pytest.fixture(scope="session")
+def data_diefk2():
+    file_name = resource_filename('diefpy', 'tests/expected_values/diefk2.json')
+    file = pathlib.Path(file_name)
+    return json.loads(file.read_text())
+
+
+@pytest.fixture
+def expected_diefk2(request, data_diefk2):
+    approach = request.node.funcargs['approach']
+    test = request.node.funcargs['test']
+    percentage = request.node.funcargs['percentage']
+    return data_diefk2[approach][test][str(percentage)]
+
+
+@pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
+@pytest.mark.parametrize('test', ['Q9.rq'])
+@pytest.mark.parametrize('percentage', [0.25, 1.0])
+def test_diefk2(approach, test, percentage, traces, expected_diefk2):
+    res = diefpy.diefk2(traces, test, percentage)
+    actual = res[res['approach'] == approach]['diefk'][0]
+    assert expected_diefk2 == pytest.approx(actual, abs=1e-3)
