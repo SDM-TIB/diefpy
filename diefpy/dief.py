@@ -12,7 +12,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param t: Point in time to compute dieft. By default, the function computes the minimum of the execution time
+    :param t: Point in time to compute dieft. By default, the function computes the maximum of the execution time
               among the approaches in the answer trace.
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
