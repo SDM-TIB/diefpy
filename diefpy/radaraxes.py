@@ -10,11 +10,10 @@ from matplotlib.transforms import Affine2D
 
 def radar_factory(num_vars: int, frame: str = 'circle'):
     """
-    This function creates a RadarAxes projection with 'num_vars' axes and registers it.
+    Creates a RadarAxes projection with *num_vars* axes and registers it.
 
-
-    :param int num_vars: number of axes for the radar chart
-    :param str frame: shape of frame surrounding axes {'circle' | 'polygon'}
+    :param num_vars: number of axes for the radar chart
+    :param frame: shape of frame surrounding axes {'circle' | 'polygon'}
     """
     # calculate evenly-spaced axis angles
     theta = np.linspace(0, 2*np.pi, num_vars, endpoint=False)
@@ -35,7 +34,7 @@ def radar_factory(num_vars: int, frame: str = 'circle'):
 
     class RadarAxes(PolarAxes):
         """
-        Axes for the radar plot. The layout can either be a circle or a polygon with 'num_vars' vertices.
+        Axes for the radar plot. The layout can either be a circle or a polygon with *num_vars* vertices.
         """
         name = 'radar'
         PolarTransform = RadarTransform
@@ -77,7 +76,7 @@ def radar_factory(num_vars: int, frame: str = 'circle'):
                 raise ValueError("unknown value for 'frame': %s" % frame)
 
         def draw(self, renderer):
-            """ Draw. If frame is polygon, make gridlines polygon-shaped """
+            """Draw. If frame is polygon, make gridlines polygon-shaped."""
             if frame == 'polygon':
                 gridlines = self.yaxis.get_gridlines()
                 for gl in gridlines:

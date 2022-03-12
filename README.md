@@ -13,31 +13,46 @@
 Philipp D. Rohde, Nikoleta Themeliotou
 # diefpy
 
-Python package for computing diefficiency metrics dief@t and dief@k.
+Python package for computing diefficiency metrics **_dief@t_** and **_dief@k_**.
 
-The metrics dief@t and dief@k allow for measuring the diefficiency during 
-an elapsed time period t or while k answers are produced, respectively. 
-dief@t and dief@k rely on the computation of the area under the curve of 
-answer traces, and thus capturing the answer rate concentration over a time 
-interval.
+The metrics **_dief@t_** and **_dief@k_** allow for measuring the diefficiency during 
+an elapsed time period _t_ or while _k_ answers are produced, respectively. 
+**_dief@t_** and **_dief@k_** rely on the computation of the area under the curve (AUC) of 
+answer traces, and thus capturing the answer rate concentration over a time interval.
 
 This fork of the [original diefpy repo](https://github.com/maribelacosta/diefpy) by Maribel Acosta provides a complete Python3 version.
 
-### Description
+## Description
 
 ![Overview of Result Plots](https://raw.githubusercontent.com/SDM-TIB/diefpy/master/docs/diefpy-overview.png "Overview of Result Plots")
 Figure 1: Overview of Result Plots.
 
 Fig. 1 gives an overview of the result plots that can be produced using the package.
-Firstly the overall Execution Time for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
+Firstly the overall _Execution Time_ for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
 data can be created as a bar plot. 
 For evaluating the input tests an answer trace of each approach (NotAdaptive, Random and Selective) can be created which shows how many answers were produced. 
-Finally two Radar Plots can be created. The Radar Plot on the left compares dief@t with other benchmark metrics in a specific test. The other benchmark metrics being total execution time, time for the first tuple, throughput, and completeness. 
-The Radar Plot on the right compares dief@k at different answer completeness in a specific test by measuring the continuous efficiency of approaches when producing
+Finally two Radar Plots can be created. The Radar Plot on the left compares **_dief@t_** with other benchmark metrics in a specific test. The other benchmark metrics being conventional metrics like _total execution time_, _time for the first tuple_, _throughput_, and _number of answers produced_. 
+The Radar Plot on the right compares **_dief@k_** at different answer completeness percentages in a specific test by measuring the continuous efficiency of approaches when producing
 the first 25%, 50%, 75%, and 100% of the answers.
 
-### Usage 
-Compute dief@t and dief@k for the test `Q9.rq` based on the traces `traces.csv` and metrics `metrics.csv` provided as example in the package. 
+## Installation
+
+You can build and install diefpy from source
+```bash
+git clone git@github.com:SDM-TIB/diefpy.git
+cd diefpy
+python -m pip install -e .
+```
+
+or downloading it from PyPI:
+```bash
+python -m pip install diefpy
+```
+
+**Notice:** Most likely you want to install diefpy into a virtual environment for the experiments you were running.
+
+## Usage 
+Compute **_dief@t_** and **_dief@k_** for the test `Q9.rq` based on the traces `traces.csv` and metrics `metrics.csv` provided as an example in the package. 
 ```python
 import diefpy
 from pkg_resources import resource_filename
@@ -86,7 +101,7 @@ diefpy.plot_all_performance_of_approaches_with_dieft(exp1, ["#ECC30B","#D56062",
 diefpy.plot_all_continuous_efficiency_with_diefk(exp2, ["#ECC30B","#D56062","#84BCDA"])
 ```
 
-### Publications
+## Publications
 [1] Maribel Acosta, Maria-Esther Vidal, York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track. [https://doi.org/10.1007/978-3-319-68204-4_1](https://doi.org/10.1007/978-3-319-68204-4_1)
 
 [2] Maribel Acosta, Maria-Esther Vidal. Measuring the Performance of Continuous Query Processing Approaches with dief@t and dief@k. In  the International Semantic Web Conference, Posters and Demos, 2017. [online](https://iswc2017.ai.wu.ac.at/wp-content/uploads/papers/PostersDemos/paper602.pdf)

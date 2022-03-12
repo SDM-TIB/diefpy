@@ -1,3 +1,11 @@
+"""
+Python library for computing diefficiency metrics **dief@t** and **dief@k**.
+
+The metrics **dief@t** and **dief@k** allow for measuring the diefficiency during
+an elapsed time period *t* or while *k* answers are produced, respectively.
+**dief@t** and **dief@k** rely on the computation of the area under the curve (AUC) of
+answer traces, and thus capturing the answer rate concentration over a time interval.
+"""
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
@@ -8,14 +16,24 @@ from diefpy.radaraxes import radar_factory
 
 def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_end: bool = True) -> np.ndarray:
     """
-    This function computes the dief@t metric.
+    Computes the **dief@t** metric for a specific test at a given time point *t*.
+
+    **dief@t** measures the diefficiency during an exlapsed time period *t* by computing
+    the area under the curve of the answer traces.
+    By default, the function computes the maximum of the execution time among the approaches
+    in the answer trace, i.e., until the point in time when the slowest approach finishes.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param t: Point in time to compute dieft. By default, the function computes the maximum of the execution time
+    :param t: Point in time to compute dief@t for. By default, the function computes the maximum of the execution time
               among the approaches in the answer trace.
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
+
+    **Examples**
+
+    >>> dieft(traces, "Q9.sparql")
+    >>> dieft(traces, "Q9.sparql", 7.5)
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
@@ -62,13 +80,22 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
 
 def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
     """
-    This function computes the dief@k metric at a given k (number of answers).
+    Computes the **dief@k** metric for a specific test at a given number of answers *k*.
+
+    **dief@k** measures the diefficiency while *k* answers are produced by computing
+    the area under the curve of the answer traces.
+    By default, the function computes the minimum of the total number of answer produces by the approaches.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param k: Number of answers to compute diefk. By default, the function computes the minimum of the total number
+    :param k: Number of answers to compute dief@k for. By default, the function computes the minimum of the total number
               of answers produced by the approaches.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
+
+    **Examples**
+
+    >>> diefk(traces, "Q9.sparql")
+    >>> diefk(traces, "Q9.sparql", 1000)
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
@@ -104,13 +131,23 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
 
 def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarray:
     """
-    This function computes the dief@k metric at a given kp (percentage of answers).
+    Computes the **dief@k** metric for a specific test at a given percentage of answers *kp*.
+
+    **dief@k** measures the diefficiency while the first *kp* percent of answers are produced
+    by computing the area under the curve of the answer traces.
+    By default, this function behaves the same as ``diefk``. This also holds for kp = 1.0.
+    The function computes the portion *kp* of the minimum number of answers produces by the approaches.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param kp: Ratio of answers to compute diefk (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
+    :param kp: Ratio of answers to compute dief@k for (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
                the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
+
+    **Examples**
+
+    >>> diefk2(traces, "Q9.sparql")
+    >>> diefk2(traces, "Q9.sparql", 0.25)
     """
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
@@ -133,12 +170,20 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
 
 def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> plt:
     """
-    This function plots the answer trace of a given test.
+    Plots the answer trace of a given test for all approaches.
+
+    Answer traces record the points in time when an approach produces an answer.
+    The plot generated by this function shows the answer traces of all approaches
+    for the same test, e.g., execution of a specific query.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
     :param colors: List of colors to use for the different approaches.
     :return: Plot of the answer traces of each approach when evaluating the input test.
+
+    **Examples**
+
+    >>> plot_answer_trace(traces, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain test and approaches to compare.
     results = inputtrace[inputtrace['test'] == inputtest]
@@ -165,11 +210,19 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> p
 
 def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
     """
-    This function plots the answer traces of all tests; one plot per test.
+    Plots the answer traces of all tests; one plot per test.
+
+    Answer traces record the points in time when an approach produces an answer.
+    This function generates one plot per test showing the answer traces of all
+    approaches for that specific test.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param colors: List of colors to use for the different approaches.
     :return: Plot of the answer traces of each approach when evaluating the input test.
+
+    **Examples**
+
+    >>> plot_all_answer_traces(traces, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
     tests = np.unique(inputtrace['test'])
@@ -185,13 +238,20 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
 
 def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = False) -> plt:
     """
-    This function creates a bar plot with the overall execution time for all
-    the tests and approaches in the metrics data.
+    Creates a bar chart with the overall *execution time* for all the tests and approaches in the metrics data.
+
+    Bar chart presenting the conventional performance measure *execution time*.
+    Each test is represented as a group of bars representing the approaches.
 
     :param metrics: Dataframe with the metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.
     :param colors: List of colors to use for the different approaches.
     :param log_scale: (optional) If log_scale is set to True, logarithmic scale for the y-axis will be used.
     :return: Plot of the execution time for all tests and approaches in the metrics data provided.
+
+    **Examples**
+
+    >>> plot_execution_time(metrics, ["#ECC30B","#D56062","#84BCDA"])
+    >>> plot_execution_time(metrics, ["#ECC30B","#D56062","#84BCDA"], log_scale=True)
     """
     # Obtain test and approaches to compare.
     approaches = np.unique(metrics['approach'])
@@ -243,11 +303,23 @@ def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = Fal
 
 def load_trace(filename: str) -> np.ndarray:
     """
-    This function reads answer traces from a CSV file.
+    Reads answer traces from a CSV file.
+
+    Answer traces record the points in time when an approach produces an answer.
+    The attribues of the file specified in the header are expected to be:
+
+    * *test*: the name of the executed test
+    * *approach*: the name of the approach executed
+    * *answer*: the number of the answer produced
+    * *time*: time elapsed from the start of the execution until the generation of the answer
 
     :param filename: Path to the CSV file that contains the answer traces.
                      Attributes of the file specified in the header: test, approach, answer, time.
     :return: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
+
+    **Examples**
+
+    >>> load_trace("data/traces.csv")
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
@@ -259,11 +331,24 @@ def load_trace(filename: str) -> np.ndarray:
 
 def load_metrics(filename: str) -> np.ndarray:
     """
-    This function reads the other metrics from a CSV file.
+    Reads the other metrics from a CSV file.
+
+    Conventional query performance measurements.
+    The attribues of the file specified in the header are expected to be:
+
+    * *test*: the name of the executed test
+    * *approach*: the name of the approach executed
+    * *tfft*: time elapsed until the first answer was generated
+    * *totaltime*: time elapsed until the last answer was generated
+    * *comp*: number of answers produced
 
     :param filename: Path to the CSV file that contains the other metrics.
                      Attributes of the file specified in the header: test, approach, tfft, totaltime, comp.
     :return: Dataframe with the other metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.
+
+    **Examples**
+
+    >>> load_trace("data/metrics.csv")
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
@@ -275,10 +360,11 @@ def load_metrics(filename: str) -> np.ndarray:
 
 def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray, continue_to_end: bool = True) -> np.ndarray:
     """
-    Compares dief@t with other benchmark metrics as in <doi:10.1007/978-3-319-68204-4_1>.
-    This function repeats the results reported in "Experiment 1".
+    Compares **dief@t** with other conventional metrics used in query performance analysis.
+
+    This function repeats the results reported in "Experiment 1" of `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_.
     "Experiment 1" compares the performance of testing approaches when using metrics defined in the
-    literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
+    literature (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param metrics: Metrics dataframe with the result of the other metrics.
@@ -286,6 +372,10 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with all the metrics.
              The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft, invtotaltime, dieft
+
+    **Examples**
+
+    >>> performance_of_approaches_with_dieft(traces, metrics)
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', traces['test'].dtype),
@@ -336,16 +426,20 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
 
 def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, colors: list) -> plt:
     """
-    Generate radar plots that compare dief@t with other benchmark metrics in a specific test
-    as in <doi:10.1007/978-3-319-68204-4_1>.
-    This function plots the results reported for a single given test in "Experiment 1".
-    "Experiment 1" compares the performance of testing approaches when using metrics defined in the
-    literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
+    Generates a radar plot that compares **dief@t** with conventional metrics for a specific test.
+
+    This function plots the results reported for a single given test in "Experiment 1" (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    "Experiment 1" compares the performance of testing approaches when using metrics defined in the literature
+    (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
     :return: Matplotlib radar plot for the specified test over the provided metrics.
+
+    **Examples**
+
+    >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('invtfft', allmetrics['invtfft'].dtype),
@@ -417,15 +511,19 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
 
 def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors: list) -> list:
     """
-    Generate radar plots that compare dief@t with other benchmark metrics in all tests
-    as in <doi:10.1007/978-3-319-68204-4_1>.
-    This function plots the results reported in "Experiment 1".
-    "Experiment 1" compares the performance of testing approaches when using metrics defined in the
-    literature (total execution time, time for the first tuple, throughput, and completeness) and the metric dieft@t.
+    Generates radar plots that compare dief@t with conventional metrics; one plot per test.
+
+    This function plots the results reported in "Experiment 1" (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    "Experiment 1" compares the performance of testing approaches when using metrics defined in the literature
+    (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
     :param allmetrics: Dataframe with all the metrics from "Experiment 1".
     :param colors: List of colors to use for the different approaches.
     :return: List of matplotlib radar plots (one per test) over the provided metrics.
+
+    **Examples**
+
+    >>> plot_all_performance_of_approaches_with_dieft(extended_metrics, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
     tests = np.unique(allmetrics['test'])
@@ -441,13 +539,19 @@ def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors
 
 def continuous_efficiency_with_diefk(traces: np.ndarray) -> np.ndarray:
     """
-    Compares dief@k at different answer portions as in <doi:10.1007/978-3-319-68204-4_1>.
-    This function repeats the results reported in "Experiment 2".
+    Compares **dief@k** at different answer completeness percentages.
+
+    This function repeats the results reported in "Experiment 2"
+    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
     :param traces: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :return: Dataframe with all the metrics. The structure is: test, approach, diefk25, diefk50, diefk75, diefk100.
+
+    **Examples**
+
+    >>> continuous_efficiency_with_diefk(traces)
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', traces['test'].dtype),
@@ -495,9 +599,10 @@ def continuous_efficiency_with_diefk(traces: np.ndarray) -> np.ndarray:
 
 def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: list) -> plt:
     """
-    Generate radar plots that compare dief@k at different answer completeness in a specific test
-    as in  <doi:10.1007/978-3-319-68204-4_1>.
-    This function plots the results reported for a single given test in "Experiment 2".
+    Generates a radar plot that compares **dief@k** at different answer completeness percentages for a specific test.
+
+    This function plots the results reported for a single given test in "Experiment 2"
+    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
@@ -505,6 +610,10 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
     :return: Matplotlib plot for the specified test over the provided metrics.
+
+    **Examples**
+
+    >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('diefk25', float),
@@ -575,15 +684,21 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
 
 def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list) -> list:
     """
-    Generate radar plots that compare dief@k at different answer completeness in a specific test
-    as in  <doi:10.1007/978-3-319-68204-4_1>.
-    This function plots the results reported in "Experiment 2".
+    Generates radar plots that compare **dief@k** at different answer completeness percentages; one per test.
+
+    This function plots the results reported in "Experiment 2"
+    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
     :param diefkDF: Dataframe with the results from "Experiment 2".
     :param colors: List of colors to use for the different approaches.
     :return: List of matplotlib plots (one per test) over the provided metrics.
+
+
+    **Examples**
+
+    >>> plot_all_continuous_efficiency_with_diefk(diefkDF, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
     tests = np.unique(diefkDF['test'])
