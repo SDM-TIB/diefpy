@@ -14,6 +14,10 @@ import numpy as np
 from diefpy.radaraxes import radar_factory
 
 
+DEFAULT_COLORS = ("#ECC30B", "#D56062", "#84BCDA")
+"""Default colors for printing plots: yellow, red, blue"""
+
+
 def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_end: bool = True) -> np.ndarray:
     """
     Computes the **dief@t** metric for a specific test at a given time point *t*.
@@ -168,7 +172,7 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
     return df
 
 
-def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> plt:
+def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list = DEFAULT_COLORS) -> plt:
     """
     Plots the answer trace of a given test for all approaches.
 
@@ -183,6 +187,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> p
 
     **Examples**
 
+    >>> plot_answer_trace(traces, "Q9.sparql")
     >>> plot_answer_trace(traces, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain test and approaches to compare.
@@ -208,7 +213,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list) -> p
     return plt
 
 
-def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
+def plot_all_answer_traces(inputtrace: np.ndarray, colors: list = DEFAULT_COLORS) -> list:
     """
     Plots the answer traces of all tests; one plot per test.
 
@@ -222,6 +227,7 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
 
     **Examples**
 
+    >>> plot_all_answer_traces(traces)
     >>> plot_all_answer_traces(traces, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
@@ -236,7 +242,7 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list) -> list:
     return plots
 
 
-def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = False) -> plt:
+def plot_execution_time(metrics: np.ndarray, colors: list = DEFAULT_COLORS, log_scale: bool = False) -> plt:
     """
     Creates a bar chart with the overall *execution time* for all the tests and approaches in the metrics data.
 
@@ -250,7 +256,9 @@ def plot_execution_time(metrics: np.ndarray, colors: list, log_scale: bool = Fal
 
     **Examples**
 
+    >>> plot_execution_time(metrics)
     >>> plot_execution_time(metrics, ["#ECC30B","#D56062","#84BCDA"])
+    >>> plot_execution_time(metrics, log_scale=True)
     >>> plot_execution_time(metrics, ["#ECC30B","#D56062","#84BCDA"], log_scale=True)
     """
     # Obtain test and approaches to compare.
@@ -424,7 +432,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     return df
 
 
-def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, colors: list) -> plt:
+def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, colors: list = DEFAULT_COLORS) -> plt:
     """
     Generates a radar plot that compares **dief@t** with conventional metrics for a specific test.
 
@@ -439,6 +447,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
 
     **Examples**
 
+    >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql")
     >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Initialize output structure.
@@ -509,7 +518,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     return plt
 
 
-def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors: list) -> list:
+def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors: list = DEFAULT_COLORS) -> list:
     """
     Generates radar plots that compare dief@t with conventional metrics; one plot per test.
 
@@ -523,6 +532,7 @@ def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors
 
     **Examples**
 
+    >>> plot_all_performance_of_approaches_with_dieft(extended_metrics)
     >>> plot_all_performance_of_approaches_with_dieft(extended_metrics, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
@@ -597,7 +607,7 @@ def continuous_efficiency_with_diefk(traces: np.ndarray) -> np.ndarray:
     return df
 
 
-def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: list) -> plt:
+def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: list = DEFAULT_COLORS) -> plt:
     """
     Generates a radar plot that compares **dief@k** at different answer completeness percentages for a specific test.
 
@@ -613,6 +623,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
 
     **Examples**
 
+    >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql")
     >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Initialize output structure.
@@ -682,7 +693,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     return plt
 
 
-def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list) -> list:
+def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list = DEFAULT_COLORS) -> list:
     """
     Generates radar plots that compare **dief@k** at different answer completeness percentages; one per test.
 
@@ -698,6 +709,7 @@ def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list)
 
     **Examples**
 
+    >>> plot_all_continuous_efficiency_with_diefk(diefkDF)
     >>> plot_all_continuous_efficiency_with_diefk(diefkDF, ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain tests.
