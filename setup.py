@@ -13,7 +13,7 @@ setup(name='diefpy',
       author='Philipp D. Rohde, Nikoleta Themeliotou',
       author_email='philipp.rohde@tib.eu',
       url='https://github.com/SDM-TIB/diefpy',
-      download_url='https://github.com/SDM-TIB/diefpy/archive/refs/tags/v1.0.4.tar.gz',
+      download_url='https://github.com/SDM-TIB/diefpy/archive/refs/tags/v' + version + '.tar.gz',
       project_urls={
             "Bug Tracker": "https://github.com/SDM-TIB/diefpy/issues",
       },
