@@ -7,4 +7,4 @@ example/.ipynb_checkpoints/
 .pytest_cache/
 *.pyc
 .pypirc
-docs/auto_gallery
+docs/examples

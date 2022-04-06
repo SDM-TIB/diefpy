@@ -24,14 +24,14 @@ This fork of the [original diefpy repo](https://github.com/maribelacosta/diefpy)
 
 ## Description
 
-![Overview of Result Plots](https://raw.githubusercontent.com/SDM-TIB/diefpy/master/docs/diefpy-overview.png "Overview of Result Plots")
+![Overview of Result Plots](https://raw.githubusercontent.com/SDM-TIB/diefpy/master/docs/_images/diefpy-overview.png "Overview of Result Plots")
 Figure 1: Overview of Result Plots.
 
 Fig. 1 gives an overview of the result plots that can be produced using the package.
-Firstly the overall _Execution Time_ for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
+Firstly, the overall _Execution Time_ for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
 data can be created as a bar plot. 
 For evaluating the input tests an answer trace of each approach (NotAdaptive, Random and Selective) can be created which shows how many answers were produced. 
-Finally two Radar Plots can be created. The Radar Plot on the left compares **_dief@t_** with other benchmark metrics in a specific test. The other benchmark metrics being conventional metrics like _total execution time_, _time for the first tuple_, _throughput_, and _number of answers produced_. 
+Finally, two Radar Plots can be created. The Radar Plot on the left compares **_dief@t_** with other benchmark metrics in a specific test. The other benchmark metrics being conventional metrics like _total execution time_, _time for the first tuple_, _throughput_, and _number of answers produced_. 
 The Radar Plot on the right compares **_dief@k_** at different answer completeness percentages in a specific test by measuring the continuous efficiency of approaches when producing
 the first 25%, 50%, 75%, and 100% of the answers.
 
@@ -52,54 +52,9 @@ python -m pip install diefpy
 **Notice:** Most likely you want to install diefpy into a virtual environment for the experiments you were running.
 
 ## Usage 
-Compute **_dief@t_** and **_dief@k_** for the test `Q9.rq` based on the traces `traces.csv` and metrics `metrics.csv` provided as an example in the package. 
-```python
-import diefpy
-from pkg_resources import resource_filename
-
-# Use answer traces provided in the package: Compare three approaches "Selective", "Not Adaptive", "Random" when executing the test "Q9.rq".
-traces = diefpy.load_trace(resource_filename('diefpy', 'data/traces.csv')) 
-
-# Plot answer traces for test "Q9.rq".
-diefpy.plot_answer_trace(traces, "Q9.rq", ["#ECC30B","#D56062","#84BCDA"]).show()
-
-# Compute dief@t when t is the time where the slowest approach produced the last answer.
-diefpy.dieft(traces, 'Q9.rq')
-
-# Compute dief@t after 7.5 time units (seconds) of execution. 
-diefpy.dieft(traces, 'Q9.rq', 7.5)
-
-# Compute dief@k when k is the minimum of retrieved answers across the approaches.
-diefpy.diefk(traces, 'Q9.rq')
-
-# Compute dief@k after 10 results.
-diefpy.diefk(traces, 'Q9.rq', 10)
-
-# Compute dief@k when k is 50% of the answers retrieved.
-diefpy.diefk2(traces, 'Q9.rq', 0.5)
-
-# Load the metrics.
-metrics = diefpy.load_metrics(resource_filename('diefpy', 'data/metrics.csv'))
-
-# Compute the metrics for performance analysis with dief@t.
-exp1 = diefpy.performance_of_approaches_with_dieft(traces, metrics)
-
-# Plot the metrics for performance analysis with dief@t.
-diefpy.plot_performance_of_approaches_with_dieft(exp1, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
-
-# Compute the metrics for continuous efficiency with dief@k.
-exp2 = diefpy.continuous_efficiency_with_diefk(traces)
-
-# Plot the metrics for continuous efficiency with dief@k.
-diefpy.plot_continuous_efficiency_with_diefk(exp2, 'Q9.rq', ["#ECC30B","#D56062","#84BCDA"]).show()
-```
-
-It is also possible to generate the plots for all the tests and receive a list of plots instead of a single plot by using the following functions:
-```python
-diefpy.plot_all_answer_traces(traces, ["#ECC30B","#D56062","#84BCDA"])
-diefpy.plot_all_performance_of_approaches_with_dieft(exp1, ["#ECC30B","#D56062","#84BCDA"])
-diefpy.plot_all_continuous_efficiency_with_diefk(exp2, ["#ECC30B","#D56062","#84BCDA"])
-```
+We refer the user to the [documentation](https://sdm-tib.github.io/diefpy/) of the library for a detailed explanation of the implemented functionality.
+The page also includes some [examples](https://sdm-tib.github.io/diefpy/examples/).
+Additionally, there is an iPython notebook in the `example` folder that demonstrates the use of the diefpy library.
 
 ## Publications
 [1] Maribel Acosta, Maria-Esther Vidal, York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track. [https://doi.org/10.1007/978-3-319-68204-4_1](https://doi.org/10.1007/978-3-319-68204-4_1)

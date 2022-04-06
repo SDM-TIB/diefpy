@@ -371,7 +371,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     """
     Compares **dief@t** with other conventional metrics used in query performance analysis.
 
-    This function repeats the results reported in "Experiment 1" of `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_.
+    This function repeats the results reported in "Experiment 1" of :cite:p:`dief`.
     "Experiment 1" compares the performance of testing approaches when using metrics defined in the
     literature (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
@@ -437,7 +437,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     """
     Generates a radar plot that compares **dief@t** with conventional metrics for a specific test.
 
-    This function plots the results reported for a single given test in "Experiment 1" (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    This function plots the results reported for a single given test in "Experiment 1" (see :cite:p:`dief`).
     "Experiment 1" compares the performance of testing approaches when using metrics defined in the literature
     (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
@@ -523,7 +523,7 @@ def plot_all_performance_of_approaches_with_dieft(allmetrics: np.ndarray, colors
     """
     Generates radar plots that compare dief@t with conventional metrics; one plot per test.
 
-    This function plots the results reported in "Experiment 1" (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    This function plots the results reported in "Experiment 1" (see :cite:p:`dief`).
     "Experiment 1" compares the performance of testing approaches when using metrics defined in the literature
     (*total execution time*, *time for the first tuple*, *throughput*, and *completeness*) and the metric **dieft@t**.
 
@@ -553,7 +553,7 @@ def continuous_efficiency_with_diefk(traces: np.ndarray) -> np.ndarray:
     Compares **dief@k** at different answer completeness percentages.
 
     This function repeats the results reported in "Experiment 2"
-    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    (see :cite:p:`dief`).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
@@ -613,7 +613,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     Generates a radar plot that compares **dief@k** at different answer completeness percentages for a specific test.
 
     This function plots the results reported for a single given test in "Experiment 2"
-    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    (see :cite:p:`dief`).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
@@ -699,7 +699,7 @@ def plot_all_continuous_efficiency_with_diefk(diefkDF: np.ndarray, colors: list 
     Generates radar plots that compare **dief@k** at different answer completeness percentages; one per test.
 
     This function plots the results reported in "Experiment 2"
-    (see `[1] <https://doi.org/10.1007/978-3-319-68204-4_1>`_).
+    (see :cite:p:`dief`).
     "Experiment 2" measures the continuous efficiency of approaches when producing
     the first 25%, 50%, 75%, and 100% of the answers.
 
