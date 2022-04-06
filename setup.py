@@ -1,12 +1,13 @@
 from setuptools import setup
 
-
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+with open("VERSION", "r", encoding="utf-8") as ver:
+    version = ver.read()
 
 setup(name='diefpy',
-      version='1.0.4',
+      version=version,
       packages=['diefpy'],
       license='MIT',
       author='Philipp D. Rohde, Nikoleta Themeliotou',
