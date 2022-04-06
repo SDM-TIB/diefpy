@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4.6. Measuring dief@t at Different Answer Completeness Percentages &mdash; diefpy 1.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. References" href="../references.html" />
+    <link rel="prev" title="4.5. Measuring Performance with dief@k" href="05_diefk.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> diefpy
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">2. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diefpy.html">3. API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_execution_time.html">4.1. Visualizing Execution Time of SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_answer_traces.html">4.2. Visualizing Answer Traces of Continuous SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_dieft.html">4.3. Measuring Performance with dief&#64;t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_dieft_radar.html">4.4. Comparing dief&#64;t with Other Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_diefk.html">4.5. Measuring Performance with dief&#64;k</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.6. Measuring dief&#64;t at Different Answer Completeness Percentages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html"><span class="section-number">4. </span>Examples</a> &raquo;</li>
+      <li><span class="section-number">4.6. </span>Measuring dief&#64;t at Different Answer Completeness Percentages</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-06-diefk-radar-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="measuring-dief-t-at-different-answer-completeness-percentages">
+<span id="sphx-glr-examples-06-diefk-radar-py"></span><h1><span class="section-number">4.6. </span>Measuring dief&#64;t at Different Answer Completeness Percentages<a class="headerlink" href="#measuring-dief-t-at-different-answer-completeness-percentages" title="Permalink to this headline"></a></h1>
+<p>Experiment 2 in <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span> compares the performance of the three variants of nLDE when producing different answer
+completeness percentages (25%, 50%, 75%, 100%) using <strong>dief&#64;k</strong>.</p>
+<p>The method <code class="docutils literal notranslate"><span class="pre">diefpy.continuous_efficiency_with_diefk</span></code> computes the <strong>dief&#64;k</strong> metric for the previously
+mentioned answer completeness percentages.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">diefpy</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">COLORS</span></a> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span> <span class="s2">&quot;#D56062&quot;</span><span class="p">,</span> <span class="s2">&quot;#84BCDA&quot;</span><span class="p">]</span>
+
+<span class="c1"># Load the answer trace file with the query traces from FigShare.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">load_trace</span><span class="p">(</span><span class="s2">&quot;https://ndownloader.figshare.com/files/9625852&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute dief@k for 25%, 50%, 75%, and 100% answer completeness</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">exp2</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">continuous_efficiency_with_diefk</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create radar plot to compare the performance of the approaches with <strong>dief&#64;k</strong>
+at different answer completeness percentages (25%, 50%, 75%, 100%).
+<strong>Plot interpretation: Lower is better.</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diefpy</span><span class="o">.</span><span class="n">plot_continuous_efficiency_with_diefk</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">exp2</span></a><span class="p">,</span> <span class="s1">&#39;Q9.sparql&#39;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">COLORS</span></a><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_06_diefk_radar_001.png" srcset="../_images/sphx_glr_06_diefk_radar_001.png" alt="Q9.sparql" class = "sphx-glr-single-img"/><p><strong>Conclusion:</strong> For <code class="docutils literal notranslate"><span class="pre">Q9.sparql</span></code>, the variants nLDE <code class="docutils literal notranslate"><span class="pre">Random</span></code> and <code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">Adaptive</span></code> exhibit similar values of
+<strong>dief&#64;k</strong> while producing the first 25% of the answers. However, when looking at <strong>dief&#64;k</strong> at 100%, we can
+conclude that once nlDE <code class="docutils literal notranslate"><span class="pre">Random</span></code> starts producing answers, it produces all the answers at a faster rate.
+This can be observed in the answer trace plot, where the trace for nLDE <code class="docutils literal notranslate"><span class="pre">Random</span></code> (red line) has a higher slope
+over time than the other approaches.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  21.312 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-diefk-radar-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/f24c56170a057c4ffd16aea65f604764/06_diefk_radar.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">06_diefk_radar.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/d471963a2dcc17e0b74a0a3174476463/06_diefk_radar.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">06_diefk_radar.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05_diefk.html" class="btn btn-neutral float-left" title="4.5. Measuring Performance with dief@k" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../references.html" class="btn btn-neutral float-right" title="5. References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

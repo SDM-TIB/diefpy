@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Overview &mdash; diefpy 1.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. API Documentation" href="diefpy.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> diefpy
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">2.1. Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#attributes">2.2. Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">2.3. Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diefpy.html">3. API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">4. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">2. </span>Overview</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview">
+<h1><span class="section-number">2. </span>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h1>
+<section id="description">
+<h2><span class="section-number">2.1. </span>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<p>Python library for computing diefficiency metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong>.</p>
+<p>The metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> allow for measuring the diefficiency during
+an elapsed time period <em>t</em> or while <em>k</em> answers are produced, respectively.
+<strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> rely on the computation of the area under the curve (AUC) of
+answer traces, and thus capturing the answer rate concentration over a time interval.</p>
+</section>
+<section id="attributes">
+<h2><span class="section-number">2.2. </span>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.DEFAULT_COLORS" title="diefpy.dief.DEFAULT_COLORS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COLORS</span></code></a></p></td>
+<td><p>Default colors for printing plots: yellow, red, blue</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2><span class="section-number">2.3. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.continuous_efficiency_with_diefk" title="diefpy.dief.continuous_efficiency_with_diefk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">continuous_efficiency_with_diefk</span></code></a>(traces)</p></td>
+<td><p>Compares <strong>dief&#64;k</strong> at different answer completeness percentages.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.diefk" title="diefpy.dief.diefk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diefk</span></code></a>(inputtrace, inputtest[, k])</p></td>
+<td><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given number of answers <em>k</em>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.diefk2" title="diefpy.dief.diefk2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diefk2</span></code></a>(inputtrace, inputtest[, kp])</p></td>
+<td><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given percentage of answers <em>kp</em>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.dieft" title="diefpy.dief.dieft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dieft</span></code></a>(inputtrace, inputtest[, t, ...])</p></td>
+<td><p>Computes the <strong>dief&#64;t</strong> metric for a specific test at a given time point <em>t</em>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.load_metrics" title="diefpy.dief.load_metrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_metrics</span></code></a>(filename)</p></td>
+<td><p>Reads the other metrics from a CSV file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.load_trace" title="diefpy.dief.load_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_trace</span></code></a>(filename)</p></td>
+<td><p>Reads answer traces from a CSV file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.performance_of_approaches_with_dieft" title="diefpy.dief.performance_of_approaches_with_dieft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">performance_of_approaches_with_dieft</span></code></a>(traces, ...)</p></td>
+<td><p>Compares <strong>dief&#64;t</strong> with other conventional metrics used in query performance analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_all_answer_traces" title="diefpy.dief.plot_all_answer_traces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_all_answer_traces</span></code></a>(inputtrace[, colors])</p></td>
+<td><p>Plots the answer traces of all tests; one plot per test.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_all_continuous_efficiency_with_diefk" title="diefpy.dief.plot_all_continuous_efficiency_with_diefk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_all_continuous_efficiency_with_diefk</span></code></a>(diefkDF)</p></td>
+<td><p>Generates radar plots that compare <strong>dief&#64;k</strong> at different answer completeness percentages; one per test.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_all_performance_of_approaches_with_dieft" title="diefpy.dief.plot_all_performance_of_approaches_with_dieft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_all_performance_of_approaches_with_dieft</span></code></a>(...)</p></td>
+<td><p>Generates radar plots that compare dief&#64;t with conventional metrics; one plot per test.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_answer_trace" title="diefpy.dief.plot_answer_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_answer_trace</span></code></a>(inputtrace, inputtest[, ...])</p></td>
+<td><p>Plots the answer trace of a given test for all approaches.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_continuous_efficiency_with_diefk" title="diefpy.dief.plot_continuous_efficiency_with_diefk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_continuous_efficiency_with_diefk</span></code></a>(diefkDF, q)</p></td>
+<td><p>Generates a radar plot that compares <strong>dief&#64;k</strong> at different answer completeness percentages for a specific test.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_execution_time" title="diefpy.dief.plot_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_execution_time</span></code></a>(metrics[, colors, log_scale])</p></td>
+<td><p>Creates a bar chart with the overall <em>execution time</em> for all the tests and approaches in the metrics data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diefpy.html#diefpy.dief.plot_performance_of_approaches_with_dieft" title="diefpy.dief.plot_performance_of_approaches_with_dieft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_performance_of_approaches_with_dieft</span></code></a>(...)</p></td>
+<td><p>Generates a radar plot that compares <strong>dief&#64;t</strong> with conventional metrics for a specific test.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="1. Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diefpy.html" class="btn btn-neutral float-right" title="3. API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

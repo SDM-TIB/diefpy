@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Introduction &mdash; diefpy 1.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Overview" href="overview.html" />
+    <link rel="prev" title="Index" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> diefpy
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">1.1. Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">1.2. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">2. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diefpy.html">3. API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">4. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h1>
+<p>diefpy is a Python package for computing the diefficiency metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong>.</p>
+<p>The metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> allow for measuring the diefficiency during
+an elapsed time period <em>t</em> or while <em>k</em> answers are produced, respectively.
+<strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> rely on the computation of the area under the curve (AUC) of
+answer traces, and thus capturing the answer rate concentration over a time interval.</p>
+<p>This library is a fork of the uncompleted Python 2 project by Maribel Acosta
+(<a class="reference external" href="https://github.com/maribelacosta/diefpy">GitHub</a>) and provides a completed Python 3 version.</p>
+<section id="description">
+<h2><span class="section-number">1.1. </span>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/diefpy-overview.png"><img alt="Overview of Result Plots" src="_images/diefpy-overview.png" style="width: 864.0px; height: 882.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">Fig. 1: Overview of Result Plots.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Fig. 1 gives an overview of the result plots that can be produced using the package.
+Firstly, the overall <em>Execution Time</em> for all the tests and approaches (NotAdaptive, Random and Selective) in the metrics
+data can be created as a bar plot.
+For evaluating the input tests an answer trace of each approach (NotAdaptive, Random and Selective) can be created which shows how many answers were produced.
+Finally, two Radar Plots can be created. The Radar Plot on the left compares <strong>dief&#64;t</strong> with other benchmark metrics in a specific test. The other benchmark metrics being conventional metrics like <em>total execution time</em>, <em>time for the first tuple</em>, <em>throughput</em>, and <em>number of answers produced</em>.
+The Radar Plot on the right compares <strong>dief&#64;k</strong> at different answer completeness percentages in a specific test by measuring the continuous efficiency of approaches when producing
+the first 25%, 50%, 75%, and 100% of the answers.</p>
+</section>
+<section id="installation">
+<h2><span class="section-number">1.2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You most likely want to install diefpy into a virtual environment for the experiments you were running.</p>
+</div>
+<p>You can build and install diefpy from source</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">SDM</span><span class="o">-</span><span class="n">TIB</span><span class="o">/</span><span class="n">diefpy</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">diefpy</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>or downloading it from PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">diefpy</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Index" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral float-right" title="2. Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Examples &mdash; diefpy 1.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.1. Visualizing Execution Time of SPARQL Query Engines" href="01_execution_time.html" />
+    <link rel="prev" title="3. API Documentation" href="../diefpy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> diefpy
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">2. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diefpy.html">3. API Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_execution_time.html">4.1. Visualizing Execution Time of SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_answer_traces.html">4.2. Visualizing Answer Traces of Continuous SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_dieft.html">4.3. Measuring Performance with dief&#64;t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_dieft_radar.html">4.4. Comparing dief&#64;t with Other Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_diefk.html">4.5. Measuring Performance with dief&#64;k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_diefk_radar.html">4.6. Measuring dief&#64;t at Different Answer Completeness Percentages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">4. </span>Examples</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<span id="sphx-glr-examples"></span><h1><span class="section-number">4. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
+<p>Below are some example use-cases for the diefpy library. They show how to use diefpy.
+Before jumping into the examples, the data preparation is explained.</p>
+<p class="rubric">Data Preparation</p>
+<p>To compute the diefficiency metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong>, we need the answer trace produces by the SPARQL query
+engines when executing queries.</p>
+<p><strong>Answer traces</strong> record the exact point in time when an engine produces an answer during query execution.</p>
+<p>For this tutorial, we executed SPARQL queries using three different configurations of the
+<a class="reference external" href="http://people.aifb.kit.edu/mac/nlde/">nLDE engine:</a> <code class="docutils literal notranslate"><span class="pre">Selective</span></code>, <code class="docutils literal notranslate"><span class="pre">NotAdaptive</span></code>, <code class="docutils literal notranslate"><span class="pre">Random</span></code>.</p>
+<p>The resulting answer trace for each query execution is stored in a CSV file available at
+<a class="reference external" href="https://ndownloader.figshare.com/files/9625852">FigShare</a> (137.06 MB). The structure of the CSV file is as follows:</p>
+<ul class="simple">
+<li><p><strong>test</strong>: id of the query executed. Example: ‘Q9.sparql’</p></li>
+<li><p><strong>approach</strong>: name of the approach (or engine) used to execute the query.</p></li>
+<li><p><strong>answer</strong>: the value <em>i</em> indicates that this row corresponds to the ith answer produced by <em>approach</em> when executing <em>query</em>.</p></li>
+<li><p><strong>time</strong>: elapsed time (in seconds) since <em>approach</em> started the execution of <em>query</em> until the answer <em>i</em> is produced.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">diefpy</span>
+
+<span class="c1"># Load the answer trace file with the query traces from FigShare.</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">load_trace</span><span class="p">(</span><span class="s2">&quot;https://ndownloader.figshare.com/files/9625852&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id1">
+<img alt="Traces Data Example" src="../_images/data_traces.png" />
+<figcaption>
+<p><span class="caption-text">Fig. 1: Example of Traces Data.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>In addition, in this tutorial we are going to compare the performance of the nLDE engine using the metrics
+<strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> as well as <strong>conventional metrics</strong> used in the query processing literature, such as:
+<em>execution time</em>, <em>time for the first tuple</em>, and <em>number of answers produced</em>.</p>
+<p>For this tutorial, we measured the performance of the nLDE engine using conventional metrics.
+The results are available at another CSV file in <a class="reference external" href="https://ndownloader.figshare.com/files/9660316">FigShare</a>
+(2.86 KB). The structure of this CSV file is as follows:</p>
+<ul class="simple">
+<li><p><strong>test</strong>: id of the query executed. Example: ‘Q9.sparql’</p></li>
+<li><p><strong>approach</strong>: name of the approach (or engine) used to execute the query.</p></li>
+<li><p><strong>tfft</strong>: time (in seconds) required by <em>approach</em> to produce the first tuple when executing <em>query</em>.</p></li>
+<li><p><strong>totaltime</strong>: elapsed time (in seconds) since <em>approach</em> started the execution of <em>query</em> until the last answer  of <em>query</em> is produced.</p></li>
+<li><p><strong>comp</strong>: number of answers produced by <em>approach</em> when executing <em>query</em>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the result of the other metrics (execution time, etc.) from FigShare.</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">load_metrics</span><span class="p">(</span><span class="s2">&quot;https://ndownloader.figshare.com/files/9660316&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id2">
+<img alt="Metrics Data Example" src="../_images/data_metrics.png" />
+<figcaption>
+<p><span class="caption-text">Fig. 2: Example of Metrics Data.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p class="rubric">Examples</p>
+<div class="sphx-glr-thumbcontainer" tooltip="In a classical analysis of the performance of query engines, plots to compare the overall execu..."><figure class="align-default" id="id3">
+<img alt="Visualizing Execution Time of SPARQL Query Engines" src="../_images/sphx_glr_01_execution_time_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="01_execution_time.html#sphx-glr-examples-01-execution-time-py"><span class="std std-ref">Visualizing Execution Time of SPARQL Query Engines</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="To measure the diefficiency of approaches, the metrics **dief@t** and **dief@k** compute the ar..."><figure class="align-default" id="id4">
+<img alt="Visualizing Answer Traces of Continuous SPARQL Query Engines" src="../_images/sphx_glr_02_answer_traces_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="02_answer_traces.html#sphx-glr-examples-02-answer-traces-py"><span class="std std-ref">Visualizing Answer Traces of Continuous SPARQL Query Engines</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The metric **dief@t** measures the diefficiency of an engine in the first t time units of query..."><figure class="align-default" id="id5">
+<img alt="Measuring Performance with dief&#64;t" src="../_images/sphx_glr_03_dieft_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="03_dieft.html#sphx-glr-examples-03-dieft-py"><span class="std std-ref">Measuring Performance with dief&#64;t</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Experiment 1 in :cite:p:`dief` compares the performance of three variants of nlDE using convent..."><figure class="align-default" id="id6">
+<img alt="Comparing dief&#64;t with Other Metrics" src="../_images/sphx_glr_04_dieft_radar_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="04_dieft_radar.html#sphx-glr-examples-04-dieft-radar-py"><span class="std std-ref">Comparing dief&#64;t with Other Metrics</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The metric **dief@k** measures the diefficiency of a query engine while producing the first k a..."><figure class="align-default" id="id7">
+<img alt="Measuring Performance with dief&#64;k" src="../_images/sphx_glr_05_diefk_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="05_diefk.html#sphx-glr-examples-05-diefk-py"><span class="std std-ref">Measuring Performance with dief&#64;k</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Experiment 2 in :cite:p:`dief` compares the performance of the three variants of nLDE when prod..."><figure class="align-default" id="id8">
+<img alt="Measuring dief&#64;t at Different Answer Completeness Percentages" src="../_images/sphx_glr_06_diefk_radar_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="06_diefk_radar.html#sphx-glr-examples-06-diefk-radar-py"><span class="std std-ref">Measuring dief&#64;t at Different Answer Completeness Percentages</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div><div class="sphx-glr-footer class sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/bc82bea3a5dd7bdba60b65220891d9e5/examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">examples_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/fb625db3c50d423b1b7881136ffdeec8/examples_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">examples_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../diefpy.html" class="btn btn-neutral float-left" title="3. API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01_execution_time.html" class="btn btn-neutral float-right" title="4.1. Visualizing Execution Time of SPARQL Query Engines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

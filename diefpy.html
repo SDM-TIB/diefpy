@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. API Documentation &mdash; diefpy 1.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Examples" href="examples/index.html" />
+    <link rel="prev" title="2. Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> diefpy
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">2. Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">4. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">3. </span>API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-diefpy.dief">
+<span id="api-documentation"></span><h1><span class="section-number">3. </span>API Documentation<a class="headerlink" href="#module-diefpy.dief" title="Permalink to this headline"></a></h1>
+<p>Python library for computing diefficiency metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong>.</p>
+<p>The metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> allow for measuring the diefficiency during
+an elapsed time period <em>t</em> or while <em>k</em> answers are produced, respectively.
+<strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> rely on the computation of the area under the curve (AUC) of
+answer traces, and thus capturing the answer rate concentration over a time interval.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="diefpy.dief.DEFAULT_COLORS">
+<span class="sig-name descname"><span class="pre">DEFAULT_COLORS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></em><a class="headerlink" href="#diefpy.dief.DEFAULT_COLORS" title="Permalink to this definition"></a></dt>
+<dd><p>Default colors for printing plots: yellow, red, blue</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.continuous_efficiency_with_diefk">
+<span class="sig-name descname"><span class="pre">continuous_efficiency_with_diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.continuous_efficiency_with_diefk" title="Permalink to this definition"></a></dt>
+<dd><p>Compares <strong>dief&#64;k</strong> at different answer completeness percentages.</p>
+<p>This function repeats the results reported in “Experiment 2”
+(see <span id="id1">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>).
+“Experiment 2” measures the continuous efficiency of approaches when producing
+the first 25%, 50%, 75%, and 100% of the answers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with all the metrics. The structure is: test, approach, diefk25, diefk50, diefk75, diefk100.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">continuous_efficiency_with_diefk</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.diefk">
+<span class="sig-name descname"><span class="pre">diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given number of answers <em>k</em>.</p>
+<p><strong>dief&#64;k</strong> measures the diefficiency while <em>k</em> answers are produced by computing
+the area under the curve of the answer traces.
+By default, the function computes the minimum of the total number of answer produces by the approaches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of answers to compute dief&#64;k for. By default, the function computes the minimum of the total number
+of answers produced by the approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with the dief&#64;k values for each approach. Attributes of the dataframe: test, approach, diefk.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diefk</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diefk</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.diefk2">
+<span class="sig-name descname"><span class="pre">diefk2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk2" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given percentage of answers <em>kp</em>.</p>
+<p><strong>dief&#64;k</strong> measures the diefficiency while the first <em>kp</em> percent of answers are produced
+by computing the area under the curve of the answer traces.
+By default, this function behaves the same as <code class="docutils literal notranslate"><span class="pre">diefk</span></code>. This also holds for kp = 1.0.
+The function computes the portion <em>kp</em> of the minimum number of answers produces by the approaches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
+<li><p><strong>kp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Ratio of answers to compute dief&#64;k for (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
+the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with the dief&#64;k values for each approach. Attributes of the dataframe: test, approach, diefk.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diefk2</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diefk2</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.dieft">
+<span class="sig-name descname"><span class="pre">dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_to_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.dieft" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the <strong>dief&#64;t</strong> metric for a specific test at a given time point <em>t</em>.</p>
+<p><strong>dief&#64;t</strong> measures the diefficiency during an exlapsed time period <em>t</em> by computing
+the area under the curve of the answer traces.
+By default, the function computes the maximum of the execution time among the approaches
+in the answer trace, i.e., until the point in time when the slowest approach finishes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Point in time to compute dief&#64;t for. By default, the function computes the maximum of the execution time
+among the approaches in the answer trace.</p></li>
+<li><p><strong>continue_to_end</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Indicates whether the AUC should be continued until the end of the time frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with the dief&#64;t values for each approach. Attributes of the dataframe: test, approach, dieft.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dieft</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dieft</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.load_metrics">
+<span class="sig-name descname"><span class="pre">load_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.load_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Reads the other metrics from a CSV file.</p>
+<p>Conventional query performance measurements.
+The attribues of the file specified in the header are expected to be:</p>
+<ul class="simple">
+<li><p><em>test</em>: the name of the executed test</p></li>
+<li><p><em>approach</em>: the name of the approach executed</p></li>
+<li><p><em>tfft</em>: time elapsed until the first answer was generated</p></li>
+<li><p><em>totaltime</em>: time elapsed until the last answer was generated</p></li>
+<li><p><em>comp</em>: number of answers produced</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Path to the CSV file that contains the other metrics.
+Attributes of the file specified in the header: test, approach, tfft, totaltime, comp.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with the other metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_trace</span><span class="p">(</span><span class="s2">&quot;data/metrics.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.load_trace">
+<span class="sig-name descname"><span class="pre">load_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.load_trace" title="Permalink to this definition"></a></dt>
+<dd><p>Reads answer traces from a CSV file.</p>
+<p>Answer traces record the points in time when an approach produces an answer.
+The attribues of the file specified in the header are expected to be:</p>
+<ul class="simple">
+<li><p><em>test</em>: the name of the executed test</p></li>
+<li><p><em>approach</em>: the name of the approach executed</p></li>
+<li><p><em>answer</em>: the number of the answer produced</p></li>
+<li><p><em>time</em>: time elapsed from the start of the execution until the generation of the answer</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Path to the CSV file that contains the answer traces.
+Attributes of the file specified in the header: test, approach, answer, time.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_trace</span><span class="p">(</span><span class="s2">&quot;data/traces.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.performance_of_approaches_with_dieft">
+<span class="sig-name descname"><span class="pre">performance_of_approaches_with_dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_to_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.performance_of_approaches_with_dieft" title="Permalink to this definition"></a></dt>
+<dd><p>Compares <strong>dief&#64;t</strong> with other conventional metrics used in query performance analysis.</p>
+<p>This function repeats the results reported in “Experiment 1” of <span id="id2">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>.
+“Experiment 1” compares the performance of testing approaches when using metrics defined in the
+literature (<em>total execution time</em>, <em>time for the first tuple</em>, <em>throughput</em>, and <em>completeness</em>) and the metric <strong>dieft&#64;t</strong>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Metrics dataframe with the result of the other metrics.
+The structure is as follows: test, approach, tfft, totaltime, comp.</p></li>
+<li><p><strong>continue_to_end</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Indicates whether the AUC should be continued until the end of the time frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe with all the metrics.
+The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft, invtotaltime, dieft</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">performance_of_approaches_with_dieft</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_all_answer_traces">
+<span class="sig-name descname"><span class="pre">plot_all_answer_traces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_all_answer_traces" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the answer traces of all tests; one plot per test.</p>
+<p>Answer traces record the points in time when an approach produces an answer.
+This function generates one plot per test showing the answer traces of all
+approaches for that specific test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Plot of the answer traces of each approach when evaluating the input test.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_answer_traces</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_answer_traces</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_all_continuous_efficiency_with_diefk">
+<span class="sig-name descname"><span class="pre">plot_all_continuous_efficiency_with_diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diefkDF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_all_continuous_efficiency_with_diefk" title="Permalink to this definition"></a></dt>
+<dd><p>Generates radar plots that compare <strong>dief&#64;k</strong> at different answer completeness percentages; one per test.</p>
+<p>This function plots the results reported in “Experiment 2”
+(see <span id="id3">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>).
+“Experiment 2” measures the continuous efficiency of approaches when producing
+the first 25%, 50%, 75%, and 100% of the answers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of matplotlib plots (one per test) over the provided metrics.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_continuous_efficiency_with_diefk</span><span class="p">(</span><span class="n">diefkDF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_continuous_efficiency_with_diefk</span><span class="p">(</span><span class="n">diefkDF</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_all_performance_of_approaches_with_dieft">
+<span class="sig-name descname"><span class="pre">plot_all_performance_of_approaches_with_dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allmetrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_all_performance_of_approaches_with_dieft" title="Permalink to this definition"></a></dt>
+<dd><p>Generates radar plots that compare dief&#64;t with conventional metrics; one plot per test.</p>
+<p>This function plots the results reported in “Experiment 1” (see <span id="id4">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>).
+“Experiment 1” compares the performance of testing approaches when using metrics defined in the literature
+(<em>total execution time</em>, <em>time for the first tuple</em>, <em>throughput</em>, and <em>completeness</em>) and the metric <strong>dieft&#64;t</strong>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of matplotlib radar plots (one per test) over the provided metrics.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_performance_of_approaches_with_dieft</span><span class="p">(</span><span class="n">extended_metrics</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_all_performance_of_approaches_with_dieft</span><span class="p">(</span><span class="n">extended_metrics</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_answer_trace">
+<span class="sig-name descname"><span class="pre">plot_answer_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_answer_trace" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the answer trace of a given test for all approaches.</p>
+<p>Answer traces record the points in time when an approach produces an answer.
+The plot generated by this function shows the answer traces of all approaches
+for the same test, e.g., execution of a specific query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Plot of the answer traces of each approach when evaluating the input test.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_answer_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_answer_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_continuous_efficiency_with_diefk">
+<span class="sig-name descname"><span class="pre">plot_continuous_efficiency_with_diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diefkDF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_continuous_efficiency_with_diefk" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a radar plot that compares <strong>dief&#64;k</strong> at different answer completeness percentages for a specific test.</p>
+<p>This function plots the results reported for a single given test in “Experiment 2”
+(see <span id="id5">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>).
+“Experiment 2” measures the continuous efficiency of approaches when producing
+the first 25%, 50%, 75%, and 100% of the answers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – ID of the selected test to plot.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib plot for the specified test over the provided metrics.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_continuous_efficiency_with_diefk</span><span class="p">(</span><span class="n">diefkDF</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_continuous_efficiency_with_diefk</span><span class="p">(</span><span class="n">diefkDF</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_execution_time">
+<span class="sig-name descname"><span class="pre">plot_execution_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_execution_time" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a bar chart with the overall <em>execution time</em> for all the tests and approaches in the metrics data.</p>
+<p>Bar chart presenting the conventional performance measure <em>execution time</em>.
+Each test is represented as a group of bars representing the approaches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+<li><p><strong>log_scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – (optional) If log_scale is set to True, logarithmic scale for the y-axis will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Plot of the execution time for all tests and approaches in the metrics data provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_execution_time</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_execution_time</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_execution_time</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_execution_time</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">],</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diefpy.dief.plot_performance_of_approaches_with_dieft">
+<span class="sig-name descname"><span class="pre">plot_performance_of_approaches_with_dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allmetrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('#ECC30B',</span> <span class="pre">'#D56062',</span> <span class="pre">'#84BCDA')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.plot_performance_of_approaches_with_dieft" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a radar plot that compares <strong>dief&#64;t</strong> with conventional metrics for a specific test.</p>
+<p>This function plots the results reported for a single given test in “Experiment 1” (see <span id="id6">[<a class="reference internal" href="references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span>).
+“Experiment 1” compares the performance of testing approaches when using metrics defined in the literature
+(<em>total execution time</em>, <em>time for the first tuple</em>, <em>throughput</em>, and <em>completeness</em>) and the metric <strong>dieft&#64;t</strong>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – ID of the selected test to plot.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib radar plot for the specified test over the provided metrics.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_performance_of_approaches_with_dieft</span><span class="p">(</span><span class="n">extended_metrics</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_performance_of_approaches_with_dieft</span><span class="p">(</span><span class="n">extended_metrics</span><span class="p">,</span> <span class="s2">&quot;Q9.sparql&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#ECC30B&quot;</span><span class="p">,</span><span class="s2">&quot;#D56062&quot;</span><span class="p">,</span><span class="s2">&quot;#84BCDA&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="2. Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples/index.html" class="btn btn-neutral float-right" title="4. Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
