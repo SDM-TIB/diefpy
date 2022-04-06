@@ -1,7 +1,10 @@
+.idea/
 build/
 dist/
 diefpy.egg-info/
-example/*/
+example/.ipynb_checkpoints/
+**/ndownloader.figshare.com/
 .pytest_cache/
 *.pyc
 .pypirc
+docs/auto_gallery
