@@ -1,0 +1,23 @@
+{
+  "description": "Python package for computing diefficiency metrics dief@t and dief@k.",
+  "access_right": "open",
+  "license": "MIT",
+  "upload_type": "software",
+  "creators": [
+    {
+      "affiliation": "TIB Leibniz Information Centre for Science and Technology",
+      "name": "Philipp D. Rohde",
+      "orcid": "0000-0002-9835-4354"
+    },
+    {
+      "affiliation": "Leibniz University of Hannover",
+      "name": "Nikoleta Themeliotou"
+    }
+  ],
+  "keywords": [
+    "efficiency",
+    "diefficiency-metrics",
+    "benchmarking"
+  ]
+}
+
