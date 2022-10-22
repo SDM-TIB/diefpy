@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4.4. Comparing dief@t with Other Metrics &mdash; diefpy 1.1.0 documentation</title>
+  <title>4.4. Comparing dief@t with Other Metrics &mdash; diefpy 1.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
@@ -19,7 +19,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -35,7 +37,7 @@
             <a href="../index.html" class="icon icon-home"> diefpy
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -91,7 +93,7 @@
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="comparing-dief-t-with-other-metrics">
-<span id="sphx-glr-examples-04-dieft-radar-py"></span><h1><span class="section-number">4.4. </span>Comparing dief&#64;t with Other Metrics<a class="headerlink" href="#comparing-dief-t-with-other-metrics" title="Permalink to this headline"></a></h1>
+<span id="sphx-glr-examples-04-dieft-radar-py"></span><h1><span class="section-number">4.4. </span>Comparing dief&#64;t with Other Metrics<a class="headerlink" href="#comparing-dief-t-with-other-metrics" title="Permalink to this heading"></a></h1>
 <p>Experiment 1 in <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span> compares the performance of three variants of nlDE using conventional metrics from the query processing literature and <strong>dief&#64;t</strong>.</p>
 <p>The method <code class="docutils literal notranslate"><span class="pre">diefpy.performance_of_approaches_with_dieft</span></code> computes the results reported in the previously mentioned
 experiment, i.e., <strong>dief&#64;t</strong>, <em>time to first tuple</em>, <em>execution time</em>, <em>number of answers produced</em>, <em>throughput</em>,
@@ -201,7 +203,7 @@ experiment, i.e., <strong>dief&#64;t</strong>, <em>time to first tuple</em>, <em
 variants are competitive approaches. Yet, <strong>dief&#64;t</strong> allows for uncovering that nLDE <code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">Adaptive</span></code> is able to
 continuously produce answers at a faster rate than the other approaches for this query until the slowest approach
 finalizes its execution.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.106 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  25.384 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-04-dieft-radar-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/03f0be5d14ba4c76f501c4b1fa86a937/04_dieft_radar.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">04_dieft_radar.py</span></code></a></p>

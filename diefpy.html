@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3. API Documentation &mdash; diefpy 1.1.0 documentation</title>
+  <title>3. API Documentation &mdash; diefpy 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
@@ -19,7 +19,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +37,7 @@
             <a href="index.html" class="icon icon-home"> diefpy
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,7 +50,24 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">2. Overview</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. API Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.DEFAULT_COLORS"><code class="docutils literal notranslate"><span class="pre">DEFAULT_COLORS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.continuous_efficiency_with_diefk"><code class="docutils literal notranslate"><span class="pre">continuous_efficiency_with_diefk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.diefk"><code class="docutils literal notranslate"><span class="pre">diefk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.diefk2"><code class="docutils literal notranslate"><span class="pre">diefk2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.dieft"><code class="docutils literal notranslate"><span class="pre">dieft()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.load_metrics"><code class="docutils literal notranslate"><span class="pre">load_metrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.load_trace"><code class="docutils literal notranslate"><span class="pre">load_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.performance_of_approaches_with_dieft"><code class="docutils literal notranslate"><span class="pre">performance_of_approaches_with_dieft()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_all_answer_traces"><code class="docutils literal notranslate"><span class="pre">plot_all_answer_traces()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_all_continuous_efficiency_with_diefk"><code class="docutils literal notranslate"><span class="pre">plot_all_continuous_efficiency_with_diefk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_all_performance_of_approaches_with_dieft"><code class="docutils literal notranslate"><span class="pre">plot_all_performance_of_approaches_with_dieft()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_answer_trace"><code class="docutils literal notranslate"><span class="pre">plot_answer_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_continuous_efficiency_with_diefk"><code class="docutils literal notranslate"><span class="pre">plot_continuous_efficiency_with_diefk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_execution_time"><code class="docutils literal notranslate"><span class="pre">plot_execution_time()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diefpy.dief.plot_performance_of_approaches_with_dieft"><code class="docutils literal notranslate"><span class="pre">plot_performance_of_approaches_with_dieft()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">4. Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">5. References</a></li>
 </ul>
@@ -77,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="module-diefpy.dief">
-<span id="api-documentation"></span><h1><span class="section-number">3. </span>API Documentation<a class="headerlink" href="#module-diefpy.dief" title="Permalink to this headline"></a></h1>
+<span id="api-documentation"></span><h1><span class="section-number">3. </span>API Documentation<a class="headerlink" href="#module-diefpy.dief" title="Permalink to this heading"></a></h1>
 <p>Python library for computing diefficiency metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong>.</p>
 <p>The metrics <strong>dief&#64;t</strong> and <strong>dief&#64;k</strong> allow for measuring the diefficiency during
 an elapsed time period <em>t</em> or while <em>k</em> answers are produced, respectively.
@@ -99,13 +118,13 @@ answer traces, and thus capturing the answer rate concentration over a time inte
 the first 25%, 50%, 75%, and 100% of the answers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p>
+<dd class="field-odd"><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Dataframe with all the metrics. The structure is: test, approach, diefk25, diefk50, diefk75, diefk100.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -116,7 +135,7 @@ the first 25%, 50%, 75%, and 100% of the answers.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diefpy.dief.diefk">
-<span class="sig-name descname"><span class="pre">diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">diefk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given number of answers <em>k</em>.</p>
 <p><strong>dief&#64;k</strong> measures the diefficiency while <em>k</em> answers are produced by computing
 the area under the curve of the answer traces.
@@ -124,7 +143,7 @@ By default, the function computes the minimum of the total number of answer prod
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
 <li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
 <li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of answers to compute dief&#64;k for. By default, the function computes the minimum of the total number
 of answers produced by the approaches.</p></li>
@@ -134,7 +153,7 @@ of answers produced by the approaches.</p></li>
 <dd class="field-even"><p>Dataframe with the dief&#64;k values for each approach. Attributes of the dataframe: test, approach, diefk.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -146,7 +165,7 @@ of answers produced by the approaches.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diefpy.dief.diefk2">
-<span class="sig-name descname"><span class="pre">diefk2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk2" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">diefk2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.diefk2" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the <strong>dief&#64;k</strong> metric for a specific test at a given percentage of answers <em>kp</em>.</p>
 <p><strong>dief&#64;k</strong> measures the diefficiency while the first <em>kp</em> percent of answers are produced
 by computing the area under the curve of the answer traces.
@@ -155,7 +174,7 @@ The function computes the portion <em>kp</em> of the minimum number of answers p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
 <li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
 <li><p><strong>kp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Ratio of answers to compute dief&#64;k for (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
 the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.</p></li>
@@ -165,7 +184,7 @@ the same as diefk. It computes the kp portion of the minimum number of answers p
 <dd class="field-even"><p>Dataframe with the dief&#64;k values for each approach. Attributes of the dataframe: test, approach, diefk.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -177,7 +196,7 @@ the same as diefk. It computes the kp portion of the minimum number of answers p
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diefpy.dief.dieft">
-<span class="sig-name descname"><span class="pre">dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_to_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.dieft" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dieft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputtrace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_to_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diefpy.dief.dieft" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the <strong>dief&#64;t</strong> metric for a specific test at a given time point <em>t</em>.</p>
 <p><strong>dief&#64;t</strong> measures the diefficiency during an exlapsed time period <em>t</em> by computing
 the area under the curve of the answer traces.
@@ -186,7 +205,7 @@ in the answer trace, i.e., until the point in time when the slowest approach fin
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
 <li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
 <li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Point in time to compute dief&#64;t for. By default, the function computes the maximum of the execution time
 among the approaches in the answer trace.</p></li>
@@ -197,7 +216,7 @@ among the approaches in the answer trace.</p></li>
 <dd class="field-even"><p>Dataframe with the dief&#64;t values for each approach. Attributes of the dataframe: test, approach, dieft.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -229,7 +248,7 @@ Attributes of the file specified in the header: test, approach, tfft, totaltime,
 <dd class="field-even"><p>Dataframe with the other metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -259,7 +278,7 @@ Attributes of the file specified in the header: test, approach, answer, time.</p
 <dd class="field-even"><p>Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -278,8 +297,8 @@ literature (<em>total execution time</em>, <em>time for the first tuple</em>, <e
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Metrics dataframe with the result of the other metrics.
+<li><p><strong>traces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Metrics dataframe with the result of the other metrics.
 The structure is as follows: test, approach, tfft, totaltime, comp.</p></li>
 <li><p><strong>continue_to_end</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Indicates whether the AUC should be continued until the end of the time frame</p></li>
 </ul>
@@ -289,7 +308,7 @@ The structure is as follows: test, approach, tfft, totaltime, comp.</p></li>
 The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft, invtotaltime, dieft</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -308,7 +327,7 @@ approaches for that specific test.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
 </dd>
@@ -337,7 +356,7 @@ the first 25%, 50%, 75%, and 100% of the answers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
+<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
 </dd>
@@ -365,7 +384,7 @@ the first 25%, 50%, 75%, and 100% of the answers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
+<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
 </dd>
@@ -393,7 +412,7 @@ for the same test, e.g., execution of a specific query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
+<li><p><strong>inputtrace</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.</p></li>
 <li><p><strong>inputtest</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies the specific test to analyze from the answer trace.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
@@ -402,7 +421,7 @@ for the same test, e.g., execution of a specific query.</p>
 <dd class="field-even"><p>Plot of the answer traces of each approach when evaluating the input test.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.6.0)"><em>Figure</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -423,7 +442,7 @@ the first 25%, 50%, 75%, and 100% of the answers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
+<li><p><strong>diefkDF</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the results from “Experiment 2”.</p></li>
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – ID of the selected test to plot.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
@@ -432,7 +451,7 @@ the first 25%, 50%, 75%, and 100% of the answers.</p>
 <dd class="field-even"><p>Matplotlib plot for the specified test over the provided metrics.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.6.0)"><em>Figure</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -451,7 +470,7 @@ Each test is represented as a group of bars representing the approaches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with the metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with the metrics. Attributes of the dataframe: test, approach, tfft, totaltime, comp.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 <li><p><strong>log_scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – (optional) If log_scale is set to True, logarithmic scale for the y-axis will be used.</p></li>
 </ul>
@@ -460,7 +479,7 @@ Each test is represented as a group of bars representing the approaches.</p>
 <dd class="field-even"><p>Plot of the execution time for all tests and approaches in the metrics data provided.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.6.0)"><em>Figure</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>
@@ -482,7 +501,7 @@ Each test is represented as a group of bars representing the approaches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>numpy.ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
+<li><p><strong>allmetrics</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a>) – Dataframe with all the metrics from “Experiment 1”.</p></li>
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – ID of the selected test to plot.</p></li>
 <li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of colors to use for the different approaches.</p></li>
 </ul>
@@ -491,7 +510,7 @@ Each test is represented as a group of bars representing the approaches.</p>
 <dd class="field-even"><p>Matplotlib radar plot for the specified test over the provided metrics.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)">matplotlib.figure.Figure</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.6.0)"><em>Figure</em></a></p>
 </dd>
 </dl>
 <p><strong>Examples</strong></p>

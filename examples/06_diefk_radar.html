@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4.6. Measuring dief@t at Different Answer Completeness Percentages &mdash; diefpy 1.1.0 documentation</title>
+  <title>4.6. Measuring dief@t at Different Answer Completeness Percentages &mdash; diefpy 1.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
@@ -19,7 +19,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -35,7 +37,7 @@
             <a href="../index.html" class="icon icon-home"> diefpy
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -91,7 +93,7 @@
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="measuring-dief-t-at-different-answer-completeness-percentages">
-<span id="sphx-glr-examples-06-diefk-radar-py"></span><h1><span class="section-number">4.6. </span>Measuring dief&#64;t at Different Answer Completeness Percentages<a class="headerlink" href="#measuring-dief-t-at-different-answer-completeness-percentages" title="Permalink to this headline"></a></h1>
+<span id="sphx-glr-examples-06-diefk-radar-py"></span><h1><span class="section-number">4.6. </span>Measuring dief&#64;t at Different Answer Completeness Percentages<a class="headerlink" href="#measuring-dief-t-at-different-answer-completeness-percentages" title="Permalink to this heading"></a></h1>
 <p>Experiment 2 in <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Maribel Acosta, Maria-Esther Vidal, and York Sure-Vetter. Diefficiency Metrics: Measuring the Continuous Efficiency of Query Processing Approaches. In Proceedings of the International Semantic Web Conference, 2017. Nominated to Best Paper Award at the Resource Track, 3–19. 2017. URL: https://doi.org/10.1007/978-3-319-68204-4_1.">1</a>]</span> compares the performance of the three variants of nLDE when producing different answer
 completeness percentages (25%, 50%, 75%, 100%) using <strong>dief&#64;k</strong>.</p>
 <p>The method <code class="docutils literal notranslate"><span class="pre">diefpy.continuous_efficiency_with_diefk</span></code> computes the <strong>dief&#64;k</strong> metric for the previously
@@ -118,7 +120,7 @@ at different answer completeness percentages (25%, 50%, 75%, 100%).
 conclude that once nlDE <code class="docutils literal notranslate"><span class="pre">Random</span></code> starts producing answers, it produces all the answers at a faster rate.
 This can be observed in the answer trace plot, where the trace for nLDE <code class="docutils literal notranslate"><span class="pre">Random</span></code> (red line) has a higher slope
 over time than the other approaches.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  21.312 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  34.750 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-diefk-radar-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/f24c56170a057c4ffd16aea65f604764/06_diefk_radar.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">06_diefk_radar.py</span></code></a></p>
