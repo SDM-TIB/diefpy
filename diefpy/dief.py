@@ -332,7 +332,7 @@ def load_trace(filename: str) -> np.ndarray:
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
-    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8")
+    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8", ndmin=1)
 
     # Return dataframe in order.
     return df[['test', 'approach', 'answer', 'time']]
@@ -361,7 +361,7 @@ def load_metrics(filename: str) -> np.ndarray:
     """
     # Loading data.
     # names=True is not an error, it is valid for reading the column names from the data
-    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8")
+    df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8", ndmin=1)
 
     # Return dataframe in order.
     return df[['test', 'approach', 'tfft', 'totaltime', 'comp']]
