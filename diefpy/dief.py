@@ -6,6 +6,8 @@ an elapsed time period *t* or while *k* answers are produced, respectively.
 **dief@t** and **dief@k** rely on the computation of the area under the curve (AUC) of
 answer traces, and thus capturing the answer rate concentration over a time interval.
 """
+import re
+
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
@@ -13,7 +15,6 @@ import numpy as np
 from matplotlib.figure import Figure
 
 from diefpy.radaraxes import radar_factory
-
 
 DEFAULT_COLORS = ("#ECC30B", "#D56062", "#84BCDA")
 """Default colors for printing plots: yellow, red, blue"""
@@ -243,6 +244,29 @@ def plot_all_answer_traces(inputtrace: np.ndarray, colors: list = DEFAULT_COLORS
     return plots
 
 
+def sorted_alphanumeric(list_):
+    """
+    Sorts a list alphanumerically.
+
+    The given list is sorted alphanumerically. This is done using two lambda expressions for the sorting key.
+
+    :param list_: The list to be sorted.
+    :return: The alphanumerically sorted list.
+
+    **Examples**
+
+    >>> sorted_alphanumeric(['Q1', 'Q3', 'Q10', 'Q2'])
+    ['Q1', 'Q2', 'Q3', 'Q10']
+    >>> sorted_alphanumeric(['A', '1', '10', '2', '100', 'B', 'a', 'Hello', 'Q1', 'Q2'])
+    ['1', '2', '10', '100', 'A', 'a', 'B', 'Hello', 'Q1', Q2']
+    >>> sorted_alphanumeric(['1.0.0', '0.9.0', '1.2.1', '1.2.0'])
+    ['0.9.0', '1.0.0', '1.2.0', '1.2.1']
+    """
+    digit2int = lambda text: int(text) if text.isdigit() else text
+    alphanumeric_key = lambda key: [digit2int(c) for c in re.split('([0-9]+)', key.lower())]
+    return sorted(list_, key=alphanumeric_key)
+
+
 def plot_execution_time(metrics: np.ndarray, colors: list = DEFAULT_COLORS, log_scale: bool = False) -> Figure:
     """
     Creates a bar chart with the overall *execution time* for all the tests and approaches in the metrics data.
@@ -264,7 +288,7 @@ def plot_execution_time(metrics: np.ndarray, colors: list = DEFAULT_COLORS, log_
     """
     # Obtain test and approaches to compare.
     approaches = np.unique(metrics['approach'])
-    tests = np.unique(metrics['test'])
+    tests = sorted_alphanumeric(np.unique(metrics['test']))
 
     color_map = dict(zip(approaches, colors))
 
