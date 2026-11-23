@@ -53,5 +53,8 @@
   /* keep the masked link text hidden (custom.css makes .std-ref visible) */
   .sphx-glr-thumbcontainer p a .std.std-ref { display: none; }
   .sphx-glr-thumbcontainer .sphx-glr-thumbnail-title { text-align: center; }
+  /* sphinx-gallery clamps the tooltip shown on hover to 6 lines although the card (250px)
+     has room for 9 lines of text */
+  .sphx-glr-thumbcontainer[tooltip]:hover::after { -webkit-line-clamp: 9; }
 </style>
 {%- endif %}
