@@ -98,6 +98,8 @@ html_copy_source = False
 
 # sphinx-gallery configuration
 sphinx_gallery_conf = {
+    # disable download all as zip
+    'download_all_examples': False,
     # path to your example scripts
     'examples_dirs': ['../example/gallery'],
     # path to where to save gallery generated output

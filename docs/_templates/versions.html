@@ -31,6 +31,8 @@
     </dl>
   </div>
 </div>
-{# Old releases are built with their own conf.py; hide the sidebar version there, too. #}
-<style>.wy-side-nav-search > div.version { display: none; }</style>
+<style>
+  .wy-side-nav-search > div.version { display: none; }  /* old releases are built with their own conf.py; hide the sidebar version there, too. */
+  .sphx-glr-download-zip { display: none; }  /* hide the per-example "Download zipped" button of sphinx-gallery */
+</style>
 {%- endif %}
