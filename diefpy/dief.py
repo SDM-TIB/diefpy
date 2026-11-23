@@ -16,6 +16,12 @@ from matplotlib.figure import Figure
 
 from diefpy.radaraxes import radar_factory
 
+try:
+    # NumPy >= 2.0 provides ``trapezoid``; ``trapz`` was deprecated in 2.0 and removed in later releases.
+    from numpy import trapezoid as _trapezoid
+except ImportError:  # NumPy < 2.0
+    from numpy import trapz as _trapezoid
+
 DEFAULT_COLORS = ("#ECC30B", "#D56062", "#84BCDA")
 """Default colors for printing plots: yellow, red, blue"""
 
@@ -73,7 +79,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
                 subtrace = np.concatenate((subtrace, com), axis=0)
 
         if len(subtrace) > 1:
-            dief = np.trapz(subtrace['answer'], subtrace['time'])
+            dief = _trapezoid(subtrace['answer'], subtrace['time'])
 
         res = np.array([(inputtest, a, dief)],
                        dtype=[('test', subtrace['test'].dtype),
@@ -125,7 +131,7 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
         dief = 0
         subtrace = results[(results['approach'] == a) & (results['answer'] <= k)]
         if len(subtrace) > 1:
-            dief = np.trapz(subtrace['answer'], subtrace['time'])
+            dief = _trapezoid(subtrace['answer'], subtrace['time'])
         res = np.array([(inputtest, a, dief)],
                        dtype=[('test', inputtrace['test'].dtype),
                               ('approach', inputtrace['approach'].dtype),
