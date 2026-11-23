@@ -1,27 +1,31 @@
 import json
 import pathlib
+from importlib.resources import files
 
 import pytest
-from pkg_resources import resource_filename
 
 import diefpy.dief as diefpy
 
 
+def _resource_path(package: str, resource: str) -> str:
+    return str(files(package).joinpath(resource))
+
+
 @pytest.fixture(scope="session")
 def traces():
-    input_file_traces = resource_filename('diefpy', 'data/traces.csv')
+    input_file_traces = _resource_path('diefpy', 'data/traces.csv')
     return diefpy.load_trace(input_file_traces)
 
 
 @pytest.fixture(scope="session")
 def metrics():
-    input_file_metrics = resource_filename('diefpy', 'data/metrics.csv')
+    input_file_metrics = _resource_path('diefpy', 'data/metrics.csv')
     return diefpy.load_metrics(input_file_metrics)
 
 
 @pytest.fixture(scope="session")
 def data_performance_metrics():
-    file_name = resource_filename('diefpy', 'tests/expected_values/performance_metrics.json')
+    file_name = _resource_path('diefpy', 'tests/expected_values/performance_metrics.json')
     file = pathlib.Path(file_name)
     return json.loads(file.read_text())
 
@@ -50,7 +54,7 @@ def test_performance_metrics(approach, test, metric, expected_performance_metric
 
 @pytest.fixture(scope="session")
 def data_continuous_efficiency():
-    file_name = resource_filename('diefpy', 'tests/expected_values/continuous_efficiency.json')
+    file_name = _resource_path('diefpy', 'tests/expected_values/continuous_efficiency.json')
     file = pathlib.Path(file_name)
     return json.loads(file.read_text())
 
@@ -79,7 +83,7 @@ def test_continuous_efficiency(approach, test, metric, expected_continuous_effic
 
 @pytest.fixture(scope="session")
 def data_dieft():
-    file_name = resource_filename('diefpy', 'tests/expected_values/dieft.json')
+    file_name = _resource_path('diefpy', 'tests/expected_values/dieft.json')
     file = pathlib.Path(file_name)
     return json.loads(file.read_text())
 
@@ -103,7 +107,7 @@ def test_dieft(approach, test, time, traces, expected_dieft):
 
 @pytest.fixture(scope="session")
 def data_diefk():
-    file_name = resource_filename('diefpy', 'tests/expected_values/diefk.json')
+    file_name = _resource_path('diefpy', 'tests/expected_values/diefk.json')
     file = pathlib.Path(file_name)
     return json.loads(file.read_text())
 
@@ -127,7 +131,7 @@ def test_diefk(approach, test, answers, traces, expected_diefk):
 
 @pytest.fixture(scope="session")
 def data_diefk2():
-    file_name = resource_filename('diefpy', 'tests/expected_values/diefk2.json')
+    file_name = _resource_path('diefpy', 'tests/expected_values/diefk2.json')
     file = pathlib.Path(file_name)
     return json.loads(file.read_text())
 
