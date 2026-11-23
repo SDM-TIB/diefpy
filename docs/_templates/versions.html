@@ -31,8 +31,27 @@
     </dl>
   </div>
 </div>
+{# Old releases are built with their own conf.py and CSS, overall adjustments are made here #}
 <style>
-  .wy-side-nav-search > div.version { display: none; }  /* old releases are built with their own conf.py; hide the sidebar version there, too. */
+  .wy-side-nav-search > div.version { display: none; }  /* hide the sidebar version */
   .sphx-glr-download-zip { display: none; }  /* hide the per-example "Download zipped" button of sphinx-gallery */
+  /* sphinx-gallery >= 0.19 lays out the thumbnails in a CSS grid (it used floats before).
+     Use 3 columns on wide screens and fewer on narrow ones. These rules also override the
+     float-based rules in the custom.css of older releases. */
+  .sphx-glr-thumbnails {
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 30px;
+  }
+  .sphx-glr-thumbnails .sphx-glr-thumbcontainer {
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  .sphx-glr-thumbnails .sphx-glr-thumbcontainer a.internal {
+    padding: 0 !important;
+    min-width: 0 !important;
+  }
+  /* keep the masked link text hidden (custom.css makes .std-ref visible) */
+  .sphx-glr-thumbcontainer p a .std.std-ref { display: none; }
+  .sphx-glr-thumbcontainer .sphx-glr-thumbnail-title { text-align: center; }
 </style>
 {%- endif %}
