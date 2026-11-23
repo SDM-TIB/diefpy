@@ -5,6 +5,8 @@
 
 # -- Path setup --------------------------------------------------------------
 import os
+import re
+import subprocess
 import sys
 sys.path.insert(0, os.path.abspath('../'))
 import diefpy
@@ -34,6 +36,7 @@ release = version
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx_multiversion',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
@@ -112,3 +115,38 @@ intersphinx_mapping = {
     'pandas': ('https://pandas.pydata.org/docs/', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
 }
+
+
+# -- Options for sphinx-multiversion ------------------------------------------
+# Only the latest patch release of each minor series is built (e.g., v1.2.1 for
+# 1.2.x) and published as /v1.2.1/. Tags without documentation (before v1.1.0)
+# are skipped automatically. The newest release is additionally served at /latest/.
+def _latest_patch_tags():
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    tags = subprocess.run(['git', 'tag'], capture_output=True, text=True, cwd=cwd).stdout.split()
+    best = {}
+    for tag in tags:
+        m = re.fullmatch(r'v(\d+)\.(\d+)\.(\d+)', tag)
+        if not m:
+            continue
+        if subprocess.run(['git', 'cat-file', '-e', f'{tag}:docs/conf.py'],
+                          capture_output=True, cwd=cwd).returncode != 0:
+            continue  # this release has no documentation
+        ver = tuple(int(g) for g in m.groups())
+        if ver[:2] not in best or ver > best[ver[:2]]:
+            best[ver[:2]] = ver
+    return ['v%d.%d.%d' % v for v in best.values()]
+
+
+_TAGS = sorted(_latest_patch_tags(), key=lambda t: tuple(int(x) for x in t[1:].split('.')), reverse=True)
+# sphinx-multiversion sorts the refs alphabetically (e.g., v1.10.0 < v1.9.0). The Makefile hands
+# this newest-first order to the templates via `-D html_context.release_order=...`.
+RELEASE_ORDER = ','.join(_TAGS)
+smv_tag_whitelist = r'^(%s)$' % '|'.join(re.escape(t) for t in _TAGS) if _TAGS else r'^$'
+smv_branch_whitelist = r'^$'  # only releases are published
+smv_remote_whitelist = None
+smv_outputdir_format = '{ref.name}'
+
+# Render the version switcher on every page (and in all versions, since
+# sphinx-multiversion uses the templates of the ref it is run from).
+html_sidebars = {'**': ['versions.html']}

@@ -12,7 +12,18 @@ You can create a new version of the documentation by running:
 make docs
 ```
 
-This will generate the docs without any cached files. The new documentation will be available in `_build/html`.
+This will generate the docs of **all versions** without any cached files. The new documentation will be available in `build/html`.
+
+### Versioning
+The docs are built with [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/) and contain one version per **minor series**, built from the **latest patch release** of that series (e.g., `v1.2.1` for all of 1.2.x).
+Releases without documentation (before v1.1.0) are skipped automatically.
+Which tags are built is decided in `conf.py` (`_latest_patch_tags()`).
+The version switcher is rendered by `_templates/versions.html`.
+The newest release is additionally served at the stable URL `/latest/` (a copy that is refreshed on every build).
+The root `index.html` and all former unversioned pages (e.g., `/introduction.html`) redirect to the same page below `/latest/`; these are regenerated on every build by `build_root.py`.
+
+When a release is published, the `Deploy Docs` workflow rebuilds all versions and replaces the content of `gh-pages`.
+Building locally needs the full git history including tags (`git fetch --tags`).
 
 ## Publishing the Documentation
 In order to publish a new version (and building one before), run the following command:
