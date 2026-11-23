@@ -495,17 +495,11 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql")
     >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
-    # Initialize output structure.
-    df = np.empty(shape=0, dtype=[('invtfft', allmetrics['invtfft'].dtype),
-                                  ('invtotaltime', allmetrics['invtotaltime'].dtype),
-                                  ('comp', float),
-                                  ('throughput', allmetrics['throughput'].dtype),
-                                  ('dieft', allmetrics['dieft'].dtype)])
-
     # Obtain approaches.
     approaches = np.unique(allmetrics['approach'])
     color_map = dict(zip(approaches, colors))
     labels = []
+    rows = []
     for a in approaches:
         submetric_approaches = allmetrics[(allmetrics['approach'] == a) & (allmetrics['test'] == q)]
 
@@ -514,28 +508,16 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
         else:
             labels.append(a)
 
-        res = np.array([((submetric_approaches['invtfft']), (submetric_approaches['invtotaltime']), (submetric_approaches['comp']),
-                        (submetric_approaches['throughput']), (submetric_approaches['dieft']))],
-                       dtype=[('invtfft', submetric_approaches['invtfft'].dtype),
-                              ('invtotaltime', submetric_approaches['invtotaltime'].dtype),
-                              ('comp', float),
-                              ('throughput', submetric_approaches['throughput'].dtype),
-                              ('dieft', submetric_approaches['dieft'].dtype)])
-        df = np.append(df, res, axis=0)
+        # There is one entry per approach and test; take its scalar values.
+        rows.append([submetric_approaches[metric][0]
+                     for metric in ('invtfft', 'invtotaltime', 'comp', 'throughput', 'dieft')])
 
-    # Get maximum values
-    maxs = [df['invtfft'].max(), df['invtotaltime'].max(), df['comp'].max(), df['throughput'].max(), df['dieft'].max()]
-
-    # Normalize the data
-    for row in df:
-        row['invtfft'] = row['invtfft'] / maxs[0]
-        row['invtotaltime'] = row['invtotaltime'] / maxs[1]
-        row['comp'] = row['comp'] / maxs[2]
-        row['throughput'] = row['throughput'] / maxs[3]
-        row['dieft'] = row['dieft'] / maxs[4]
+    # Normalize each metric by its maximum value over all approaches.
+    data = np.array(rows, dtype=float)
+    data = data / data.max(axis=0)
 
     # Plot metrics using spider plot.
-    df = df.tolist()
+    df = data.tolist()
     N = len(df[0])
     theta = radar_factory(N, frame='polygon')
     spoke_labels = ['(TFFT)^-1', '(ET)^-1       ', 'Comp', 'T', '     dief@t']
@@ -671,16 +653,11 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql")
     >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
-    # Initialize output structure.
-    df = np.empty(shape=0, dtype=[('diefk25', float),
-                                  ('diefk50', float),
-                                  ('diefk75', float),
-                                  ('diefk100', float)])
-
     # Obtain approaches.
     approaches = np.unique(diefkDF['approach'])
     labels = []
     color_map = dict(zip(approaches, colors))
+    rows = []
 
     for a in approaches:
         submetric_approaches = diefkDF[(diefkDF['approach'] == a) & (diefkDF['test'] == q)]
@@ -690,27 +667,16 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
         else:
             labels.append(a)
 
-        res = np.array([((submetric_approaches['diefk25']), (submetric_approaches['diefk50']), (submetric_approaches['diefk75']),
-                        (submetric_approaches['diefk100']))],
-                       dtype=[('diefk25', submetric_approaches['diefk25'].dtype),
-                              ('diefk50', submetric_approaches['diefk50'].dtype),
-                              ('diefk75', submetric_approaches['diefk75'].dtype),
-                              ('diefk100', submetric_approaches['diefk100'].dtype)])
+        # There is one entry per approach and test; take its scalar values.
+        rows.append([submetric_approaches[metric][0]
+                     for metric in ('diefk25', 'diefk50', 'diefk75', 'diefk100')])
 
-        df = np.append(df, res, axis=0)
-
-    # Get maximum values
-    maxs = [df['diefk25'].max(), df['diefk50'].max(), df['diefk75'].max(), df['diefk100'].max()]
-
-    # Normalize the data
-    for row in df:
-        row['diefk25'] = row['diefk25'] / maxs[0]
-        row['diefk50'] = row['diefk50'] / maxs[1]
-        row['diefk75'] = row['diefk75'] / maxs[2]
-        row['diefk100'] = row['diefk100'] / maxs[3]
+    # Normalize each metric by its maximum value over all approaches.
+    data = np.array(rows, dtype=float)
+    data = data / data.max(axis=0)
 
     # Plot metrics using spider plot.
-    df = df.tolist()
+    df = data.tolist()
     N = len(df[0])
     theta = radar_factory(N, frame='polygon')
     spoke_labels = ['k=25%', 'k=50%      ', 'k=75%', '        k=100%']

@@ -2,7 +2,9 @@ import json
 import pathlib
 from importlib.resources import files
 
+import numpy as np
 import pytest
+from matplotlib.colors import to_hex
 
 import diefpy.dief as diefpy
 
@@ -165,3 +167,73 @@ def test_loaders_return_one_dimensional_array_for_single_row(tmp_path, loader, h
     assert result.ndim == 1
     assert len(result) == 1
     assert result.dtype.names == expected_fields
+
+
+def _approaches(data, test):
+    return np.unique(data['approach'][data['test'] == test]).tolist()
+
+
+def _legend_labels(fig):
+    return [text.get_text() for text in fig.axes[0].get_legend().get_texts()]
+
+
+def _radar_values(fig):
+    """Returns the values of all lines of the radar plot as 2D array (rows: approaches, columns: spokes)."""
+    return np.array([line.get_ydata() for line in fig.axes[0].lines])
+
+
+@pytest.mark.parametrize('test', ['Q9.rq', 'Q14.rq'])
+def test_plot_performance_of_approaches_with_dieft(test, actual_performance_metrics):
+    fig = diefpy.plot_performance_of_approaches_with_dieft(actual_performance_metrics, test)
+    lines = fig.axes[0].lines
+    values = _radar_values(fig)
+
+    assert _legend_labels(fig) == _approaches(actual_performance_metrics, test)
+    assert [to_hex(line.get_color()) for line in lines] == [to_hex(c) for c in diefpy.DEFAULT_COLORS]
+    # Five metrics; the radar plot repeats the first value to close the polygon.
+    assert values.shape == (len(lines), 6)
+    assert values[:, 0] == pytest.approx(values[:, -1])
+    # Each metric is normalized by its maximum over all approaches.
+    assert values[:, :-1].max(axis=0) == pytest.approx(1.0)
+    assert values.min() >= 0.0
+
+
+@pytest.mark.parametrize('test', ['Q9.rq', 'Q14.rq'])
+def test_plot_continuous_efficiency_with_diefk(test, actual_continuous_efficiency):
+    fig = diefpy.plot_continuous_efficiency_with_diefk(actual_continuous_efficiency, test)
+    lines = fig.axes[0].lines
+    values = _radar_values(fig)
+
+    assert _legend_labels(fig) == _approaches(actual_continuous_efficiency, test)
+    assert [to_hex(line.get_color()) for line in lines] == [to_hex(c) for c in diefpy.DEFAULT_COLORS]
+    # Four metrics (25%, 50%, 75%, 100%); the radar plot repeats the first value to close the polygon.
+    assert values.shape == (len(lines), 5)
+    assert values[:, 0] == pytest.approx(values[:, -1], nan_ok=True)
+    # Each metric is normalized by its maximum over all approaches. If dief@k is zero for all approaches
+    # (too few answers for the given percentage), normalization is undefined and the values are NaN.
+    defined = ~np.isnan(values[:, :-1]).all(axis=0)
+    assert values[:, :-1][:, defined].max(axis=0) == pytest.approx(1.0)
+    assert np.nanmin(values) >= 0.0
+
+
+def test_plot_all_radar_plots(actual_performance_metrics, actual_continuous_efficiency):
+    tests = np.unique(actual_performance_metrics['test'])
+    assert len(diefpy.plot_all_performance_of_approaches_with_dieft(actual_performance_metrics)) == len(tests)
+    assert len(diefpy.plot_all_continuous_efficiency_with_diefk(actual_continuous_efficiency)) == len(tests)
+
+
+@pytest.mark.parametrize('test', ['Q9.rq', 'Q14.rq'])
+def test_plot_answer_trace(test, traces):
+    fig = diefpy.plot_answer_trace(traces, test)
+    assert [line.get_label() for line in fig.axes[0].lines] == _approaches(traces, test)
+
+
+def test_plot_all_answer_traces(traces):
+    assert len(diefpy.plot_all_answer_traces(traces)) == len(np.unique(traces['test']))
+
+
+@pytest.mark.parametrize('log_scale', [False, True])
+def test_plot_execution_time(log_scale, metrics):
+    fig = diefpy.plot_execution_time(metrics, log_scale=log_scale)
+    assert fig.axes[0].get_yscale() == ('log' if log_scale else 'linear')
+    assert len(fig.axes[0].patches) == len(metrics)
