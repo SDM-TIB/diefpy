@@ -1,4 +1,2 @@
 include VERSION
 include README.md
-include diefpy/data/traces.csv
-include diefpy/data/metrics.csv
