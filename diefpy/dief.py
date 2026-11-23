@@ -477,6 +477,20 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     return df
 
 
+def _normalize_by_max(data: np.ndarray) -> np.ndarray:
+    """
+    Normalizes each column of the given two-dimensional array by its maximum value.
+
+    If the maximum of a column is zero, all values of that column are zero and there is nothing to normalize.
+    In this case, the normalized values are zero instead of NaN (0 / 0).
+
+    :param data: Two-dimensional array; rows are approaches, columns are metrics.
+    :return: Array of the same shape with every column divided by its maximum.
+    """
+    maxs = data.max(axis=0)
+    return np.divide(data, maxs, out=np.zeros_like(data, dtype=float), where=maxs != 0)
+
+
 def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, colors: list = DEFAULT_COLORS) -> Figure:
     """
     Generates a radar plot that compares **dief@t** with conventional metrics for a specific test.
@@ -513,8 +527,7 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
                      for metric in ('invtfft', 'invtotaltime', 'comp', 'throughput', 'dieft')])
 
     # Normalize each metric by its maximum value over all approaches.
-    data = np.array(rows, dtype=float)
-    data = data / data.max(axis=0)
+    data = _normalize_by_max(np.array(rows, dtype=float))
 
     # Plot metrics using spider plot.
     df = data.tolist()
@@ -672,8 +685,7 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
                      for metric in ('diefk25', 'diefk50', 'diefk75', 'diefk100')])
 
     # Normalize each metric by its maximum value over all approaches.
-    data = np.array(rows, dtype=float)
-    data = data / data.max(axis=0)
+    data = _normalize_by_max(np.array(rows, dtype=float))
 
     # Plot metrics using spider plot.
     df = data.tolist()

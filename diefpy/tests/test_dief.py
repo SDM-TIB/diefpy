@@ -1,5 +1,6 @@
 import json
 import pathlib
+import warnings
 from importlib.resources import files
 
 import numpy as np
@@ -210,10 +211,11 @@ def test_plot_continuous_efficiency_with_diefk(test, actual_continuous_efficienc
     assert values.shape == (len(lines), 5)
     assert values[:, 0] == pytest.approx(values[:, -1], nan_ok=True)
     # Each metric is normalized by its maximum over all approaches. If dief@k is zero for all approaches
-    # (too few answers for the given percentage), normalization is undefined and the values are NaN.
-    defined = ~np.isnan(values[:, :-1]).all(axis=0)
-    assert values[:, :-1][:, defined].max(axis=0) == pytest.approx(1.0)
-    assert np.nanmin(values) >= 0.0
+    # (too few answers for the given percentage), there is nothing to normalize and the values are 0.
+    assert not np.isnan(values).any()
+    maxima = values[:, :-1].max(axis=0)
+    assert (np.isclose(maxima, 1.0) | np.isclose(maxima, 0.0)).all()
+    assert values.min() >= 0.0
 
 
 def test_plot_all_radar_plots(actual_performance_metrics, actual_continuous_efficiency):
@@ -237,3 +239,28 @@ def test_plot_execution_time(log_scale, metrics):
     fig = diefpy.plot_execution_time(metrics, log_scale=log_scale)
     assert fig.axes[0].get_yscale() == ('log' if log_scale else 'linear')
     assert len(fig.axes[0].patches) == len(metrics)
+
+
+def test_plot_continuous_efficiency_with_diefk_zero_for_all_approaches(actual_continuous_efficiency):
+    # In the test data, dief@k for 25% and 50% of the answers is zero for all approaches of Q14.
+    q14 = actual_continuous_efficiency[actual_continuous_efficiency['test'] == 'Q14.rq']
+    assert (q14['diefk25'] == 0).all() and (q14['diefk50'] == 0).all()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', RuntimeWarning)  # no "invalid value encountered in divide"
+        fig = diefpy.plot_continuous_efficiency_with_diefk(actual_continuous_efficiency, 'Q14.rq')
+
+    values = _radar_values(fig)
+    assert (values[:, :2] == 0).all()  # spokes of 25% and 50%
+    assert values[:, 2:4].max(axis=0) == pytest.approx(1.0)  # spokes of 75% and 100%
+
+
+def test_normalize_by_max():
+    data = np.array([[0.0, 2.0, 1.0],
+                     [0.0, 4.0, 3.0]])
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', RuntimeWarning)
+        normalized = diefpy._normalize_by_max(data)
+    assert normalized == pytest.approx(np.array([[0.0, 0.5, 1 / 3],
+                                                 [0.0, 1.0, 1.0]]))
+    assert data[1, 1] == 4.0  # input is not modified
