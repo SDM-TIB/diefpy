@@ -21,7 +21,10 @@ setup(name='diefpy',
       long_description=long_description,
       long_description_content_type="text/markdown",
       keywords='metrics benchmarking efficiency diefficiency-metrics dief python',
-      install_requires=['matplotlib>=3.2.2', 'numpy>=1.8.0'],
+      install_requires=[
+            'matplotlib>=3.5.0',
+            'numpy>=1.22.0'
+      ],
       include_package_data=True,
       package_data={'diefpy': ['data/*']},
       python_requires='>=3.10',
