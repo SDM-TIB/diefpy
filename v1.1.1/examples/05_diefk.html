@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4.5. Measuring Performance with dief@k &mdash; diefpy 1.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5410b5b7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d727d969"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.6. Measuring dief@t at Different Answer Completeness Percentages" href="06_diefk_radar.html" />
+    <link rel="prev" title="4.4. Comparing dief@t with Other Metrics" href="04_dieft_radar.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            diefpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">2. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diefpy.html">3. API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_execution_time.html">4.1. Visualizing Execution Time of SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_answer_traces.html">4.2. Visualizing Answer Traces of Continuous SPARQL Query Engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_dieft.html">4.3. Measuring Performance with dief&#64;t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_dieft_radar.html">4.4. Comparing dief&#64;t with Other Metrics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.5. Measuring Performance with dief&#64;k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_diefk_radar.html">4.6. Measuring dief&#64;t at Different Answer Completeness Percentages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">5. References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">diefpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">4. </span>Examples</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4.5. </span>Measuring Performance with dief&#64;k</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-examples-05-diefk-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="measuring-performance-with-dief-k">
+<span id="sphx-glr-examples-05-diefk-py"></span><h1><span class="section-number">4.5. </span>Measuring Performance with dief&#64;k<a class="headerlink" href="#measuring-performance-with-dief-k" title="Link to this heading"></a></h1>
+<p>The metric <strong>dief&#64;k</strong> measures the diefficiency of a query engine while producing the first k answers when
+executing a query. Intuitively, approaches that require a shorter period of time to produce a certain number of
+answers are more efficient. <strong>dief&#64;k interpretation: Lower is better</strong>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">diefpy.diefk</span></code> and <code class="docutils literal notranslate"><span class="pre">diefpy.diefk2</span></code> methods compute the <strong>dief&#64;k</strong> metric as follows.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_path = '_images/thumb_example_diefk.png'</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">diefpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>  <span class="c1"># for displaying the data in a nice way</span>
+
+<span class="c1"># Load the answer trace file with the query traces from FigShare.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">load_trace</span><span class="p">(</span><span class="s2">"https://ndownloader.figshare.com/files/9625852"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute <strong>dief&#64;k</strong> of the approaches recorded in <code class="docutils literal notranslate"><span class="pre">traces</span></code> when executing <code class="docutils literal notranslate"><span class="pre">Q9.sparql</span></code>
+and producing the first 2,000 answers.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">diefk</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a><span class="p">,</span> <span class="s2">"Q9.sparql"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class"><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test</th>
+      <th>approach</th>
+      <th>diefk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Q9.sparql</td>
+      <td>NotAdaptive</td>
+      <td>4686.110721</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Q9.sparql</td>
+      <td>Random</td>
+      <td>3517.679419</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Q9.sparql</td>
+      <td>Selective</td>
+      <td>3235.550629</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p>Compute <strong>dief&#64;k</strong> of the approaches recorded in <code class="docutils literal notranslate"><span class="pre">traces</span></code> when executing <code class="docutils literal notranslate"><span class="pre">Q9.sparql</span></code>
+and producing the first <em>k</em> answers, where <em>k</em> is the minimum of the total answers
+produced among all the approaches.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">diefk</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a><span class="p">,</span> <span class="s2">"Q9.sparql"</span><span class="p">)</span>
+<a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class"><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test</th>
+      <th>approach</th>
+      <th>diefk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Q9.sparql</td>
+      <td>NotAdaptive</td>
+      <td>20232.388727</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Q9.sparql</td>
+      <td>Random</td>
+      <td>12992.974714</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Q9.sparql</td>
+      <td>Selective</td>
+      <td>14588.184761</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p>Compute <strong>dief&#64;k</strong> of the approaches recorded in <code class="docutils literal notranslate"><span class="pre">traces</span></code> when executing <code class="docutils literal notranslate"><span class="pre">Q9.sparql</span></code>
+and producing 50% of the answers.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a> <span class="o">=</span> <span class="n">diefpy</span><span class="o">.</span><span class="n">diefk2</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">traces</span></a><span class="p">,</span> <span class="s2">"Q9.sparql"</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">)</span>
+<a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class"><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dk</span></a><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test</th>
+      <th>approach</th>
+      <th>diefk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Q9.sparql</td>
+      <td>NotAdaptive</td>
+      <td>6162.528256</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Q9.sparql</td>
+      <td>Random</td>
+      <td>4636.632188</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Q9.sparql</td>
+      <td>Selective</td>
+      <td>5537.020660</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 16.523 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-diefk-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/16536c9a21864b3f76cab727f102aff4/05_diefk.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">05_diefk.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/1a18869eba70a6920878c4fcd5e276f1/05_diefk.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">05_diefk.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/80499424b83d27a88233cbb7e1f216ec/05_diefk.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">05_diefk.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="04_dieft_radar.html" class="btn btn-neutral float-left" title="4.4. Comparing dief@t with Other Metrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="06_diefk_radar.html" class="btn btn-neutral float-right" title="4.6. Measuring dief@t at Different Answer Completeness Percentages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Philipp D. Rohde and Nikoleta Themeliotou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> diefpy</span>
+    v1.1.1
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Releases</dt>
+      <dd><a href="../../v1.2.1/index.html">v1.2.1 (latest)</a></dd>
+      <dd><a href="05_diefk.html">v1.1.1</a></dd>
+    </dl>
+  </div>
+</div>
+
+<style>
+  .wy-side-nav-search > div.version { display: none; }  /* hide the sidebar version */
+  .sphx-glr-download-zip { display: none; }  /* hide the per-example "Download zipped" button of sphinx-gallery */
+  /* sphinx-gallery >= 0.19 lays out the thumbnails in a CSS grid (it used floats before).
+     Use 3 columns on wide screens and fewer on narrow ones. These rules also override the
+     float-based rules in the custom.css of older releases. */
+  .sphx-glr-thumbnails {
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 30px;
+  }
+  .sphx-glr-thumbnails .sphx-glr-thumbcontainer {
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  .sphx-glr-thumbnails .sphx-glr-thumbcontainer a.internal {
+    padding: 0 !important;
+    min-width: 0 !important;
+  }
+  /* keep the masked link text hidden (custom.css makes .std-ref visible) */
+  .sphx-glr-thumbcontainer p a .std.std-ref { display: none; }
+  .sphx-glr-thumbcontainer .sphx-glr-thumbnail-title { text-align: center; }
+  /* sphinx-gallery clamps the tooltip shown on hover to 6 lines although the card (250px)
+     has room for 9 lines of text */
+  .sphx-glr-thumbcontainer[tooltip]:hover::after { -webkit-line-clamp: 9; }
+</style><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
