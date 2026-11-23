@@ -340,6 +340,22 @@ def plot_execution_time(metrics: np.ndarray, colors: list = DEFAULT_COLORS, log_
     return fig
 
 
+def _read_csv(filename: str) -> np.ndarray:
+    """
+    Reads a CSV file with a header into a one-dimensional structured array.
+
+    ``numpy.genfromtxt`` returns a zero-dimensional array if the file contains a single data row.
+    NumPy 1.23 introduced the ``ndmin`` parameter to avoid this, but older versions do not know it.
+    Wrapping the result in ``numpy.atleast_1d`` gives the same behavior on all NumPy versions
+    without having to compare version strings.
+
+    :param filename: Path to the CSV file.
+    :return: One-dimensional structured array with the columns named by the header.
+    """
+    # names=True is not an error, it is valid for reading the column names from the data
+    return np.atleast_1d(np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8"))
+
+
 def load_trace(filename: str) -> np.ndarray:
     """
     Reads answer traces from a CSV file.
@@ -361,11 +377,7 @@ def load_trace(filename: str) -> np.ndarray:
     >>> load_trace("data/traces.csv")
     """
     # Loading data.
-    # names=True is not an error, it is valid for reading the column names from the data
-    if np.__version__ >= '1.23.0':
-        df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8", ndmin=1)
-    else:
-        df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8")
+    df = _read_csv(filename)
 
     # Return dataframe in order.
     return df[['test', 'approach', 'answer', 'time']]
@@ -393,11 +405,7 @@ def load_metrics(filename: str) -> np.ndarray:
     >>> load_trace("data/metrics.csv")
     """
     # Loading data.
-    # names=True is not an error, it is valid for reading the column names from the data
-    if np.__version__ >= '1.23.0':
-        df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8", ndmin=1)
-    else:
-        df = np.genfromtxt(filename, delimiter=',', names=True, dtype=None, encoding="utf8")
+    df = _read_csv(filename)
 
     # Return dataframe in order.
     return df[['test', 'approach', 'tfft', 'totaltime', 'comp']]

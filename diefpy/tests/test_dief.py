@@ -147,3 +147,17 @@ def test_diefk2(approach, test, percentage, traces, expected_diefk2):
     res = diefpy.diefk2(traces, test, percentage)
     actual = res[res['approach'] == approach]['diefk'][0]
     assert expected_diefk2 == pytest.approx(actual, abs=1e-3)
+
+
+@pytest.mark.parametrize('loader,header,row,expected_fields', [
+    (diefpy.load_trace, 'test,approach,answer,time', 'Q1.rq,A,1,0.5', ('test', 'approach', 'answer', 'time')),
+    (diefpy.load_metrics, 'test,approach,tfft,totaltime,comp', 'Q1.rq,A,0.1,1.0,5',
+     ('test', 'approach', 'tfft', 'totaltime', 'comp')),
+])
+def test_loaders_return_one_dimensional_array_for_single_row(tmp_path, loader, header, row, expected_fields):
+    file = tmp_path / 'single_row.csv'
+    file.write_text(header + '\n' + row + '\n')
+    result = loader(str(file))
+    assert result.ndim == 1
+    assert len(result) == 1
+    assert result.dtype.names == expected_fields
