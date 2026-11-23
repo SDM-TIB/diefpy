@@ -51,6 +51,15 @@ python -m pip install diefpy
 
 **Notice:** Most likely you want to install diefpy into a virtual environment for the experiments you were running.
 
+### Development
+
+The packages needed to run the test suite are listed in `requirements-dev.txt`:
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pip install -e .
+pytest
+```
+
 ## Usage 
 We refer the user to the [documentation](https://sdm-tib.github.io/diefpy/) of the library for a detailed explanation of the implemented functionality.
 The page also includes some [examples](https://sdm-tib.github.io/diefpy/examples/).
