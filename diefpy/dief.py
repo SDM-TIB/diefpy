@@ -26,6 +26,26 @@ DEFAULT_COLORS = ("#ECC30B", "#D56062", "#84BCDA")
 """Default colors for printing plots: yellow, red, blue"""
 
 
+def _require_test(data: np.ndarray, test: str) -> np.ndarray:
+    """
+    Selects the entries of a given test and makes sure that the test exists.
+
+    :param data: Structured array with an attribute *test*, e.g., the answer trace or the metrics.
+    :param test: The name of the test to select.
+    :return: The entries of *data* that belong to *test*.
+    :raises ValueError: If *data* contains no entries for *test*. The message lists the available tests.
+    """
+    selection = data[data['test'] == test]
+    if selection.size == 0:
+        available = sorted_alphanumeric([str(t) for t in np.unique(data['test'])])
+        if len(available) > 10:
+            shown = ', '.join(available[:10]) + f', ... ({len(available)} tests in total)'
+        else:
+            shown = ', '.join(available) if available else '(none)'
+        raise ValueError(f"Test '{test}' not found. Available tests: {shown}")
+    return selection
+
+
 def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_end: bool = True) -> np.ndarray:
     """
     Computes the **dief@t** metric for a specific test at a given time point *t*.
@@ -41,6 +61,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
               among the approaches in the answer trace.
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
+    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
 
     **Examples**
 
@@ -53,7 +74,7 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
                                   ('dieft', float)])
 
     # Obtain test and approaches to compare.
-    results = inputtrace[inputtrace['test'] == inputtest]
+    results = _require_test(inputtrace, inputtest)
     approaches = np.unique(results['approach'])
 
     # Obtain maximum t over all approaches if t is not set.
@@ -103,6 +124,7 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
     :param k: Number of answers to compute dief@k for. By default, the function computes the minimum of the total number
               of answers produced by the approaches.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
+    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
 
     **Examples**
 
@@ -115,7 +137,7 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
                                   ('diefk', float)])
 
     # Obtain test and approaches to compare.
-    results = inputtrace[inputtrace['test'] == inputtest]
+    results = _require_test(inputtrace, inputtest)
     approaches = np.unique(results['approach'])
 
     # Obtain k per approach.
@@ -155,6 +177,7 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
     :param kp: Ratio of answers to compute dief@k for (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
                the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
+    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
 
     **Examples**
 
@@ -162,7 +185,7 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
     >>> diefk2(traces, "Q9.sparql", 0.25)
     """
     # Obtain test and approaches to compare.
-    results = inputtrace[inputtrace['test'] == inputtest]
+    results = _require_test(inputtrace, inputtest)
     approaches = np.unique(results['approach'])
 
     # Obtain k per approach.
@@ -192,6 +215,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list = DEF
     :param inputtest: Specifies the specific test to analyze from the answer trace.
     :param colors: List of colors to use for the different approaches.
     :return: Plot of the answer traces of each approach when evaluating the input test.
+    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
 
     **Examples**
 
@@ -199,7 +223,7 @@ def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list = DEF
     >>> plot_answer_trace(traces, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
     # Obtain test and approaches to compare.
-    results = inputtrace[inputtrace['test'] == inputtest]
+    results = _require_test(inputtrace, inputtest)
     approaches = np.unique(inputtrace['approach'])
 
     color_map = dict(zip(approaches, colors))
@@ -425,6 +449,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with all the metrics.
              The structure is: test, approach, tfft, totaltime, comp, throughput, invtfft, invtotaltime, dieft
+    :raises ValueError: If a test of the metrics does not exist in the answer traces.
 
     **Examples**
 
@@ -447,8 +472,7 @@ def performance_of_approaches_with_dieft(traces: np.ndarray, metrics: np.ndarray
 
     # Compute metrics: dieft, throughput, inverse of execution time, inverse of time for the first tuple.
     for t in tests:
-        subtrace = traces[traces['test'] == t]
-        dieft_res = dieft(subtrace, t, continue_to_end=continue_to_end)
+        dieft_res = dieft(traces, t, continue_to_end=continue_to_end)
 
         for a in approaches:
             if a not in np.unique(dieft_res['approach']):
@@ -503,12 +527,15 @@ def plot_performance_of_approaches_with_dieft(allmetrics: np.ndarray, q: str, co
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
     :return: Matplotlib radar plot for the specified test over the provided metrics.
+    :raises ValueError: If the test *q* does not exist. The message lists the available tests.
 
     **Examples**
 
     >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql")
     >>> plot_performance_of_approaches_with_dieft(extended_metrics, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
+    _require_test(allmetrics, q)  # fail early with a helpful message if the test does not exist
+
     # Obtain approaches.
     approaches = np.unique(allmetrics['approach'])
     color_map = dict(zip(approaches, colors))
@@ -660,12 +687,15 @@ def plot_continuous_efficiency_with_diefk(diefkDF: np.ndarray, q: str, colors: l
     :param q: ID of the selected test to plot.
     :param colors: List of colors to use for the different approaches.
     :return: Matplotlib plot for the specified test over the provided metrics.
+    :raises ValueError: If the test *q* does not exist. The message lists the available tests.
 
     **Examples**
 
     >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql")
     >>> plot_continuous_efficiency_with_diefk(diefkDF, "Q9.sparql", ["#ECC30B","#D56062","#84BCDA"])
     """
+    _require_test(diefkDF, q)  # fail early with a helpful message if the test does not exist
+
     # Obtain approaches.
     approaches = np.unique(diefkDF['approach'])
     labels = []

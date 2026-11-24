@@ -264,3 +264,41 @@ def test_normalize_by_max():
     assert normalized == pytest.approx(np.array([[0.0, 0.5, 1 / 3],
                                                  [0.0, 1.0, 1.0]]))
     assert data[1, 1] == 4.0  # input is not modified
+
+
+@pytest.mark.parametrize('call', [
+    lambda data, test: diefpy.dieft(data['traces'], test),
+    lambda data, test: diefpy.diefk(data['traces'], test),
+    lambda data, test: diefpy.diefk2(data['traces'], test, 0.5),
+    lambda data, test: diefpy.plot_answer_trace(data['traces'], test),
+    lambda data, test: diefpy.plot_performance_of_approaches_with_dieft(data['performance'], test),
+    lambda data, test: diefpy.plot_continuous_efficiency_with_diefk(data['efficiency'], test),
+], ids=['dieft', 'diefk', 'diefk2', 'plot_answer_trace', 'plot_performance', 'plot_continuous_efficiency'])
+def test_unknown_test_raises_helpful_error(call, traces, actual_performance_metrics, actual_continuous_efficiency):
+    data = {'traces': traces, 'performance': actual_performance_metrics, 'efficiency': actual_continuous_efficiency}
+    with pytest.raises(ValueError, match=r"Test 'Q99.rq' not found\. Available tests: Q9\.rq, Q14\.rq"):
+        call(data, 'Q99.rq')
+
+
+def test_unknown_test_does_not_leave_figure_open(traces):
+    import matplotlib.pyplot as plt
+    figures_before = plt.get_fignums()
+    with pytest.raises(ValueError):
+        diefpy.plot_answer_trace(traces, 'Q99.rq')
+    assert plt.get_fignums() == figures_before
+
+
+def test_performance_of_approaches_with_dieft_test_missing_in_traces(traces, metrics):
+    traces_without_q14 = traces[traces['test'] != 'Q14.rq']
+    with pytest.raises(ValueError, match=r"Test 'Q14\.rq' not found\. Available tests: Q9\.rq"):
+        diefpy.performance_of_approaches_with_dieft(traces_without_q14, metrics)
+
+
+def test_unknown_test_message_lists_at_most_ten_tests(traces):
+    tests = [f'Q{i}' for i in range(1, 26)]
+    data = np.array([(t, 'A', 1, 0.1) for t in tests], dtype=traces.dtype)
+    with pytest.raises(ValueError) as excinfo:
+        diefpy.dieft(data, 'unknown')
+    message = str(excinfo.value)
+    assert 'Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, ... (25 tests in total)' in message
+    assert 'Q11' not in message
