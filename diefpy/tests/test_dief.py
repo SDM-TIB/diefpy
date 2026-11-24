@@ -14,6 +14,11 @@ def _resource_path(package: str, resource: str) -> str:
     return str(files(package).joinpath(resource))
 
 
+def _expected_key(value) -> str:
+    """The expected values are stored by argument value; the default (None) is stored under -1."""
+    return '-1' if value is None else str(value)
+
+
 @pytest.fixture(scope="session")
 def traces():
     input_file_traces = _resource_path('diefpy', 'data/traces.csv')
@@ -96,12 +101,12 @@ def expected_dieft(request, data_dieft):
     approach = request.node.funcargs['approach']
     test = request.node.funcargs['test']
     time = request.node.funcargs['time']
-    return data_dieft[approach][test][str(time)]
+    return data_dieft[approach][test][_expected_key(time)]
 
 
 @pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
 @pytest.mark.parametrize('test', ['Q9.rq'])
-@pytest.mark.parametrize('time', [-1, 7.5])
+@pytest.mark.parametrize('time', [None, 7.5])
 def test_dieft(approach, test, time, traces, expected_dieft):
     res = diefpy.dieft(traces, test, time, continue_to_end=False)
     actual = res[res['approach'] == approach]['dieft'][0]
@@ -120,12 +125,12 @@ def expected_diefk(request, data_diefk):
     approach = request.node.funcargs['approach']
     test = request.node.funcargs['test']
     answers = request.node.funcargs['answers']
-    return data_diefk[approach][test][str(answers)]
+    return data_diefk[approach][test][_expected_key(answers)]
 
 
 @pytest.mark.parametrize('approach', ['Selective', 'Random', 'NotAdaptive'])
 @pytest.mark.parametrize('test', ['Q9.rq'])
-@pytest.mark.parametrize('answers', [-1, 1000])
+@pytest.mark.parametrize('answers', [None, 1000])
 def test_diefk(approach, test, answers, traces, expected_diefk):
     res = diefpy.diefk(traces, test, answers)
     actual = res[res['approach'] == approach]['diefk'][0]
@@ -302,3 +307,84 @@ def test_unknown_test_message_lists_at_most_ten_tests(traces):
     message = str(excinfo.value)
     assert 'Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, ... (25 tests in total)' in message
     assert 'Q11' not in message
+
+
+def _same(a, b):
+    return a.dtype == b.dtype and bool((a == b).all())
+
+
+def test_default_arguments_can_be_passed_as_none(traces):
+    assert _same(diefpy.dieft(traces, 'Q9.rq'), diefpy.dieft(traces, 'Q9.rq', None))
+    assert _same(diefpy.diefk(traces, 'Q9.rq'), diefpy.diefk(traces, 'Q9.rq', None))
+    assert _same(diefpy.diefk2(traces, 'Q9.rq'), diefpy.diefk2(traces, 'Q9.rq', None))
+    # By default and for kp=1.0, diefk2 behaves the same as diefk.
+    assert _same(diefpy.diefk2(traces, 'Q9.rq'), diefpy.diefk(traces, 'Q9.rq'))
+    assert _same(diefpy.diefk2(traces, 'Q9.rq', 1.0), diefpy.diefk(traces, 'Q9.rq'))
+
+
+@pytest.mark.parametrize('function,name,minus_one', [
+    (diefpy.dieft, 't', -1), (diefpy.dieft, 't', -1.0),
+    (diefpy.diefk, 'k', -1), (diefpy.diefk, 'k', -1.0),
+    (diefpy.diefk2, 'kp', -1), (diefpy.diefk2, 'kp', -1.0),
+])
+def test_minus_one_is_deprecated_but_still_selects_the_default(function, name, minus_one, traces):
+    expected = function(traces, 'Q9.rq')
+    with pytest.warns(DeprecationWarning, match=rf'Passing {name}=-1 .* {name}=None') as record:
+        actual = function(traces, 'Q9.rq', minus_one)
+    assert _same(actual, expected)
+    assert len(record) == 1
+    assert pathlib.Path(record[0].filename).samefile(__file__)  # the warning points to the caller
+
+
+def test_valid_arguments_do_not_warn(traces):
+    with warnings.catch_warnings():
+        warnings.simplefilter('error')
+        diefpy.dieft(traces, 'Q9.rq')
+        diefpy.dieft(traces, 'Q9.rq', None)
+        diefpy.dieft(traces, 'Q9.rq', 7.5)
+        diefpy.diefk(traces, 'Q9.rq')
+        diefpy.diefk(traces, 'Q9.rq', 1000)
+        diefpy.diefk2(traces, 'Q9.rq')
+        diefpy.diefk2(traces, 'Q9.rq', 0.25)
+        diefpy.continuous_efficiency_with_diefk(traces)
+
+
+@pytest.mark.parametrize('function,kwargs,message', [
+    (diefpy.dieft, {'t': -2}, r'^t must not be negative, but is -2\.$'),
+    (diefpy.dieft, {'t': -0.5}, r'^t must not be negative'),
+    (diefpy.dieft, {'t': float('nan')}, r'^t must not be negative'),
+    (diefpy.diefk, {'k': 0}, r'^k must be at least 1, but is 0\.$'),
+    (diefpy.diefk, {'k': -5}, r'^k must be at least 1'),
+    (diefpy.diefk, {'k': 0.5}, r'^k must be at least 1'),
+    (diefpy.diefk, {'k': float('nan')}, r'^k must be at least 1'),
+    (diefpy.diefk2, {'kp': 0}, r'^kp must be greater than 0 and at most 1, but is 0\.$'),
+    (diefpy.diefk2, {'kp': -0.5}, r'^kp must be greater than 0 and at most 1'),
+    (diefpy.diefk2, {'kp': -5}, r'^kp must be greater than 0 and at most 1'),  # was the default before
+    (diefpy.diefk2, {'kp': 1.5}, r'^kp must be greater than 0 and at most 1, but is 1\.5\.$'),
+    (diefpy.diefk2, {'kp': 1.0000001}, r'^kp must be greater than 0 and at most 1'),
+    (diefpy.diefk2, {'kp': float('nan')}, r'^kp must be greater than 0 and at most 1'),
+])
+def test_invalid_arguments_raise_value_error(function, kwargs, message, traces):
+    with warnings.catch_warnings():
+        warnings.simplefilter('error')  # not a deprecation case
+        with pytest.raises(ValueError, match=message):
+            function(traces, 'Q9.rq', **kwargs)
+
+
+def test_boundary_values_are_valid(traces):
+    # No time has elapsed or only one answer is considered: there is no area under the curve.
+    assert (diefpy.dieft(traces, 'Q9.rq', 0)['dieft'] == 0).all()
+    assert (diefpy.diefk(traces, 'Q9.rq', 1)['diefk'] == 0).all()
+    assert _same(diefpy.diefk2(traces, 'Q9.rq', 1.0), diefpy.diefk(traces, 'Q9.rq'))
+    # A few answers and a small kp yield fewer than two answers and, hence, zero without an error.
+    assert (diefpy.diefk2(traces, 'Q14.rq', 0.25)['diefk'] == 0).all()
+
+
+def test_diefk_rounds_the_number_of_answers_down(traces):
+    n = min(np.count_nonzero((traces['test'] == 'Q9.rq') & (traces['approach'] == a)) for a in np.unique(traces['approach']))
+    assert n % 2 == 1  # kp * n = 0.5 * n is not an integer
+    k = int(n * 0.5)
+    expected = diefpy.diefk(traces, 'Q9.rq', k)
+    assert _same(diefpy.diefk2(traces, 'Q9.rq', 0.5), expected)
+    assert _same(diefpy.diefk(traces, 'Q9.rq', k + 0.5), expected)
+    assert not _same(diefpy.diefk(traces, 'Q9.rq', k + 1), expected)

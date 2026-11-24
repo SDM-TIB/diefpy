@@ -6,7 +6,9 @@ an elapsed time period *t* or while *k* answers are produced, respectively.
 **dief@t** and **dief@k** rely on the computation of the area under the curve (AUC) of
 answer traces, and thus capturing the answer rate concentration over a time interval.
 """
+import math
 import re
+import warnings
 
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
@@ -46,7 +48,33 @@ def _require_test(data: np.ndarray, test: str) -> np.ndarray:
     return selection
 
 
-def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_end: bool = True) -> np.ndarray:
+def _deprecated_default(value, name: str):
+    """
+    Maps the deprecated value -1, which used to select the default of a parameter, to None.
+
+    :param value: The value passed by the caller.
+    :param name: The name of the parameter, used in the warning.
+    :return: None if value is the deprecated -1, otherwise value itself.
+    """
+    if value is not None and value == -1:
+        warnings.warn(f"Passing {name}=-1 to select the default is deprecated and will be removed in a future "
+                      f"version. Omit the argument or pass {name}=None instead.",
+                      DeprecationWarning, stacklevel=3)  # stacklevel=3: report the line calling dieft/diefk/diefk2
+        return None
+    return value
+
+
+def _min_answers(results: np.ndarray) -> int:
+    """
+    Computes the minimum over the approaches of the number of answers.
+
+    :param results: The answer trace of a single test.
+    :return: The smallest number of answers that any approach produced.
+    """
+    return min(len(results[results['approach'] == a]) for a in np.unique(results['approach']))
+
+
+def dieft(inputtrace: np.ndarray, inputtest: str, t: float | None = None, continue_to_end: bool = True) -> np.ndarray:
     """
     Computes the **dief@t** metric for a specific test at a given time point *t*.
 
@@ -57,11 +85,12 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param t: Point in time to compute dief@t for. By default, the function computes the maximum of the execution time
-              among the approaches in the answer trace.
+    :param t: Point in time to compute dief@t for (t >= 0). By default (None), the function computes the maximum of
+              the execution time among the approaches in the answer trace. Passing -1 is deprecated; use None.
     :param continue_to_end: Indicates whether the AUC should be continued until the end of the time frame
     :return: Dataframe with the dief@t values for each approach. Attributes of the dataframe: test, approach, dieft.
-    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
+    :raises ValueError: If the test *inputtest* does not exist (the message lists the available tests)
+                        or if *t* is negative.
 
     **Examples**
 
@@ -73,12 +102,16 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
                                   ('approach', inputtrace['approach'].dtype),
                                   ('dieft', float)])
 
+    t = _deprecated_default(t, 't')
+    if t is not None and not t >= 0:
+        raise ValueError(f"t must not be negative, but is {t}.")
+
     # Obtain test and approaches to compare.
     results = _require_test(inputtrace, inputtest)
     approaches = np.unique(results['approach'])
 
     # Obtain maximum t over all approaches if t is not set.
-    if t == -1:
+    if t is None:
         t = np.max(results['time'])
 
     # Compute dieft per approach.
@@ -111,42 +144,26 @@ def dieft(inputtrace: np.ndarray, inputtest: str, t: float = -1.0, continue_to_e
     return df
 
 
-def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
+def _diefk(inputtrace: np.ndarray, results: np.ndarray, inputtest: str, k: float | None) -> np.ndarray:
     """
-    Computes the **dief@k** metric for a specific test at a given number of answers *k*.
+    Computes dief@k for the answer trace *results* of a single test without validating *k*.
 
-    **dief@k** measures the diefficiency while *k* answers are produced by computing
-    the area under the curve of the answer traces.
-    By default, the function computes the minimum of the total number of answer produces by the approaches.
-
-    :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
-    :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param k: Number of answers to compute dief@k for. By default, the function computes the minimum of the total number
-              of answers produced by the approaches.
+    :param inputtrace: The whole answer trace; only used for the data types of the result.
+    :param results: The answer trace of the test.
+    :param inputtest: The name of the test.
+    :param k: Number of answers to compute dief@k for. Answers 1 to floor(k) are taken into account.
+              If None, the minimum of the total number of answers produced by the approaches is used.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
-    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
-
-    **Examples**
-
-    >>> diefk(traces, "Q9.sparql")
-    >>> diefk(traces, "Q9.sparql", 1000)
     """
     # Initialize output structure.
     df = np.empty(shape=0, dtype=[('test', inputtrace['test'].dtype),
                                   ('approach', inputtrace['approach'].dtype),
                                   ('diefk', float)])
 
-    # Obtain test and approaches to compare.
-    results = _require_test(inputtrace, inputtest)
+    # Obtain approaches to compare and k.
     approaches = np.unique(results['approach'])
-
-    # Obtain k per approach.
-    if k == -1:
-        n = []
-        for a in approaches:
-            x = results[results['approach'] == a]
-            n.append(len(x))
-        k = min(n)
+    if k is None:
+        k = _min_answers(results)
 
     # Compute diefk per approach.
     for a in approaches:
@@ -159,11 +176,40 @@ def diefk(inputtrace: np.ndarray, inputtest: str, k: int = -1) -> np.ndarray:
                               ('approach', inputtrace['approach'].dtype),
                               ('diefk', float)])
         df = np.append(df, res, axis=0)
-
     return df
 
 
-def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarray:
+def diefk(inputtrace: np.ndarray, inputtest: str, k: int | None = None) -> np.ndarray:
+    """
+    Computes the **dief@k** metric for a specific test at a given number of answers *k*.
+
+    **dief@k** measures the diefficiency while *k* answers are produced by computing
+    the area under the curve of the answer traces.
+    By default, the function computes the minimum of the total number of answer produces by the approaches.
+    Only the answers 1 to *k* are taken into account, i.e., non-integer values of *k* are rounded down.
+    As an area requires at least two answers, dief@k is 0 for an approach if *k* is smaller than 2.
+
+    :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
+    :param inputtest: Specifies the specific test to analyze from the answer trace.
+    :param k: Number of answers to compute dief@k for (k >= 1). By default (None), the function computes the minimum
+              of the total number of answers produced by the approaches. Passing -1 is deprecated; use None.
+    :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
+    :raises ValueError: If the test *inputtest* does not exist (the message lists the available tests)
+                        or if *k* is smaller than 1.
+
+    **Examples**
+
+    >>> diefk(traces, "Q9.sparql")
+    >>> diefk(traces, "Q9.sparql", 1000)
+    """
+    k = _deprecated_default(k, 'k')
+    if k is not None and not k >= 1:
+        raise ValueError(f"k must be at least 1, but is {k}.")
+
+    return _diefk(inputtrace, _require_test(inputtrace, inputtest), inputtest, k)
+
+
+def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float | None = None) -> np.ndarray:
     """
     Computes the **dief@k** metric for a specific test at a given percentage of answers *kp*.
 
@@ -171,36 +217,34 @@ def diefk2(inputtrace: np.ndarray, inputtest: str, kp: float = -1.0) -> np.ndarr
     by computing the area under the curve of the answer traces.
     By default, this function behaves the same as ``diefk``. This also holds for kp = 1.0.
     The function computes the portion *kp* of the minimum number of answers produces by the approaches.
+    The resulting number of answers is rounded down. As an area requires at least two answers,
+    dief@k is 0 if the number of answers is smaller than 2, e.g., for few answers and a small *kp*.
 
     :param inputtrace: Dataframe with the answer trace. Attributes of the dataframe: test, approach, answer, time.
     :param inputtest: Specifies the specific test to analyze from the answer trace.
-    :param kp: Ratio of answers to compute dief@k for (kp in [0.0;1.0]). By default and when kp=1.0, this function behaves
-               the same as diefk. It computes the kp portion of the minimum number of answers produced by the approaches.
+    :param kp: Ratio of answers to compute dief@k for (0 < kp <= 1). By default (None) and when kp=1.0, this function
+               behaves the same as diefk. It computes the kp portion of the minimum number of answers produced by
+               the approaches. Passing -1 is deprecated; use None.
     :return: Dataframe with the dief@k values for each approach. Attributes of the dataframe: test, approach, diefk.
-    :raises ValueError: If the test *inputtest* does not exist. The message lists the available tests.
+    :raises ValueError: If the test *inputtest* does not exist (the message lists the available tests)
+                        or if *kp* is not in the interval (0, 1].
 
     **Examples**
 
     >>> diefk2(traces, "Q9.sparql")
     >>> diefk2(traces, "Q9.sparql", 0.25)
     """
-    # Obtain test and approaches to compare.
+    kp = _deprecated_default(kp, 'kp')
+    if kp is not None and not 0 < kp <= 1:
+        raise ValueError(f"kp must be greater than 0 and at most 1, but is {kp}.")
+
+    # Obtain k from the minimum number of answers.
     results = _require_test(inputtrace, inputtest)
-    approaches = np.unique(results['approach'])
+    k = _min_answers(results)
+    if kp is not None:
+        k = math.floor(k * kp)
 
-    # Obtain k per approach.
-    n = []
-    for a in approaches:
-        x = results[results['approach'] == a]
-        n.append(len(x))
-    k = min(n)
-    if kp > -1:
-        k = k * kp
-
-    # Compute diefk.
-    df = diefk(inputtrace, inputtest, k)
-
-    return df
+    return _diefk(inputtrace, results, inputtest, k)
 
 
 def plot_answer_trace(inputtrace: np.ndarray, inputtest: str, colors: list = DEFAULT_COLORS) -> Figure:
